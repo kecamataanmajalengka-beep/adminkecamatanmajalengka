@@ -2468,48 +2468,69 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             });
         }
 
-        function countSiswaInSchool(schoolData) {
-            let count = 0;
-            if(schoolData.daftar_siswa) {
-                Object.values(schoolData.daftar_siswa).forEach(kelas => {
-                    if(Array.isArray(kelas)) count += kelas.length;
-                });
+            // ========== PERBAIKAN FUNGSI HITUNG SISWA ==========
+    
+    function countSiswaInSchool(schoolData) {
+        let count = 0;
+        const siswaData = schoolData.daftar_siswa;
+        
+        // Jika tidak ada data siswa sama sekali
+        if (!siswaData) return 0;
+
+        // Loop melalui setiap key di dalam daftar_siswa
+        // Key bisa berupa 'kelas_1a', 'kelas_1b', 'kelas_2a', dll.
+        Object.values(siswaData).forEach(kelasContent => {
+            if (Array.isArray(kelasContent)) {
+                // Jika isinya Array (format standar), hitung panjangnya
+                count += kelasContent.length;
+            } else if (typeof kelasContent === 'object' && kelasContent !== null) {
+                // Jika isinya Object, hitung jumlah key di dalamnya
+                count += Object.keys(kelasContent).length;
             }
-            return count;
-        }
+        });
 
-        function hapusSekolah(npsn) {
-            if(confirm("Yakin hapus sekolah ini?")) {
-                db.ref('daftar_sekolah/'+npsn).remove();
-                db.ref('sekolah/'+npsn).remove();
-                alert("Hapus sukses");
-                loadSekolahTable();
+        return count;
+    }
+
+    // ========== PERBAIKAN FUNGSI LOAD TABEL SEKOLAH ==========
+    
+    function loadSekolahTable() {
+        db.ref('daftar_sekolah').on('value', snap => { // Diubah ke 'on' agar realtime update
+            const d = snap.val() || {};
+            let r = "";
+            let no = 1;
+            
+            // Update cache sekolah juga di sini
+            sekolahCache = d; 
+
+            Object.keys(d).forEach(key => {
+                const s = d[key];
+                // Penanganan nama sekolah yang lebih aman
+                const nama = (s.info && s.info.nama) ? s.info.nama : (s.nama || 'Unknown');
+                
+                // Gunakan fungsi hitung yang baru
+                const jumlahSiswa = countSiswaInSchool(s);
+                
+                r += `<tr>
+                    <td>${no++}</td>
+                    <td><b>${key}</b></td>
+                    <td>${nama}</td>
+                    <td><b style="color:var(--accent-blue)">${jumlahSiswa}</b> siswa</td>
+                    <td class="no-print">
+                        <button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button>
+                    </td>
+                </tr>`;
+            });
+            
+            const tbody = document.getElementById('sekolah-table');
+            if(tbody) {
+                tbody.innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Tidak ada data</td></tr>";
             }
-        }
-
-        // ========== REKAP ==========
-        function loadRekapData() {
-            const filterMapel = document.getElementById('filter-mapel-rekap').value;
-            const filterKelas = document.getElementById('filter-kelas-rekap').value;
-
-            let promises = [];
-            let allData = {};
-
-            Object.keys(sekolahCache).forEach(npsn => {
-                promises.push(
-                    db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => {
-                        allData[npsn] = snap.val() || {};
-                    })
-                );
-            });
-
-            Promise.all(promises).then(() => {
-                allPengerjaan = allData;
-                renderRekapSummary(allData, filterMapel, filterKelas);
-                renderRekapPerSekolah(allData, filterMapel, filterKelas);
-            });
-        }
-
+            
+            // Update dropdown filter di panel rekap juga
+            updateSekolahDropdown(); 
+        });
+    }
         function renderRekapSummary(allData, filterMapel, filterKelas) {
             let totalSekolah = 0;
             let totalSiswa = 0;
