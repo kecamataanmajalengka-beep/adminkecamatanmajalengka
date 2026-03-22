@@ -894,7 +894,25 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         <div class="copas-box">
                             <div class="form-group" style="margin-bottom:0;">
                                 <label>Paste Soal dari Word (boleh multiple soal sekaligus)</label>
-                                <textarea id="copas-input" rows="12" placeholder="Paste soal di sini..."></textarea>
+                                <textarea id="copas-input" rows="12" placeholder="Paste soal di sini...
+
+Contoh format PG:
+1. Ibu kota Indonesia adalah...
+A. Surabaya
+B. Jakarta
+C. Bandung
+D. Medan
+Jawaban: B
+
+2. H2O adalah rumus kimia dari...
+A. Oksigen
+B. Hidrogen
+C. Air
+Jawaban: C
+
+Contoh format Essay:
+3. Jelaskan pengertian dari fotosintesis!
+Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textarea>
                             </div>
                         </div>
 
@@ -2428,9 +2446,8 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
 
         // ========== SEKOLAH ==========
         function loadSekolahTable() {
-            db.ref('daftar_sekolah').on('value', snap => {
+            db.ref('daftar_sekolah').once('value', snap => {
                 const d = snap.val() || {};
-                sekolahCache = d; // Update cache
                 let r = "";
                 let no = 1;
                 Object.keys(d).forEach(key => {
@@ -2441,26 +2458,21 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         <td>${no++}</td>
                         <td><b>${key}</b></td>
                         <td>${nama}</td>
-                        <td><b style="color:var(--accent-blue)">${jumlahSiswa}</b> siswa</td>
+                        <td>${jumlahSiswa}</td>
                         <td class="no-print">
                             <button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button>
                         </td>
                     </tr>`;
                 });
                 document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Tidak ada data</td></tr>";
-                updateSekolahDropdown();
             });
         }
 
         function countSiswaInSchool(schoolData) {
             let count = 0;
             if(schoolData.daftar_siswa) {
-                Object.values(schoolData.daftar_siswa).forEach(kelasContent => {
-                    if (Array.isArray(kelasContent)) {
-                        count += kelasContent.length;
-                    } else if (typeof kelasContent === 'object' && kelasContent !== null) {
-                        count += Object.keys(kelasContent).length;
-                    }
+                Object.values(schoolData.daftar_siswa).forEach(kelas => {
+                    if(Array.isArray(kelas)) count += kelas.length;
                 });
             }
             return count;
@@ -2475,112 +2487,118 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             }
         }
 
-        // ========== REKAP (DIPERBAIKI) ==========
+        // ========== REKAP ==========
         function loadRekapData() {
             const filterMapel = document.getElementById('filter-mapel-rekap').value;
             const filterKelas = document.getElementById('filter-kelas-rekap').value;
 
-            document.getElementById('rekap-sekolah-list').innerHTML = '<div style="text-align:center; padding:20px; color:var(--muted);">Memuat data rekap...</div>';
-            
-            db.ref('daftar_sekolah').once('value', snapSekolah => {
-                const semuaSekolah = snapSekolah.val() || {};
-                const listNPSN = Object.keys(semuaSekolah);
-                
-                let allData = {}; 
-                let totalSekolahCount = 0;
-                let totalSiswaCount = 0;
-                let sumNilaiAll = 0;
-                let maxNilaiAll = 0;
-                let schoolStats = [];
+            let promises = [];
+            let allData = {};
 
-                let promises = listNPSN.map(npsn => {
-                    return db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => {
+            Object.keys(sekolahCache).forEach(npsn => {
+                promises.push(
+                    db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => {
                         allData[npsn] = snap.val() || {};
-                    });
-                });
+                    })
+                );
+            });
 
-                Promise.all(promises).then(() => {
-                    listNPSN.forEach(npsn => {
-                        const schoolInfo = semuaSekolah[npsn];
-                        const namaSekolah = (schoolInfo.info && schoolInfo.info.nama) ? schoolInfo.info.nama : (schoolInfo.nama || 'Unknown');
-                        const pengerjaan = allData[npsn] || {};
-
-                        let jumlahSiswaSekolah = 0;
-                        let sumNilaiSekolah = 0;
-                        let maxNilaiSekolah = 0;
-                        let minNilaiSekolah = 100;
-
-                        Object.values(pengerjaan).forEach(item => {
-                            if (filterMapel && item.mapel !== filterMapel) return;
-
-                            if (filterKelas) {
-                                let kelasSiswa = (item.kelas || '').toLowerCase().replace(/\s+/g, '');
-                                let kelasFilter = filterKelas.toLowerCase().replace(/\s+/g, '');
-                                if (!kelasSiswa.includes(kelasFilter)) return;
-                            }
-
-                            jumlahSiswaSekolah++;
-                            sumNilaiSekolah += (item.nilai || 0);
-                            if ((item.nilai || 0) > maxNilaiSekolah) maxNilaiSekolah = item.nilai || 0;
-                            if ((item.nilai || 0) < minNilaiSekolah) minNilaiSekolah = item.nilai || 0;
-                        });
-
-                        if (jumlahSiswaSekolah > 0) {
-                            totalSekolahCount++;
-                            totalSiswaCount += jumlahSiswaSekolah;
-                            sumNilaiAll += sumNilaiSekolah;
-                            if (maxNilaiSekolah > maxNilaiAll) maxNilaiAll = maxNilaiSekolah;
-
-                            schoolStats.push({
-                                npsn, 
-                                nama: namaSekolah, 
-                                jumlahSiswa: jumlahSiswaSekolah,
-                                rataRata: Math.round(sumNilaiSekolah / jumlahSiswaSekolah),
-                                maxNilai: maxNilaiSekolah, 
-                                minNilai: minNilaiSekolah === 100 ? 0 : minNilaiSekolah
-                            });
-                        }
-                    });
-
-                    document.getElementById('rekap-total-sekolah').innerText = totalSekolahCount;
-                    document.getElementById('rekap-total-siswa').innerText = totalSiswaCount;
-                    document.getElementById('rekap-rata-rata').innerText = totalSiswaCount > 0 ? Math.round(sumNilaiAll / totalSiswaCount) : 0;
-                    document.getElementById('rekap-tertinggi').innerText = maxNilaiAll;
-
-                    schoolStats.sort((a, b) => b.rataRata - a.rataRata);
-
-                    renderRekapPerSekolah(schoolStats);
-                });
+            Promise.all(promises).then(() => {
+                allPengerjaan = allData;
+                renderRekapSummary(allData, filterMapel, filterKelas);
+                renderRekapPerSekolah(allData, filterMapel, filterKelas);
             });
         }
 
-        function renderRekapPerSekolah(schoolStats) {
-            let html = "";
+        function renderRekapSummary(allData, filterMapel, filterKelas) {
+            let totalSekolah = 0;
+            let totalSiswa = 0;
+            let sumNilai = 0;
+            let maxNilai = 0;
 
-            if (schoolStats.length === 0) {
-                html = "<p style='text-align:center; color:var(--muted); margin-top:20px;'>Tidak ada data yang cocok dengan filter.</p>";
-            } else {
-                schoolStats.forEach((s, idx) => {
-                    html += `
-                    <div class="school-card">
-                        <div class="school-header">
-                            <div>
-                                <div class="school-name">${idx + 1}. ${s.nama}</div>
-                                <div class="school-npsn">NPSN: ${s.npsn}</div>
-                            </div>
-                            <span class="status status-info">Peringkat ${idx + 1}</span>
-                        </div>
-                        <div class="school-stats">
-                            <div class="school-stat"><div class="school-stat-num">${s.jumlahSiswa}</div><div class="school-stat-label">Peserta</div></div>
-                            <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.rataRata}</div><div class="school-stat-label">Rata-rata</div></div>
-                            <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.maxNilai}</div><div class="school-stat-label">Tertinggi</div></div>
-                            <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.minNilai}</div><div class="school-stat-label">Terendah</div></div>
-                        </div>
-                    </div>`;
+            Object.keys(allData).forEach(npsn => {
+                const pengerjaan = allData[npsn];
+                let sekolahHasData = false;
+
+                Object.values(pengerjaan || {}).forEach(item => {
+                    if(filterMapel && item.mapel !== filterMapel) return;
+                    if(filterKelas && !item.kelas.includes(filterKelas)) return;
+                    sekolahHasData = true;
+                    totalSiswa++;
+                    sumNilai += (item.nilai || 0);
+                    if((item.nilai || 0) > maxNilai) maxNilai = item.nilai || 0;
                 });
-            }
 
-            document.getElementById('rekap-sekolah-list').innerHTML = html;
+                if(sekolahHasData) totalSekolah++;
+            });
+
+            document.getElementById('rekap-total-sekolah').innerText = totalSekolah;
+            document.getElementById('rekap-total-siswa').innerText = totalSiswa;
+            document.getElementById('rekap-rata-rata').innerText = totalSiswa > 0 ? Math.round(sumNilai / totalSiswa) : 0;
+            document.getElementById('rekap-tertinggi').innerText = maxNilai;
+        }
+
+        function renderRekapPerSekolah(allData, filterMapel, filterKelas) {
+            let html = "";
+            let schoolStats = [];
+
+            Object.keys(sekolahCache).forEach(npsn => {
+                const schoolInfo = sekolahCache[npsn];
+                const namaSekolah = schoolInfo.info ? schoolInfo.info.nama : (schoolInfo.nama || 'Unknown');
+                const pengerjaan = allData[npsn] || {};
+
+                let jumlahSiswa = 0;
+                let sumNilai = 0;
+                let maxNilai = 0;
+                let minNilai = 100;
+                let mapelStats = {};
+
+                Object.values(pengerjaan).forEach(item => {
+                    if(filterMapel && item.mapel !== filterMapel) return;
+                    if(filterKelas && !item.kelas.includes(filterKelas)) return;
+
+                    jumlahSiswa++;
+                    sumNilai += (item.nilai || 0);
+                    if((item.nilai || 0) > maxNilai) maxNilai = item.nilai || 0;
+                    if((item.nilai || 0) < minNilai) minNilai = item.nilai || 0;
+
+                    const mapel = item.mapelNama || item.mapel || 'Unknown';
+                    if(!mapelStats[mapel]) mapelStats[mapel] = { count: 0, sum: 0 };
+                    mapelStats[mapel].count++;
+                    mapelStats[mapel].sum += (item.nilai || 0);
+                });
+
+                if(jumlahSiswa > 0) {
+                    schoolStats.push({
+                        npsn, nama: namaSekolah, jumlahSiswa,
+                        rataRata: Math.round(sumNilai / jumlahSiswa),
+                        maxNilai, minNilai: minNilai === 100 ? 0 : minNilai, mapelStats
+                    });
+                }
+            });
+
+            schoolStats.sort((a, b) => b.rataRata - a.rataRata);
+
+            schoolStats.forEach((s, idx) => {
+                html += `
+                <div class="school-card">
+                    <div class="school-header">
+                        <div>
+                            <div class="school-name">${idx + 1}. ${s.nama}</div>
+                            <div class="school-npsn">NPSN: ${s.npsn}</div>
+                        </div>
+                        <span class="status status-info">Peringkat ${idx + 1}</span>
+                    </div>
+                    <div class="school-stats">
+                        <div class="school-stat"><div class="school-stat-num">${s.jumlahSiswa}</div><div class="school-stat-label">Peserta</div></div>
+                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.rataRata}</div><div class="school-stat-label">Rata-rata</div></div>
+                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.maxNilai}</div><div class="school-stat-label">Tertinggi</div></div>
+                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.minNilai}</div><div class="school-stat-label">Terendah</div></div>
+                    </div>
+                </div>`;
+            });
+
+            document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center; color:var(--muted);'>Tidak ada data</p>";
         }
 
         function loadDetailNilai() {
