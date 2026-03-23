@@ -894,25 +894,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         <div class="copas-box">
                             <div class="form-group" style="margin-bottom:0;">
                                 <label>Paste Soal dari Word (boleh multiple soal sekaligus)</label>
-                                <textarea id="copas-input" rows="12" placeholder="Paste soal di sini...
-
-Contoh format PG:
-1. Ibu kota Indonesia adalah...
-A. Surabaya
-B. Jakarta
-C. Bandung
-D. Medan
-Jawaban: B
-
-2. H2O adalah rumus kimia dari...
-A. Oksigen
-B. Hidrogen
-C. Air
-Jawaban: C
-
-Contoh format Essay:
-3. Jelaskan pengertian dari fotosintesis!
-Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textarea>
+                                <textarea id="copas-input" rows="12" placeholder="Paste soal di sini..."></textarea>
                             </div>
                         </div>
 
@@ -937,21 +919,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                         <div class="form-group">
                             <label>Pertanyaan</label>
                             <textarea id="input-tanya" rows="3" placeholder="Tulis pertanyaan di sini..."></textarea>
-                        </div>
-
-                        <!-- Upload Gambar Soal -->
-                        <div class="img-upload-box" id="img-soal-upload">
-                            <input type="file" id="file-soal-img" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadSoalImage(this)">
-                            <div style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">Gambar Pertanyaan (Opsional)</div>
-                            <button class="upload-btn-small" onclick="document.getElementById('file-soal-img').click()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                Upload Gambar
-                            </button>
-                            <div class="img-preview-container hidden" id="preview-soal-img">
-                                <img class="img-preview" id="img-soal-preview">
-                                <button class="remove-img" onclick="removeSoalImage()">&times;</button>
-                            </div>
-                            <input type="hidden" id="input-img">
                         </div>
 
                         <div id="opsi-container">
@@ -1231,21 +1198,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                     <textarea id="edit-tanya" rows="3"></textarea>
                 </div>
 
-                <!-- Upload Gambar Soal di Edit -->
-                <div class="img-upload-box" id="edit-img-soal-upload">
-                    <input type="file" id="edit-file-soal-img" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadEditSoalImage(this)">
-                    <div style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">Gambar Pertanyaan (Opsional)</div>
-                    <button class="upload-btn-small" onclick="document.getElementById('edit-file-soal-img').click()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        Upload Gambar
-                    </button>
-                    <div class="img-preview-container hidden" id="edit-preview-soal-img">
-                        <img class="img-preview" id="edit-img-soal-preview">
-                        <button class="remove-img" onclick="removeEditSoalImage()">&times;</button>
-                    </div>
-                    <input type="hidden" id="edit-img">
-                </div>
-
                 <div id="edit-opsi-container">
                     <div class="form-group">
                         <label>Pilihan Jawaban</label>
@@ -1403,7 +1355,10 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             event.target.closest('.menu-item').classList.add('active');
             if(window.innerWidth <= 768) toggleSidebar();
             if(id === 'sekolah') loadSekolahTable();
-            if(id === 'rekap') loadRekapData();
+            if(id === 'rekap') {
+                loadRekapData();
+                updateSekolahDropdown();
+            }
         }
 
         function switchTab(tab) {
@@ -1485,18 +1440,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                         <span class="opsi-label">${label}</span>
                         <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
                     </div>
-                    <div class="img-upload-box" id="img-opsi-${label.toLowerCase()}-upload" style="margin-top:8px; padding:8px;">
-                        <input type="file" id="file-opsi-${label.toLowerCase()}" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadOpsiImage('${label.toLowerCase()}', this)">
-                        <button class="upload-btn-small" onclick="document.getElementById('file-opsi-${label.toLowerCase()}').click()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            Gambar Opsi
-                        </button>
-                        <div class="img-preview-container hidden" id="preview-opsi-${label.toLowerCase()}">
-                            <img class="img-preview" id="img-opsi-${label.toLowerCase()}-preview">
-                            <button class="remove-img" onclick="removeOpsiImage('${label.toLowerCase()}')">&times;</button>
-                        </div>
-                        <input type="hidden" id="opsi-${label.toLowerCase()}-img">
-                    </div>
                 </div>`;
             }
             document.getElementById('opsi-inputs').innerHTML = html;
@@ -1519,222 +1462,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             const jenis = document.getElementById('edit-jenis').value;
             document.getElementById('edit-opsi-container').classList.toggle('hidden', jenis === 'essay');
             document.getElementById('edit-essay-container').classList.toggle('hidden', jenis === 'pg');
-        }
-
-        // ========== IMAGE UPLOAD FUNCTIONS - MENGGUNAKAN APIsr ==========
-        function resizeImage(file, maxWidth = 800, maxHeight = 800) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        if (width > maxWidth || height > maxHeight) {
-                            if (width > height) {
-                                height = Math.round((height * maxWidth) / width);
-                                width = maxWidth;
-                            } else {
-                                width = Math.round((width * maxHeight) / height);
-                                height = maxHeight;
-                            }
-                        }
-                        
-                        const canvas = document.createElement('canvas');
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        canvas.toBlob(resolve, 'image/jpeg', 0.8);
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        async function uploadImageToCloud(file) {
-            try {
-                // Resize dulu
-                const resizedFile = await resizeImage(file, 800, 800);
-                
-                const formData = new FormData();
-                formData.append('image', resizedFile, 'image.jpg');
-
-                const response = await fetch('https://api.imgur.com/3/image', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Client-ID 546c25a59c58ad7'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-                
-                if(data.success && data.data && data.data.link) {
-                    return data.data.link;
-                } else {
-                    console.error('Imgur response:', data);
-                    throw new Error('Upload failed');
-                }
-            } catch(error) {
-                console.error('Upload error:', error);
-                // Fallback ke base64 tapi sudah di-resize
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        resolve(e.target.result);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        }
-
-        async function uploadSoalImage(input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = document.getElementById('img-soal-upload');
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-            box.classList.add('uploading');
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                document.getElementById('input-img').value = url;
-                document.getElementById('img-soal-preview').src = url;
-                document.getElementById('preview-soal-img').classList.remove('hidden');
-                box.classList.add('has-img');
-                box.classList.remove('uploading');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-                box.classList.remove('uploading');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeSoalImage() {
-            document.getElementById('input-img').value = '';
-            document.getElementById('file-soal-img').value = '';
-            document.getElementById('preview-soal-img').classList.add('hidden');
-            document.getElementById('img-soal-upload').classList.remove('has-img');
-        }
-
-        async function uploadOpsiImage(label, input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = document.getElementById(`img-opsi-${label}-upload`);
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-            box.classList.add('uploading');
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                document.getElementById(`opsi-${label}-img`).value = url;
-                document.getElementById(`img-opsi-${label}-preview`).src = url;
-                document.getElementById(`preview-opsi-${label}`).classList.remove('hidden');
-                box.classList.add('has-img');
-                box.classList.remove('uploading');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-                box.classList.remove('uploading');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeOpsiImage(label) {
-            document.getElementById(`opsi-${label}-img`).value = '';
-            document.getElementById(`file-opsi-${label}`).value = '';
-            document.getElementById(`preview-opsi-${label}`).classList.add('hidden');
-            document.getElementById(`img-opsi-${label}-upload`).classList.remove('has-img');
-        }
-
-        // Edit Modal Image Functions
-        async function uploadEditSoalImage(input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = document.getElementById('edit-img-soal-upload');
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-            box.classList.add('uploading');
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                document.getElementById('edit-img').value = url;
-                document.getElementById('edit-img-soal-preview').src = url;
-                document.getElementById('edit-preview-soal-img').classList.remove('hidden');
-                box.classList.add('has-img');
-                box.classList.remove('uploading');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-                box.classList.remove('uploading');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeEditSoalImage() {
-            document.getElementById('edit-img').value = '';
-            document.getElementById('edit-file-soal-img').value = '';
-            document.getElementById('edit-preview-soal-img').classList.add('hidden');
-            document.getElementById('edit-img-soal-upload').classList.remove('has-img');
-        }
-
-        async function uploadEditOpsiImage(label, input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = document.getElementById(`edit-img-opsi-${label}-upload`);
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-            box.classList.add('uploading');
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                document.getElementById(`edit-opsi-${label}-img`).value = url;
-                document.getElementById(`edit-img-opsi-${label}-preview`).src = url;
-                document.getElementById(`edit-preview-opsi-${label}`).classList.remove('hidden');
-                box.classList.add('has-img');
-                box.classList.remove('uploading');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-                box.classList.remove('uploading');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeEditOpsiImage(label) {
-            document.getElementById(`edit-opsi-${label}-img`).value = '';
-            document.getElementById(`edit-file-opsi-${label}`).value = '';
-            document.getElementById(`edit-preview-opsi-${label}`).classList.add('hidden');
-            document.getElementById(`edit-img-opsi-${label}-upload`).classList.remove('has-img');
         }
 
         // ========== TOKEN DISPLAY ==========
@@ -1760,7 +1487,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             soalTemp = [...soalPG, ...soalEssay];
         }
 
-        // ========== PARSE COPAS DARI WORD - DIPERBAIKI ==========
+        // ========== PARSE COPAS DARI WORD ==========
         function parseCopas() {
             const rawText = document.getElementById('copas-input').value.trim();
             if(!rawText) {
@@ -1771,7 +1498,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             parsedSoal = [];
             const lines = rawText.split('\n');
             let currentSoal = null;
-            let soalCounter = 0;
             let isInEssayAnswer = false;
             let essayAnswerBuffer = '';
 
@@ -1779,13 +1505,10 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 let line = lines[i].trim();
                 if(!line) continue;
 
-                // Deteksi nomor soal (1. 2. 3. dst atau 1) 2) 3) dst)
                 const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
                 
                 if(nomorMatch) {
-                    // Simpan soal sebelumnya jika ada
                     if(currentSoal) {
-                        // Jika ada buffer jawaban essay, simpan
                         if(isInEssayAnswer && essayAnswerBuffer) {
                             currentSoal.kunci = essayAnswerBuffer.trim();
                             essayAnswerBuffer = '';
@@ -1794,7 +1517,6 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                         parsedSoal.push(currentSoal);
                     }
                     
-                    soalCounter++;
                     currentSoal = {
                         tanya: line.replace(nomorMatch[0], ''),
                         opsi: [],
@@ -1805,56 +1527,42 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                     continue;
                 }
 
-                // Deteksi opsi jawaban (A. B. C. D. atau A) B) C) D))
                 const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
                 
                 if(opsiMatch && currentSoal && !isInEssayAnswer) {
                     const opsiLabel = opsiMatch[1].toLowerCase();
                     const opsiText = line.replace(opsiMatch[0], '');
-                    
-                    // Pastikan array opsi sudah siap
-                    if(!currentSoal.opsi) currentSoal.opsi = [];
-                    
-                    // Isi opsi sesuai posisi
-                    const opsiIndex = opsiLabel.charCodeAt(0) - 97; // a=0, b=1, c=2, d=3
+                    const opsiIndex = opsiLabel.charCodeAt(0) - 97;
                     currentSoal.opsi[opsiIndex] = { t: opsiText, i: '' };
                     continue;
                 }
 
-                // Deteksi kunci jawaban - DIPERBAIKI
                 const kunciMatch = line.match(/^(Jawaban|Kunci|JWB|KUNCI|Jawab)[:\s]+(.*)/i);
                 if(kunciMatch && currentSoal) {
-                    // Cek apakah ini jawaban PG atau Essay
                     const answerText = kunciMatch[2].trim();
                     
-                    // Jika soal ini adalah PG (ada opsi)
                     if(currentSoal.opsi && currentSoal.opsi.length > 0) {
-                        // Ambil huruf pertama sebagai kunci (A, B, C, D)
                         const kunciLetter = answerText.charAt(0).toLowerCase();
                         if(['a','b','c','d'].includes(kunciLetter)) {
                             currentSoal.kunci = kunciLetter;
                         }
                     } else {
-                        // Ini essay, mulai capture jawaban lengkap
                         isInEssayAnswer = true;
                         essayAnswerBuffer = answerText;
                     }
                     continue;
                 }
 
-                // Jika sedang dalam mode capture jawaban essay
                 if(isInEssayAnswer && currentSoal) {
                     essayAnswerBuffer += ' ' + line;
                     continue;
                 }
 
-                // Jika bukan opsi, kunci, atau jawaban essay, tambahkan ke pertanyaan
                 if(currentSoal && !opsiMatch && !kunciMatch && !isInEssayAnswer) {
                     currentSoal.tanya += ' ' + line;
                 }
             }
 
-            // Simpan soal terakhir
             if(currentSoal) {
                 if(isInEssayAnswer && essayAnswerBuffer) {
                     currentSoal.kunci = essayAnswerBuffer.trim();
@@ -1862,11 +1570,8 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 parsedSoal.push(currentSoal);
             }
 
-            // Bersihkan dan validasi
             parsedSoal = parsedSoal.map((s, idx) => {
-                // Tentukan tipe
                 const hasOpsi = s.opsi && s.opsi.filter(o => o).length > 0;
-                
                 return {
                     tanya: s.tanya.trim(),
                     img: s.img || '',
@@ -1886,7 +1591,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
 
             let html = `<div class="alert alert-success" style="margin-bottom:15px;">
                 <b>Berhasil mendeteksi ${parsedSoal.length} soal!</b><br>
-                <small>Silakan lengkapi gambar jika diperlukan, lalu klik "Simpan ke Bank Soal"</small>
+                <small>Silakan lengkapi jika perlu, lalu klik "Simpan ke Bank Soal"</small>
             </div>`;
 
             parsedSoal.forEach((s, idx) => {
@@ -1899,40 +1604,13 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                     </div>
                     <div style="font-size:0.85rem; margin-bottom:8px;"><b>Tanya:</b> ${s.tanya}</div>`;
 
-                // Upload gambar soal
-                html += `<div class="img-upload-box" style="margin:8px 0; padding:8px;">
-                    <input type="file" id="copas-img-${idx}" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadCopasImage(${idx}, this)">
-                    <button class="upload-btn-small" onclick="document.getElementById('copas-img-${idx}').click()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        Gambar Soal
-                    </button>
-                    <div class="img-preview-container hidden" id="copas-preview-img-${idx}">
-                        <img class="img-preview" id="copas-img-preview-${idx}">
-                        <button class="remove-img" onclick="removeCopasImage(${idx})">&times;</button>
-                    </div>
-                </div>`;
-
                 if(!isEssay && s.opsi) {
                     html += '<div style="margin-top:10px; padding:8px; background:#F1F5F9; border-radius:8px;">';
-                    html += '<div style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">Opsi Jawaban:</div>';
                     s.opsi.forEach((o, oIdx) => {
                         if(!o) return;
                         const label = String.fromCharCode(65 + oIdx);
                         html += `<div style="font-size:0.8rem; padding:6px 10px; background:white; border-radius:6px; margin:4px 0; border:1px solid #E2E8F0;">
                             <b>${label}.</b> ${o.t || o || ''}
-                        </div>`;
-                        
-                        // Upload gambar opsi
-                        html += `<div class="img-upload-box" style="margin:4px 0 8px 20px; padding:6px;">
-                            <input type="file" id="copas-opsi-img-${idx}-${oIdx}" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadCopasOpsiImage(${idx}, ${oIdx}, this)">
-                            <button class="upload-btn-small" onclick="document.getElementById('copas-opsi-img-${idx}-${oIdx}').click()" style="font-size:10px; padding:5px 8px;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                Gambar ${label}
-                            </button>
-                            <div class="img-preview-container hidden" id="copas-preview-opsi-${idx}-${oIdx}">
-                                <img class="img-preview" id="copas-opsi-preview-${idx}-${oIdx}">
-                                <button class="remove-img" onclick="removeCopasOpsiImage(${idx}, ${oIdx})">&times;</button>
-                            </div>
                         </div>`;
                     });
                     html += '</div>';
@@ -1940,13 +1618,11 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                         <b>Kunci:</b> ${(s.kunci || '-').toUpperCase()}
                     </div>`;
                 } else {
-                    // Essay - tampilkan jawaban dengan input yang bisa diedit
                     html += `<div style="margin-top:10px; padding:8px; background:#FEF3C7; border-radius:8px;">
                         <div style="font-size:0.75rem; color:#92400E; margin-bottom:8px;">Jawaban Ideal:</div>
                         <textarea id="copas-kunci-${idx}" style="width:100%; min-height:60px; font-size:0.85rem; padding:8px; border-radius:8px; border:1px solid var(--border);">${s.kunci || ''}</textarea>
                     </div>`;
                 }
-
                 html += '</div>';
             });
 
@@ -1958,95 +1634,22 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             document.getElementById('copas-preview').innerHTML = html;
         }
 
-        async function uploadCopasImage(idx, input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = input.closest('.img-upload-box');
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                parsedSoal[idx].img = url;
-                document.getElementById(`copas-img-preview-${idx}`).src = url;
-                document.getElementById(`copas-preview-img-${idx}`).classList.remove('hidden');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeCopasImage(idx) {
-            parsedSoal[idx].img = '';
-            document.getElementById(`copas-img-${idx}`).value = '';
-            document.getElementById(`copas-preview-img-${idx}`).classList.add('hidden');
-        }
-
-        async function uploadCopasOpsiImage(soalIdx, opsiIdx, input) {
-            if(!input.files || !input.files[0]) return;
-            
-            const file = input.files[0];
-            const box = input.closest('.img-upload-box');
-            const btn = box.querySelector('.upload-btn-small');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
-            btn.disabled = true;
-
-            const url = await uploadImageToCloud(file);
-            
-            if(url) {
-                if(typeof parsedSoal[soalIdx].opsi[opsiIdx] === 'string') {
-                    parsedSoal[soalIdx].opsi[opsiIdx] = { t: parsedSoal[soalIdx].opsi[opsiIdx], i: url };
-                } else {
-                    parsedSoal[soalIdx].opsi[opsiIdx].i = url;
-                }
-                document.getElementById(`copas-opsi-preview-${soalIdx}-${opsiIdx}`).src = url;
-                document.getElementById(`copas-preview-opsi-${soalIdx}-${opsiIdx}`).classList.remove('hidden');
-            } else {
-                alert('Gagal upload gambar. Coba lagi.');
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-
-        function removeCopasOpsiImage(soalIdx, opsiIdx) {
-            if(typeof parsedSoal[soalIdx].opsi[opsiIdx] === 'object') {
-                parsedSoal[soalIdx].opsi[opsiIdx].i = '';
-            }
-            document.getElementById(`copas-opsi-img-${soalIdx}-${opsiIdx}`).value = '';
-            document.getElementById(`copas-preview-opsi-${soalIdx}-${opsiIdx}`).classList.add('hidden');
-        }
-
         function saveCopasSoal() {
-            // Update kunci essay dari input
             parsedSoal.forEach((s, idx) => {
                 const isEssay = !s.opsi || s.opsi.length === 0;
                 if(isEssay) {
                     const kunciInput = document.getElementById(`copas-kunci-${idx}`);
-                    if(kunciInput) {
-                        s.kunci = kunciInput.value.trim();
-                    }
+                    if(kunciInput) s.kunci = kunciInput.value.trim();
                 }
             });
 
-            // Tambahkan ke soalTemp
             soalTemp = [...soalTemp, ...parsedSoal];
             sortSoal();
             simpanKeFirebase(() => {
-                const savedCount = parsedSoal.length;
+                alert(`${parsedSoal.length} soal berhasil disimpan!`);
                 parsedSoal = [];
                 document.getElementById('copas-input').value = '';
                 document.getElementById('copas-preview').innerHTML = '';
-                alert(`${savedCount} soal berhasil disimpan!`);
             });
         }
 
@@ -2145,12 +1748,8 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 h += "<div style='margin-left:5px; font-size:0.85rem; margin-top:10px;'>";
                 (s.opsi || []).forEach((o, x) => {
                     let txt = typeof o === 'object' ? (o.t || o.text || '') : o;
-                    let imgO = typeof o === 'object' ? (o.i || o.img || '') : '';
                     let c = (String.fromCharCode(97+x) === kunci) ? "opsi-benar" : "";
                     h += `<div class="opsi-item ${c}">${String.fromCharCode(65+x)}. ${txt}</div>`;
-                    if(imgO) {
-                        h += `<img src="${imgO}" style="max-width:80px; margin-left:20px; margin-bottom:5px; border-radius:6px; border:1px solid var(--border;">`;
-                    }
                 });
                 h += "</div>";
             }
@@ -2173,7 +1772,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
         function tambahSoalManual() {
             const jenis = document.getElementById('jenis-soal').value;
             const tanya = document.getElementById('input-tanya').value.trim();
-            const img = document.getElementById('input-img').value.trim();
+            const img = "";
 
             if(!tanya) return alert("Pertanyaan tidak boleh kosong!");
 
@@ -2186,9 +1785,8 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
                     const val = document.getElementById(`opsi-${label}`).value.trim();
-                    const imgVal = document.getElementById(`opsi-${label}-img`).value.trim();
-                    if(!val && !imgVal) return alert(`Pilihan ${label.toUpperCase()} tidak boleh kosong!`);
-                    soalBaru.opsi.push({ t: val, i: imgVal });
+                    if(!val) return alert(`Pilihan ${label.toUpperCase()} tidak boleh kosong!`);
+                    soalBaru.opsi.push({ t: val, i: '' });
                 }
                 soalBaru.kunci = document.getElementById('input-kunci').value;
             } else {
@@ -2198,19 +1796,14 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             soalTemp.push(soalBaru);
             
             simpanKeFirebase(() => {
-                // Reset form
                 document.getElementById('input-tanya').value = '';
-                removeSoalImage();
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
                     const el = document.getElementById(`opsi-${label}`);
                     if(el) el.value = '';
-                    removeOpsiImage(label);
                 }
                 document.getElementById('input-kunci-essay').value = '';
-                
-                const jenisText = jenis === 'pg' ? 'Pilihan Ganda' : 'Essay';
-                alert(`Soal ${jenisText} berhasil ditambahkan!`);
+                alert("Soal berhasil ditambahkan!");
             });
         }
 
@@ -2289,6 +1882,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             reader.readAsText(file);
         }
 
+        // ========== DISTRIBUSI SOAL (PERBAIKAN) ==========
         function distribusiSoal() {
             if(soalTemp.length === 0) return alert("Tidak ada soal untuk didistribusikan!");
 
@@ -2298,13 +1892,29 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             sortSoal();
 
             db.ref('daftar_sekolah').once('value', s => {
-                const keys = Object.keys(s.val() || {});
-                if(keys.length === 0) return alert("Tidak ada sekolah terdaftar.");
+                const sekolahKeys = Object.keys(s.val() || {});
+                if(sekolahKeys.length === 0) return alert("Tidak ada sekolah terdaftar.");
 
+                const konfirmasi = confirm(`Distribusikan ${soalTemp.length} soal ke ${sekolahKeys.length} sekolah?`);
+                if(!konfirmasi) return;
+
+                // 1. Simpan ke master pusat
                 db.ref(`admin_pusat/gudang_soal/${m}/${k}`).set(soalTemp).then(() => {
-                    keys.forEach(n => db.ref(`sekolah/${n}/master_soal/${m}/${k}`).set(soalTemp));
-                    alert("Distribusi selesai ke " + keys.length + " sekolah!");
-                    document.getElementById('upload-status').innerHTML = '';
+                    
+                    // 2. Distribusi ke setiap sekolah
+                    let updates = {};
+                    sekolahKeys.forEach(npsn => {
+                        updates[`sekolah/${npsn}/master_soal/${m}/${k}`] = soalTemp;
+                    });
+
+                    db.ref().update(updates).then(() => {
+                        alert(`Distribusi selesai ke ${sekolahKeys.length} sekolah!`);
+                        document.getElementById('upload-status').innerHTML = '';
+                    }).catch(err => {
+                        alert("Gagal distribusi ke sekolah: " + err.message);
+                    });
+                }).catch(err => {
+                    alert("Gagal menyimpan ke pusat: " + err.message);
                 });
             });
         }
@@ -2337,42 +1947,17 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             document.getElementById('edit-index').value = index;
             document.getElementById('edit-jenis').value = isEssay ? 'essay' : 'pg';
             document.getElementById('edit-tanya').value = s.tanya || '';
-            document.getElementById('edit-img').value = s.img || '';
 
-            // Preview gambar soal
-            if(s.img) {
-                document.getElementById('edit-img-soal-preview').src = s.img;
-                document.getElementById('edit-preview-soal-img').classList.remove('hidden');
-                document.getElementById('edit-img-soal-upload').classList.add('has-img');
-            } else {
-                document.getElementById('edit-preview-soal-img').classList.add('hidden');
-                document.getElementById('edit-img-soal-upload').classList.remove('has-img');
-            }
-
-            // Generate opsi inputs dengan upload gambar
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
                 const opsiData = s.opsi && s.opsi[i] ? s.opsi[i] : { t: '', i: '' };
                 const val = typeof opsiData === 'object' ? (opsiData.t || opsiData.text || '') : opsiData;
-                const imgVal = typeof opsiData === 'object' ? (opsiData.i || opsiData.img || '') : '';
                 
                 html += `<div style="margin-bottom:12px; padding:10px; background:#F8FAFC; border-radius:10px; border:1px solid var(--border);">
                     <div class="opsi-input-group">
                         <span class="opsi-label">${label}</span>
                         <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${val}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
-                    </div>
-                    <div class="img-upload-box" id="edit-img-opsi-${label.toLowerCase()}-upload" style="margin-top:8px; padding:8px;">
-                        <input type="file" id="edit-file-opsi-${label.toLowerCase()}" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="display:none;" onchange="uploadEditOpsiImage('${label.toLowerCase()}', this)">
-                        <button class="upload-btn-small" onclick="document.getElementById('edit-file-opsi-${label.toLowerCase()}').click()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            Gambar Opsi
-                        </button>
-                        <div class="img-preview-container ${imgVal ? '' : 'hidden'}" id="edit-preview-opsi-${label.toLowerCase()}">
-                            <img class="img-preview" id="edit-img-opsi-${label.toLowerCase()}-preview" src="${imgVal}">
-                            <button class="remove-img" onclick="removeEditOpsiImage('${label.toLowerCase()}')">&times;</button>
-                        </div>
-                        <input type="hidden" id="edit-opsi-${label.toLowerCase()}-img" value="${imgVal}">
                     </div>
                 </div>`;
             }
@@ -2398,7 +1983,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
 
             let soalBaru = {
                 tanya: document.getElementById('edit-tanya').value,
-                img: document.getElementById('edit-img').value,
+                img: '',
                 opsi: [],
                 kunci: ''
             };
@@ -2407,9 +1992,8 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
                     const val = document.getElementById(`edit-opsi-${label}`).value.trim();
-                    const imgVal = document.getElementById(`edit-opsi-${label}-img`).value.trim();
-                    if(!val && !imgVal) return alert(`Pilihan ${label.toUpperCase()} tidak boleh kosong!`);
-                    soalBaru.opsi.push({ t: val, i: imgVal });
+                    if(!val) return alert(`Pilihan ${label.toUpperCase()} tidak boleh kosong!`);
+                    soalBaru.opsi.push({ t: val, i: '' });
                 }
                 soalBaru.kunci = document.getElementById('edit-kunci').value;
             } else {
@@ -2487,7 +2071,14 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             }
         }
 
-        // ========== REKAP ==========
+        // ========== REKAP (PERBAIKAN) ==========
+        // Helper untuk hitung nilai akhir
+        function hitungNilaiAkhirItem(item) {
+            const pg = parseInt(item.nilai_pg) || 0;
+            const essay = parseInt(item.nilai_essay) || 0;
+            return Math.round((pg + essay) / 2);
+        }
+
         function loadRekapData() {
             const filterMapel = document.getElementById('filter-mapel-rekap').value;
             const filterKelas = document.getElementById('filter-kelas-rekap').value;
@@ -2523,10 +2114,16 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 Object.values(pengerjaan || {}).forEach(item => {
                     if(filterMapel && item.mapel !== filterMapel) return;
                     if(filterKelas && !item.kelas.includes(filterKelas)) return;
+                    
+                    // Hanya hitung yang selesai dikoreksi
+                    if(item.status !== 'Selesai') return;
+
                     sekolahHasData = true;
                     totalSiswa++;
-                    sumNilai += (item.nilai || 0);
-                    if((item.nilai || 0) > maxNilai) maxNilai = item.nilai || 0;
+                    
+                    const nilaiAkhir = hitungNilaiAkhirItem(item);
+                    sumNilai += nilaiAkhir;
+                    if(nilaiAkhir > maxNilai) maxNilai = nilaiAkhir;
                 });
 
                 if(sekolahHasData) totalSekolah++;
@@ -2551,28 +2148,26 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 let sumNilai = 0;
                 let maxNilai = 0;
                 let minNilai = 100;
-                let mapelStats = {};
 
                 Object.values(pengerjaan).forEach(item => {
                     if(filterMapel && item.mapel !== filterMapel) return;
                     if(filterKelas && !item.kelas.includes(filterKelas)) return;
+                    if(item.status !== 'Selesai') return;
 
                     jumlahSiswa++;
-                    sumNilai += (item.nilai || 0);
-                    if((item.nilai || 0) > maxNilai) maxNilai = item.nilai || 0;
-                    if((item.nilai || 0) < minNilai) minNilai = item.nilai || 0;
-
-                    const mapel = item.mapelNama || item.mapel || 'Unknown';
-                    if(!mapelStats[mapel]) mapelStats[mapel] = { count: 0, sum: 0 };
-                    mapelStats[mapel].count++;
-                    mapelStats[mapel].sum += (item.nilai || 0);
+                    
+                    const nilaiAkhir = hitungNilaiAkhirItem(item);
+                    
+                    sumNilai += nilaiAkhir;
+                    if(nilaiAkhir > maxNilai) maxNilai = nilaiAkhir;
+                    if(nilaiAkhir < minNilai) minNilai = nilaiAkhir;
                 });
 
                 if(jumlahSiswa > 0) {
                     schoolStats.push({
                         npsn, nama: namaSekolah, jumlahSiswa,
                         rataRata: Math.round(sumNilai / jumlahSiswa),
-                        maxNilai, minNilai: minNilai === 100 ? 0 : minNilai, mapelStats
+                        maxNilai, minNilai: minNilai === 100 ? 0 : minNilai
                     });
                 }
             });
@@ -2598,7 +2193,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 </div>`;
             });
 
-            document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center; color:var(--muted);'>Tidak ada data</p>";
+            document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center; color:var(--muted);'>Tidak ada data hasil ujian yang selesai untuk filter ini.</p>";
         }
 
         function loadDetailNilai() {
@@ -2614,6 +2209,8 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 let no = 1;
                 Object.keys(data).forEach(uid => {
                     const item = data[uid];
+                    const nilaiAkhir = hitungNilaiAkhirItem(item);
+                    
                     h += `<tr>
                         <td>${no++}</td>
                         <td><b>${item.nama}</b></td>
@@ -2621,7 +2218,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                         <td>${item.mapelNama || item.mapel || '-'}</td>
                         <td>${item.nilai_pg || 0}</td>
                         <td>${item.nilai_essay || 0}</td>
-                        <td><b>${item.nilai || 0}</b></td>
+                        <td><b>${nilaiAkhir}</b></td>
                         <td class="no-print">
                             <div class="action-btns">
                                 <button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}', '${uid}')" title="Edit Nilai">
@@ -2651,8 +2248,9 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
                 document.getElementById('edit-nilai-mapel').innerText = data.mapelNama || data.mapel || '-';
                 document.getElementById('input-nilai-pg').value = data.nilai_pg || 0;
                 document.getElementById('input-nilai-essay').value = data.nilai_essay || 0;
-                document.getElementById('input-nilai-akhir').value = data.nilai || 0;
-                document.getElementById('preview-nilai-akhir').innerText = data.nilai || 0;
+                
+                hitungNilaiAkhir(); // Hitung saat buka modal
+                
                 document.getElementById('check-status').checked = (data.status === 'Selesai');
 
                 document.getElementById('modal-edit-nilai').classList.remove('hidden');
@@ -2678,7 +2276,7 @@ Jawaban: Fotosintesis adalah proses pembuatan makanan oleh tumbuhan..."></textar
             const updates = {
                 nilai_pg: nilaiPG,
                 nilai_essay: nilaiEssay,
-                nilai: nilaiAkhir,
+                nilai: nilaiAkhir, // Simpan juga ke field 'nilai' untuk backward compatibility
                 status: status
             };
 
