@@ -37,29 +37,6 @@
         .title-font { font-family: 'Fredoka', sans-serif; }
         .hidden { display: none !important; }
 
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .loading-overlay.hidden { display: none; }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
         /* ========== LOGIN ========== */
         .login-layer {
             width: 100%;
@@ -378,7 +355,6 @@
         .status-success { background: #D1FAE5; color: #065F46; }
         .status-warning { background: #FEF3C7; color: #92400E; }
         .status-info { background: #DBEAFE; color: #1E40AF; }
-        .status-pending { background: #FEF3C7; color: #92400E; }
 
         .token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
 
@@ -707,6 +683,8 @@
             animation: spin 1s linear infinite;
         }
 
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         /* Opsi with image container */
         .opsi-input-wrapper {
             background: #F8FAFC;
@@ -759,61 +737,32 @@
 
         /* Distribusi Status */
         .distribusi-status {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .distribusi-item {
-            background: white;
-            border: 2px solid var(--border);
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border: 2px solid var(--accent-blue);
             border-radius: 12px;
             padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .distribusi-item.success { border-color: var(--accent-green); background: #F0FDF4; }
-        .distribusi-item.pending { border-color: var(--accent-orange); background: #FFFBEB; }
-        .distribusi-item.error { border-color: var(--accent-red); background: #FEF2F2; }
-
-        .distribusi-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .distribusi-item.success .distribusi-icon { background: var(--accent-green); }
-        .distribusi-item.pending .distribusi-icon { background: var(--accent-orange); }
-        .distribusi-item.error .distribusi-icon { background: var(--accent-red); }
-
-        .distribusi-icon svg { width: 20px; height: 20px; color: white; }
-
-        .distribusi-info { flex-grow: 1; }
-        .distribusi-nama { font-weight: 700; font-size: 0.9rem; color: var(--fg); }
-        .distribusi-npsn { font-size: 0.75rem; color: var(--muted); }
-
-        /* Progress Bar Distribusi */
-        .progress-distribusi {
-            background: #E2E8F0;
-            border-radius: 50px;
-            height: 8px;
-            overflow: hidden;
             margin-top: 15px;
         }
 
-        .progress-distribusi-fill {
+        .distribusi-progress {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .progress-bar-container {
+            flex-grow: 1;
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
             transition: width 0.3s ease;
-            border-radius: 50px;
         }
 
         @media print {
@@ -849,12 +798,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden">
-        <div class="spinner"></div>
-        <span style="color: var(--muted);">Memproses...</span>
-    </div>
 
     <!-- LOGIN -->
     <div id="login-layer" class="login-layer">
@@ -902,19 +845,19 @@
             </div>
 
             <div class="menu-section">
-                <div class="menu-item active" data-panel="soal" onclick="showPanel('soal')">
+                <div class="menu-item active" onclick="showPanel('soal')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
                     <span>Bank Soal & Token</span>
                 </div>
-                <div class="menu-item" data-panel="waktu" onclick="showPanel('waktu')">
+                <div class="menu-item" onclick="showPanel('waktu')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Pengaturan Waktu</span>
                 </div>
-                <div class="menu-item" data-panel="sekolah" onclick="showPanel('sekolah')">
+                <div class="menu-item" onclick="showPanel('sekolah')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                     <span>Data Sekolah</span>
                 </div>
-                <div class="menu-item" data-panel="rekap" onclick="showPanel('rekap')">
+                <div class="menu-item" onclick="showPanel('rekap')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     <span>Rekap Hasil Ujian</span>
                 </div>
@@ -972,7 +915,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                            Token Aktif (Auto-Generate Setiap 10 Menit)
+                            Token Aktif
                         </div>
                     </div>
                     <div class="token-grid" id="token-grid"></div>
@@ -1111,7 +1054,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                             </button>
                             <button class="btn btn-sm btn-success" onclick="distribusiSoal()">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                                Distribusikan ke Semua Sekolah
+                                Distribusikan
                             </button>
                         </div>
                     </div>
@@ -1139,21 +1082,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     <div class="soal-preview" id="soal-container">
                         <p style="text-align:center; color:var(--muted);">Belum ada soal.</p>
                     </div>
-                </div>
-
-                <!-- Status Distribusi -->
-                <div class="card" id="card-distribusi-status" style="display:none;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-                            Status Distribusi
-                        </div>
-                        <span id="distribusi-progress-text" style="font-size:0.85rem; color:var(--muted);">0/0 sekolah</span>
-                    </div>
-                    <div class="progress-distribusi">
-                        <div class="progress-distribusi-fill" id="distribusi-progress-bar" style="width:0%;"></div>
-                    </div>
-                    <div class="distribusi-status" id="distribusi-status-list"></div>
                 </div>
             </div>
 
@@ -1204,21 +1132,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     </h1>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card highlight">
-                        <div class="stat-num" id="stat-sekolah">0</div>
-                        <div class="stat-label">Total Sekolah</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num" id="stat-guru" style="color:var(--accent-blue)">0</div>
-                        <div class="stat-label">Total Guru</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num" id="stat-siswa" style="color:var(--accent-green)">0</div>
-                        <div class="stat-label">Total Siswa</div>
-                    </div>
-                </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Daftar Sekolah Terdaftar</div>
@@ -1230,9 +1143,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                                     <th>No</th>
                                     <th>NPSN</th>
                                     <th>Nama Sekolah</th>
-                                    <th>Guru</th>
                                     <th>Siswa</th>
-                                    <th>Status Soal</th>
                                     <th class="no-print">Aksi</th>
                                 </tr>
                             </thead>
@@ -1483,6 +1394,25 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
         </div>
     </div>
 
+    <!-- Modal Distribusi Status -->
+    <div id="modal-distribusi" class="modal-layer hidden">
+        <div class="modal-box" style="max-width: 500px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--accent-blue), #2563EB);">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Distribusi Soal
+                </h3>
+                <button class="close-btn" onclick="closeModal('distribusi')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="distribusi-status"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary" onclick="closeModal('distribusi')">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCLR3DU5dy-2whKSFhUU67IQpEzbUL8-0s",
@@ -1496,20 +1426,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ========== UTILITY FUNCTIONS ==========
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return String(text).replace(/[&<>"']/g, m => map[m]);
-        }
-
-        function showLoading(show = true) {
-            const el = document.getElementById('loading-overlay');
-            if (show) el.classList.remove('hidden');
-            else el.classList.add('hidden');
-        }
-
-        // ========== GLOBAL VARS ==========
         let soalTemp = [];
         let currentKelas = 'kelas_1';
         let sekolahCache = {};
@@ -1523,19 +1439,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             editTanya: '',
             opsi: {},
             editOpsi: {}
-        };
-
-        // ========== MAPEL NAMES ==========
-        const mapelNames = {
-            'ppkn': 'Pendidikan Pancasila', 
-            'mtk': 'Matematika', 
-            'bind': 'Bahasa Indonesia',
-            'sbk': 'Seni Budaya', 
-            'ipas': 'IPAS', 
-            'bsd': 'Bahasa Sunda',
-            'pai': 'PAI', 
-            'pjok': 'PJOK', 
-            'bing': 'Bahasa Inggris'
         };
 
         // ========== LOGIN ==========
@@ -1560,7 +1463,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             document.querySelectorAll('[id^="panel-"]').forEach(e => e.classList.add('hidden'));
             document.getElementById('panel-' + id).classList.remove('hidden');
             document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('active'));
-            document.querySelector(`.menu-item[data-panel="${id}"]`).classList.add('active');
+            event.target.closest('.menu-item').classList.add('active');
             if(window.innerWidth <= 768) toggleSidebar();
             if(id === 'sekolah') loadSekolahTable();
             if(id === 'rekap') {
@@ -1616,7 +1519,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 });
                 db.ref('admin_pusat/live_tokens').set(updates);
             };
-            setInterval(generateTokens, 600000); // 10 menit
+            setInterval(generateTokens, 600000);
             generateTokens();
         }
 
@@ -1831,14 +1734,17 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             let currentSoal = null;
             let isInEssayAnswer = false;
             let essayAnswerBuffer = '';
+            let currentSoalIndex = -1;
 
             for(let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
                 if(!line) continue;
 
+                // Deteksi nomor soal (format: 1. atau 1) atau 1)
                 const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
                 
                 if(nomorMatch) {
+                    // Simpan soal sebelumnya jika ada
                     if(currentSoal) {
                         if(isInEssayAnswer && essayAnswerBuffer) {
                             currentSoal.kunci = essayAnswerBuffer.trim();
@@ -1848,6 +1754,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         parsedSoal.push(currentSoal);
                     }
                     
+                    currentSoalIndex++;
                     currentSoal = {
                         tanya: line.replace(nomorMatch[0], ''),
                         opsi: [],
@@ -1858,6 +1765,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     continue;
                 }
 
+                // Deteksi opsi jawaban (format: A. atau A) atau A)
                 const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
                 
                 if(opsiMatch && currentSoal && !isInEssayAnswer) {
@@ -1868,32 +1776,38 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     continue;
                 }
 
+                // Deteksi kunci/jawaban
                 const kunciMatch = line.match(/^(Jawaban|Kunci|JWB|KUNCI|Jawab)[:\s]+(.*)/i);
                 if(kunciMatch && currentSoal) {
                     const answerText = kunciMatch[2].trim();
                     
                     if(currentSoal.opsi && currentSoal.opsi.filter(o => o).length > 0) {
+                        // PG - ambil huruf kunci
                         const kunciLetter = answerText.charAt(0).toLowerCase();
                         if(['a','b','c','d'].includes(kunciLetter)) {
                             currentSoal.kunci = kunciLetter;
                         }
                     } else {
+                        // Essay - kumpulkan semua teks jawaban
                         isInEssayAnswer = true;
                         essayAnswerBuffer = answerText;
                     }
                     continue;
                 }
 
+                // Jika sedang mengumpulkan jawaban essay
                 if(isInEssayAnswer && currentSoal) {
                     essayAnswerBuffer += ' ' + line;
                     continue;
                 }
 
+                // Jika bukan opsi atau kunci, tambahkan ke pertanyaan
                 if(currentSoal && !opsiMatch && !kunciMatch && !isInEssayAnswer) {
                     currentSoal.tanya += ' ' + line;
                 }
             }
 
+            // Simpan soal terakhir
             if(currentSoal) {
                 if(isInEssayAnswer && essayAnswerBuffer) {
                     currentSoal.kunci = essayAnswerBuffer.trim();
@@ -1901,6 +1815,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 parsedSoal.push(currentSoal);
             }
 
+            // Normalisasi format soal
             parsedSoal = parsedSoal.map((s) => {
                 const hasOpsi = s.opsi && s.opsi.filter(o => o).length > 0;
                 return {
@@ -1937,7 +1852,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         <span><b>Soal ${idx + 1}</b></span>
                         <span class="item-type ${isEssay ? 'status-warning' : 'status-info'}">${isEssay ? 'Essay' : 'PG'}</span>
                     </div>
-                    <div style="font-size:0.85rem; margin-bottom:8px;"><b>Tanya:</b> ${escapeHtml(s.tanya)}</div>`;
+                    <div style="font-size:0.85rem; margin-bottom:8px;"><b>Tanya:</b> ${s.tanya}</div>`;
 
                 if(!isEssay && s.opsi) {
                     html += '<div style="margin-top:10px; padding:8px; background:#F1F5F9; border-radius:8px;">';
@@ -1945,7 +1860,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         if(!o) return;
                         const label = String.fromCharCode(65 + oIdx);
                         html += `<div style="font-size:0.8rem; padding:6px 10px; background:white; border-radius:6px; margin:4px 0; border:1px solid #E2E8F0;">
-                            <b>${label}.</b> ${escapeHtml(o.t || o || '')}
+                            <b>${label}.</b> ${o.t || o || ''}
                         </div>`;
                     });
                     html += '</div>';
@@ -1955,7 +1870,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 } else {
                     html += `<div style="margin-top:10px; padding:8px; background:#FEF3C7; border-radius:8px;">
                         <div style="font-size:0.75rem; color:#92400E; margin-bottom:8px;">Jawaban Ideal:</div>
-                        <textarea id="copas-kunci-${idx}" style="width:100%; min-height:60px; font-size:0.85rem; padding:8px; border-radius:8px; border:1px solid var(--border);">${escapeHtml(s.kunci || '')}</textarea>
+                        <textarea id="copas-kunci-${idx}" style="width:100%; min-height:60px; font-size:0.85rem; padding:8px; border-radius:8px; border:1px solid var(--border);">${s.kunci || ''}</textarea>
                     </div>`;
                 }
                 html += '</div>';
@@ -1992,6 +1907,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
         function loadSoalDariFirebase(m, k) {
             db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value', snap => {
                 soalTemp = snap.val() || [];
+                // Normalisasi format lama ke format baru
                 soalTemp = soalTemp.map(s => {
                     if (!s) return { tanya: '', img: '', opsi: [], kunci: '' };
                     return {
@@ -2080,7 +1996,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     <span class="soal-nomor">No. ${nomor}</span>
                     <span class="soal-tag ${isEssay ? 'essay' : 'pg'}">${isEssay ? 'Essay' : 'PG'}</span>
                 </div>
-                <div class="soal-text">${escapeHtml(s.tanya || '-')}</div>`;
+                <div class="soal-text">${s.tanya || '-'}</div>`;
 
             if(imgUrl) {
                 h += `<img src="${imgUrl}" class="soal-img-preview" alt="Gambar Soal" onerror="this.style.display='none'">`;
@@ -2089,7 +2005,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             if(isEssay) {
                 h += `<div class="kunci-box">
                     <small style="color:var(--muted);">Kunci / Jawaban Ideal:</small><br>
-                    <b style="color:#166534;">${escapeHtml(s.kunci || '-')}</b>
+                    <b style="color:#166534;">${s.kunci || '-'}</b>
                 </div>`;
             } else {
                 const kunci = (s.kunci || "a").toLowerCase();
@@ -2100,7 +2016,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     let c = (String.fromCharCode(97+x) === kunci) ? "opsi-benar" : "";
                     h += `<div class="opsi-item ${c}">
                         <b>${String.fromCharCode(65+x)}.</b> 
-                        <span>${escapeHtml(txt)}</span>
+                        <span>${txt}</span>
                         ${imgOpsi ? `<img src="${imgOpsi}" class="opsi-img-thumb" alt="img" onerror="this.style.display='none'">` : ''}
                     </div>`;
                 });
@@ -2150,6 +2066,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             soalTemp.push(soalBaru);
             
             simpanKeFirebase(() => {
+                // Reset form
                 document.getElementById('input-tanya').value = '';
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
@@ -2158,6 +2075,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 }
                 document.getElementById('input-kunci-essay').value = '';
                 
+                // Reset images
                 resetTempImages();
                 resetImageUploadUI('tanya');
                 for(let i = 0; i < jumlahOpsi; i++) {
@@ -2229,6 +2147,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         return;
                     }
 
+                    // Normalisasi format
                     soalData = soalData.map(s => {
                         const tanya = s.tanya || s.pertanyaan || s.question || '';
                         const img = s.img || s.i || s.image || s.gambar || '';
@@ -2264,94 +2183,101 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             reader.readAsText(file);
         }
 
-        // ========== DISTRIBUSI SOAL (PERBAIKAN UTAMA) ==========
+        // ========== DISTRIBUSI SOAL - PERBAIKAN UTAMA ==========
         async function distribusiSoal() {
             if(soalTemp.length === 0) return alert("Tidak ada soal untuk didistribusikan!");
 
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            const mapelNama = mapelNames[m] || m;
 
             sortSoal();
 
             const sekolahKeys = Object.keys(sekolahCache);
-            if(sekolahKeys.length === 0) return alert("Tidak ada sekolah terdaftar!");
+            if(sekolahKeys.length === 0) return alert("Tidak ada sekolah terdaftar.");
 
-            const konfirmasi = confirm(`Distribusikan ${soalTemp.length} soal ${mapelNama} (${k}) ke ${sekolahKeys.length} sekolah?`);
+            const konfirmasi = confirm(`Distribusikan ${soalTemp.length} soal ${m.toUpperCase()} ${k} ke ${sekolahKeys.length} sekolah?`);
             if(!konfirmasi) return;
 
-            showLoading(true);
+            // Tampilkan modal distribusi
+            document.getElementById('modal-distribusi').classList.remove('hidden');
             
-            // Show distribusi status card
-            const statusCard = document.getElementById('card-distribusi-status');
-            statusCard.style.display = 'block';
-            const statusList = document.getElementById('distribusi-status-list');
-            const progressBar = document.getElementById('distribusi-progress-bar');
-            const progressText = document.getElementById('distribusi-progress-text');
-            
-            statusList.innerHTML = '';
-            progressBar.style.width = '0%';
-            progressText.innerText = `0/${sekolahKeys.length} sekolah`;
+            let statusHtml = `
+                <div class="alert alert-info">
+                    <b>Distribusi Soal ke ${sekolahKeys.length} Sekolah</b><br>
+                    <small>Mapel: ${m.toUpperCase()} | Kelas: ${k}</small>
+                </div>
+                <div class="distribusi-status">
+                    <div class="distribusi-progress">
+                        <span id="distribusi-progress-text">0/${sekolahKeys.length}</span>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="distribusi-progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="distribusi-log" style="max-height: 200px; overflow-y: auto; margin-top: 15px;"></div>
+            `;
+            document.getElementById('distribusi-status').innerHTML = statusHtml;
 
+            let successCount = 0;
+            let failCount = 0;
+            let logHtml = '';
+
+            // 1. Simpan ke gudang_soal pusat dulu
             try {
-                // 1. Simpan ke GUDANG SOAL PUSAT (untuk dibaca Guru)
                 await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).set(soalTemp);
-                
-                // 2. Distribusi ke MASTER SOAL setiap sekolah (untuk dibaca Siswa)
-                let successCount = 0;
-                let errorCount = 0;
-                
-                for(let i = 0; i < sekolahKeys.length; i++) {
-                    const npsn = sekolahKeys[i];
-                    const schoolInfo = sekolahCache[npsn];
-                    const namaSekolah = schoolInfo.info ? schoolInfo.info.nama : (schoolInfo.nama || 'Unknown');
-                    
-                    // Update progress
-                    const progress = Math.round(((i + 1) / sekolahKeys.length) * 100);
-                    progressBar.style.width = progress + '%';
-                    progressText.innerText = `${i + 1}/${sekolahKeys.length} sekolah`;
-                    
-                    try {
-                        // Distribusi ke master_soal sekolah (UNTUK SISWA)
-                        await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalTemp);
-                        
-                        // Update status item
-                        statusList.innerHTML += `
-                            <div class="distribusi-item success">
-                                <div class="distribusi-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                                </div>
-                                <div class="distribusi-info">
-                                    <div class="distribusi-nama">${escapeHtml(namaSekolah)}</div>
-                                    <div class="distribusi-npsn">NPSN: ${npsn}</div>
-                                </div>
-                            </div>`;
-                        successCount++;
-                    } catch(err) {
-                        statusList.innerHTML += `
-                            <div class="distribusi-item error">
-                                <div class="distribusi-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                                </div>
-                                <div class="distribusi-info">
-                                    <div class="distribusi-nama">${escapeHtml(namaSekolah)}</div>
-                                    <div class="distribusi-npsn">Error: ${err.message}</div>
-                                </div>
-                            </div>`;
-                        errorCount++;
-                    }
-                }
-
-                showLoading(false);
-                
-                alert(`Distribusi Selesai!\n\nBerhasil: ${successCount} sekolah\nGagal: ${errorCount} sekolah\n\nSoal tersimpan di:\n- admin_pusat/gudang_soal (untuk Guru)\n- sekolah/{npsn}/master_soal (untuk Siswa)`);
-                
-                document.getElementById('upload-status').innerHTML = '';
-                
+                logHtml += `<div style="color: var(--accent-green); padding: 4px 8px; margin: 2px 0; background: #F0FDF4; border-radius: 4px; font-size: 0.8rem;">
+                    ✓ Disimpan ke Gudang Soal Pusat
+                </div>`;
             } catch(err) {
-                showLoading(false);
-                alert("Gagal distribusi: " + err.message);
+                logHtml += `<div style="color: var(--accent-red); padding: 4px 8px; margin: 2px 0; background: #FEF2F2; border-radius: 4px; font-size: 0.8rem;">
+                    ✗ Gagal simpan ke pusat: ${err.message}
+                </div>`;
+                document.getElementById('distribusi-log').innerHTML = logHtml;
+                return;
             }
+
+            // 2. Distribusi ke setiap sekolah
+            for(let i = 0; i < sekolahKeys.length; i++) {
+                const npsn = sekolahKeys[i];
+                const schoolInfo = sekolahCache[npsn];
+                const namaSekolah = schoolInfo.info ? schoolInfo.info.nama : (schoolInfo.nama || 'Unknown');
+                
+                // Update progress
+                const progress = ((i + 1) / sekolahKeys.length * 100).toFixed(0);
+                document.getElementById('distribusi-progress-text').innerText = `${i + 1}/${sekolahKeys.length}`;
+                document.getElementById('distribusi-progress-bar').style.width = progress + '%';
+
+                try {
+                    // PERBAIKAN: Simpan ke path yang konsisten dengan yang dibaca siswa
+                    await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalTemp);
+                    
+                    successCount++;
+                    logHtml += `<div style="color: var(--accent-green); padding: 4px 8px; margin: 2px 0; background: #F0FDF4; border-radius: 4px; font-size: 0.8rem;">
+                        ✓ ${npsn} - ${namaSekolah}
+                    </div>`;
+                } catch(err) {
+                    failCount++;
+                    logHtml += `<div style="color: var(--accent-red); padding: 4px 8px; margin: 2px 0; background: #FEF2F2; border-radius: 4px; font-size: 0.8rem;">
+                        ✗ ${npsn} - ${namaSekolah}: ${err.message}
+                    </div>`;
+                }
+                
+                document.getElementById('distribusi-log').innerHTML = logHtml;
+            }
+
+            // Final status
+            let finalHtml = `
+                <div class="alert ${failCount === 0 ? 'alert-success' : 'alert-warning'}">
+                    <b>Distribusi Selesai!</b><br>
+                    <small>
+                        Berhasil: ${successCount} sekolah<br>
+                        ${failCount > 0 ? `Gagal: ${failCount} sekolah` : ''}
+                    </small>
+                </div>
+            ` + logHtml;
+            
+            document.getElementById('distribusi-status').innerHTML = finalHtml;
+            document.getElementById('upload-status').innerHTML = '';
         }
 
         function hapusSemuaSoal() {
@@ -2403,7 +2329,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 html += `<div class="opsi-input-wrapper">
                     <div class="opsi-input-main">
                         <span class="opsi-label">${label}</span>
-                        <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${escapeHtml(val)}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
+                        <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${val}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
                     </div>
                     <div class="img-upload-box" id="img-upload-edit-opsi-${i}" style="margin-top:8px;">
                         <input type="file" id="file-edit-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-opsi-${i}', this)">
@@ -2495,44 +2421,36 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 const d = snap.val() || {};
                 let r = "";
                 let no = 1;
-                let totalGuru = 0;
-                let totalSiswa = 0;
-                
                 Object.keys(d).forEach(key => {
                     const s = d[key];
                     const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
-                    const guruCount = s.guru ? Object.keys(s.guru).length : 0;
-                    let siswaCount = 0;
-                    if(s.daftar_siswa) {
-                        Object.values(s.daftar_siswa).forEach(kelas => {
-                            if(Array.isArray(kelas)) siswaCount += kelas.length;
-                        });
-                    }
-                    totalGuru += guruCount;
-                    totalSiswa += siswaCount;
-                    
+                    const jumlahSiswa = countSiswaInSchool(s);
                     r += `<tr>
                         <td>${no++}</td>
                         <td><b>${key}</b></td>
-                        <td>${escapeHtml(nama)}</td>
-                        <td>${guruCount}</td>
-                        <td>${siswaCount}</td>
-                        <td><span class="status status-success">Terdaftar</span></td>
+                        <td>${nama}</td>
+                        <td>${jumlahSiswa}</td>
                         <td class="no-print">
                             <button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button>
                         </td>
                     </tr>`;
                 });
-                
-                document.getElementById('stat-sekolah').innerText = Object.keys(d).length;
-                document.getElementById('stat-guru').innerText = totalGuru;
-                document.getElementById('stat-siswa').innerText = totalSiswa;
-                document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='7' style='text-align:center'>Tidak ada data</td></tr>";
+                document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Tidak ada data</td></tr>";
             });
         }
 
+        function countSiswaInSchool(schoolData) {
+            let count = 0;
+            if(schoolData.daftar_siswa) {
+                Object.values(schoolData.daftar_siswa).forEach(kelas => {
+                    if(Array.isArray(kelas)) count += kelas.length;
+                });
+            }
+            return count;
+        }
+
         function hapusSekolah(npsn) {
-            if(confirm("Yakin hapus sekolah ini? Semua data siswa dan guru akan terhapus.")) {
+            if(confirm("Yakin hapus sekolah ini?")) {
                 db.ref('daftar_sekolah/'+npsn).remove();
                 db.ref('sekolah/'+npsn).remove();
                 alert("Hapus sukses");
@@ -2643,7 +2561,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 <div class="school-card">
                     <div class="school-header">
                         <div>
-                            <div class="school-name">${idx + 1}. ${escapeHtml(s.nama)}</div>
+                            <div class="school-name">${idx + 1}. ${s.nama}</div>
                             <div class="school-npsn">NPSN: ${s.npsn}</div>
                         </div>
                         <span class="status status-info">Peringkat ${idx + 1}</span>
@@ -2677,13 +2595,132 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     
                     h += `<tr>
                         <td>${no++}</td>
-                        <td><b>${escapeHtml(item.nama)}</b></td>
-                        <td>${escapeHtml(item.kelas || '-')}</td>
-                        <td>${escapeHtml(item.mapelNama || mapelNames[item.mapel] || item.mapel || '-')}</td>
+                        <td><b>${item.nama}</b></td>
+                        <td>${item.kelas || '-'}</td>
+                        <td>${item.mapelNama || item.mapel || '-'}</td>
                         <td>${item.nilai_pg || 0}</td>
                         <td>${item.nilai_essay || 0}</td>
                         <td><b>${nilaiAkhir}</b></td>
                         <td class="no-print">
                             <div class="action-btns">
                                 <button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}', '${uid}')" title="Edit Nilai">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="hapusDataSiswa('${npsn}', '${uid}')" title="Hapus Data">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+                document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Tidak ada data</td></tr>";
+            });
+        }
+
+        // ========== EDIT NILAI ==========
+        function bukaModalEditNilai(npsn, uid) {
+            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).once('value', snap => {
+                const data = snap.val();
+                if(!data) return alert("Data tidak ditemukan!");
+
+                document.getElementById('edit-nilai-uid').value = uid;
+                document.getElementById('edit-nilai-npsn').value = npsn;
+                document.getElementById('edit-nilai-nama').innerText = data.nama || '-';
+                document.getElementById('edit-nilai-kelas').innerText = data.kelas || '-';
+                document.getElementById('edit-nilai-mapel').innerText = data.mapelNome || data.mapel || '-';
+                document.getElementById('input-nilai-pg').value = data.nilai_pg || 0;
+                document.getElementById('input-nilai-essay').value = data.nilai_essay || 0;
+                
+                hitungNilaiAkhir();
+                document.getElementById('check-status').checked = (data.status === 'Selesai');
+
+                document.getElementById('modal-edit-nilai').classList.remove('hidden');
+            });
+        }
+
+        function hitungNilaiAkhir() {
+            const pg = parseInt(document.getElementById('input-nilai-pg').value) || 0;
+            const essay = parseInt(document.getElementById('input-nilai-essay').value) || 0;
+            const akhir = Math.round((pg + essay) / 2);
+            document.getElementById('input-nilai-akhir').value = akhir;
+            document.getElementById('preview-nilai-akhir').innerText = akhir;
+        }
+
+        function simpanEditNilai() {
+            const uid = document.getElementById('edit-nilai-uid').value;
+            const npsn = document.getElementById('edit-nilai-npsn').value;
+            const nilaiPG = parseInt(document.getElementById('input-nilai-pg').value) || 0;
+            const nilaiEssay = parseInt(document.getElementById('input-nilai-essay').value) || 0;
+            const nilaiAkhir = parseInt(document.getElementById('input-nilai-akhir').value) || 0;
+            const status = document.getElementById('check-status').checked ? 'Selesai' : 'Perlu Koreksi';
+
+            const updates = {
+                nilai_pg: nilaiPG,
+                nilai_essay: nilaiEssay,
+                nilai: nilaiAkhir,
+                status: status
+            };
+
+            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).update(updates)
+                .then(() => {
+                    alert("Nilai berhasil diupdate!");
+                    closeModal('edit-nilai');
+                    loadDetailNilai();
+                    loadRekapData();
+                })
+                .catch(e => alert("Gagal menyimpan: " + e.message));
+        }
+
+        // ========== HAPUS DATA SISWA ==========
+        function hapusDataSiswa(npsn, uid) {
+            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).once('value', snap => {
+                const data = snap.val();
+                if(!data) return;
+
+                document.getElementById('konfirmasi-text').innerText = `Yakin ingin menghapus data ujian "${data.nama}"?`;
+                document.getElementById('konfirmasi-subtext').innerText = `Kelas: ${data.kelas} | Mapel: ${data.mapelNome || data.mapel}`;
+
+                deleteCallback = () => {
+                    db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).remove()
+                        .then(() => {
+                            alert("Data berhasil dihapus!");
+                            loadDetailNilai();
+                            loadRekapData();
+                        })
+                        .catch(e => alert("Gagal menghapus: " + e.message));
+                };
+
+                document.getElementById('btn-konfirmasi-hapus').onclick = () => {
+                    if(deleteCallback) deleteCallback();
+                    closeModal('konfirmasi-hapus');
+                };
+
+                document.getElementById('modal-konfirmasi-hapus').classList.remove('hidden');
+            });
+        }
+
+        // ========== MODAL HELPERS ==========
+        function closeModal(id) {
+            document.getElementById('modal-' + id).classList.add('hidden');
+        }
+
+        function exportRekap() {
+            let csv = "No,NPSN,Nama Sekolah,Jumlah Peserta,Rata-rata,Tertinggi,Terendah\n";
+            let no = 1;
+            document.querySelectorAll('.school-card').forEach(card => {
+                const nama = card.querySelector('.school-name').innerText.split('. ')[1] || '';
+                const npsn = card.querySelector('.school-npsn').innerText.replace('NPSN: ', '');
+                const stats = card.querySelectorAll('.school-stat-num');
+                csv += `${no++},${npsn},"${nama}",${stats[0].innerText},${stats[1].innerText},${stats[2].innerText},${stats[3].innerText}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rekap_sts_majalengka_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
