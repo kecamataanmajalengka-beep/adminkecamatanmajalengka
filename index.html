@@ -193,6 +193,7 @@
         .btn-sm { padding: 10px 16px; font-size: 12px; width: auto; }
         .btn:hover { transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
         .error-msg {
             color: var(--accent-red);
@@ -522,15 +523,6 @@
 
         .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .filter-row select, .filter-row input { width: auto; min-width: 150px; }
-
-        .chart-container { background: #FAFBFC; border-radius: 12px; padding: 20px; margin-top: 15px; border: 1px solid var(--border); }
-        .chart-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .chart-label { width: 100px; font-size: 0.8rem; color: var(--muted); flex-shrink: 0; }
-        .chart-fill-bg { flex-grow: 1; height: 24px; background: #E2E8F0; border-radius: 12px; overflow: hidden; }
-        .chart-fill { height: 100%; border-radius: 12px; transition: width 0.5s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 0.75rem; font-weight: 700; color: white; }
-        .chart-fill.blue { background: linear-gradient(90deg, var(--accent-blue), #3B82F6); }
-        .chart-fill.green { background: linear-gradient(90deg, var(--accent-green), #10B981); }
-        .chart-fill.orange { background: linear-gradient(90deg, var(--accent-orange), #F59E0B); }
 
         .school-card {
             background: white;
@@ -959,7 +951,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         <div class="form-group">
                             <label>Pertanyaan</label>
                             <textarea id="input-tanya" rows="3" placeholder="Tulis pertanyaan di sini..."></textarea>
-                            <!-- Image Upload for Question -->
                             <div class="img-upload-box" id="img-upload-tanya">
                                 <input type="file" id="file-tanya" accept="image/*" style="display:none;" onchange="handleImageUpload('tanya', this)">
                                 <button class="upload-btn-small" onclick="document.getElementById('file-tanya').click()">
@@ -1248,7 +1239,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 <div class="form-group">
                     <label>Pertanyaan</label>
                     <textarea id="edit-tanya" rows="3"></textarea>
-                    <!-- Image Upload for Edit Question -->
                     <div class="img-upload-box" id="img-upload-edit-tanya">
                         <input type="file" id="file-edit-tanya" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-tanya', this)">
                         <button class="upload-btn-small" onclick="document.getElementById('file-edit-tanya').click()">
@@ -1498,7 +1488,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             loadSoalDariFirebase(m, k);
             loadTokenDisplay(m);
             
-            // Reset temp images
             resetTempImages();
         }
         
@@ -1516,13 +1505,11 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             const file = input.files[0];
             if (!file) return;
             
-            // Validate file type
             if (!file.type.startsWith('image/')) {
                 alert('Hanya file gambar yang diperbolehkan!');
                 return;
             }
             
-            // Validate file size (max 500KB)
             if (file.size > 500 * 1024) {
                 alert('Ukuran gambar maksimal 500KB!');
                 return;
@@ -1534,7 +1521,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             const previewImg = document.getElementById(`img-preview-${type}`);
             const btn = uploadBox.querySelector('.upload-btn-small');
             
-            // Show loading state
             uploadBox.classList.add('uploading');
             btn.innerHTML = '<span class="loading-spinner"></span> Mengupload...';
             btn.disabled = true;
@@ -1542,7 +1528,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             reader.onload = function(e) {
                 const base64 = e.target.result;
                 
-                // Store in temp
                 if (type === 'tanya') {
                     tempImages.tanya = base64;
                 } else if (type === 'edit-tanya') {
@@ -1555,7 +1540,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     tempImages.editOpsi[opsiIndex] = base64;
                 }
                 
-                // Show preview
                 previewImg.src = base64;
                 previewContainer.classList.remove('hidden');
                 uploadBox.classList.add('has-img');
@@ -1581,7 +1565,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             const btn = uploadBox.querySelector('.upload-btn-small');
             const input = document.getElementById(`file-${type}`);
             
-            // Clear temp storage
             if (type === 'tanya') {
                 tempImages.tanya = '';
             } else if (type === 'edit-tanya') {
@@ -1594,7 +1577,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 delete tempImages.editOpsi[opsiIndex];
             }
             
-            // Reset UI
             previewContainer.classList.add('hidden');
             uploadBox.classList.remove('has-img');
             btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar Pertanyaan';
@@ -1613,7 +1595,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 uploadBox.classList.add('has-img');
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Ganti Gambar';
                 
-                // Store in temp
                 if (type === 'edit-tanya') {
                     tempImages.editTanya = imageUrl;
                 }
@@ -1704,14 +1685,17 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             let currentSoal = null;
             let isInEssayAnswer = false;
             let essayAnswerBuffer = '';
+            let currentSoalIndex = -1;
 
             for(let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
                 if(!line) continue;
 
+                // Deteksi nomor soal (format: 1. atau 1) atau 1)
                 const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
                 
                 if(nomorMatch) {
+                    // Simpan soal sebelumnya jika ada
                     if(currentSoal) {
                         if(isInEssayAnswer && essayAnswerBuffer) {
                             currentSoal.kunci = essayAnswerBuffer.trim();
@@ -1721,6 +1705,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         parsedSoal.push(currentSoal);
                     }
                     
+                    currentSoalIndex++;
                     currentSoal = {
                         tanya: line.replace(nomorMatch[0], ''),
                         opsi: [],
@@ -1731,6 +1716,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     continue;
                 }
 
+                // Deteksi opsi jawaban (format: A. atau A) atau A)
                 const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
                 
                 if(opsiMatch && currentSoal && !isInEssayAnswer) {
@@ -1741,32 +1727,38 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     continue;
                 }
 
+                // Deteksi kunci/jawaban
                 const kunciMatch = line.match(/^(Jawaban|Kunci|JWB|KUNCI|Jawab)[:\s]+(.*)/i);
                 if(kunciMatch && currentSoal) {
                     const answerText = kunciMatch[2].trim();
                     
-                    if(currentSoal.opsi && currentSoal.opsi.length > 0) {
+                    if(currentSoal.opsi && currentSoal.opsi.filter(o => o).length > 0) {
+                        // PG - ambil huruf kunci
                         const kunciLetter = answerText.charAt(0).toLowerCase();
                         if(['a','b','c','d'].includes(kunciLetter)) {
                             currentSoal.kunci = kunciLetter;
                         }
                     } else {
+                        // Essay - kumpulkan semua teks jawaban
                         isInEssayAnswer = true;
                         essayAnswerBuffer = answerText;
                     }
                     continue;
                 }
 
+                // Jika sedang mengumpulkan jawaban essay
                 if(isInEssayAnswer && currentSoal) {
                     essayAnswerBuffer += ' ' + line;
                     continue;
                 }
 
+                // Jika bukan opsi atau kunci, tambahkan ke pertanyaan
                 if(currentSoal && !opsiMatch && !kunciMatch && !isInEssayAnswer) {
                     currentSoal.tanya += ' ' + line;
                 }
             }
 
+            // Simpan soal terakhir
             if(currentSoal) {
                 if(isInEssayAnswer && essayAnswerBuffer) {
                     currentSoal.kunci = essayAnswerBuffer.trim();
@@ -1774,10 +1766,11 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 parsedSoal.push(currentSoal);
             }
 
-            parsedSoal = parsedSoal.map((s, idx) => {
+            // Normalisasi format soal
+            parsedSoal = parsedSoal.map((s) => {
                 const hasOpsi = s.opsi && s.opsi.filter(o => o).length > 0;
                 return {
-                    tanya: s.tanya.trim(),
+                    tanya: (s.tanya || '').trim(),
                     img: s.img || '',
                     opsi: hasOpsi ? s.opsi.map(o => {
                         if (!o) return { t: '', i: '' };
@@ -1865,6 +1858,20 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
         function loadSoalDariFirebase(m, k) {
             db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value', snap => {
                 soalTemp = snap.val() || [];
+                // Normalisasi format lama ke format baru
+                soalTemp = soalTemp.map(s => {
+                    if (!s) return { tanya: '', img: '', opsi: [], kunci: '' };
+                    return {
+                        tanya: s.tanya || s.pertanyaan || '',
+                        img: s.img || s.i || '',
+                        opsi: (s.opsi || []).map(o => {
+                            if (!o) return { t: '', i: '' };
+                            if (typeof o === 'string') return { t: o, i: '' };
+                            return { t: o.t || o.text || '', i: o.i || o.img || '' };
+                        }),
+                        kunci: s.kunci || ''
+                    };
+                });
                 sortSoal();
                 renderPreview();
             });
@@ -1932,7 +1939,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
         }
 
         function renderSoalItem(s, originalIndex, nomor, tipe) {
-            const imgUrl = s.img || s.i || "";
+            const imgUrl = s.img || '';
             const isEssay = tipe === 'essay';
 
             let h = `<div class="soal-item ${isEssay ? 'essay' : ''}">
@@ -1955,8 +1962,8 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 const kunci = (s.kunci || "a").toLowerCase();
                 h += "<div style='margin-left:5px; font-size:0.85rem; margin-top:10px;'>";
                 (s.opsi || []).forEach((o, x) => {
-                    let txt = typeof o === 'object' ? (o.t || o.text || '') : o;
-                    let imgOpsi = typeof o === 'object' ? (o.i || o.img || '') : '';
+                    let txt = o.t || '';
+                    let imgOpsi = o.i || '';
                     let c = (String.fromCharCode(97+x) === kunci) ? "opsi-benar" : "";
                     h += `<div class="opsi-item ${c}">
                         <b>${String.fromCharCode(65+x)}.</b> 
@@ -2091,6 +2098,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         return;
                     }
 
+                    // Normalisasi format
                     soalData = soalData.map(s => {
                         const tanya = s.tanya || s.pertanyaan || s.question || '';
                         const img = s.img || s.i || s.image || s.gambar || '';
@@ -2098,7 +2106,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                         let opsi = s.opsi || s.pilihan || s.options || [];
                         if(opsi && !Array.isArray(opsi)) opsi = Object.values(opsi);
                         
-                        // Normalize opsi format
                         opsi = opsi.map(o => {
                             if (typeof o === 'string') return { t: o, i: '' };
                             return { t: o.t || o.text || '', i: o.i || o.img || '' };
@@ -2186,7 +2193,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
 
-            // Reset temp images for edit
             tempImages.editTanya = '';
             tempImages.editOpsi = {};
 
@@ -2195,19 +2201,18 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
-            // Show existing question image
             resetImageUploadUI('edit-tanya');
-            if (s.img || s.i) {
-                showImagePreview('edit-tanya', s.img || s.i);
-                tempImages.editTanya = s.img || s.i;
+            if (s.img) {
+                showImagePreview('edit-tanya', s.img);
+                tempImages.editTanya = s.img;
             }
 
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
                 const opsiData = s.opsi && s.opsi[i] ? s.opsi[i] : { t: '', i: '' };
-                const val = typeof opsiData === 'object' ? (opsiData.t || opsiData.text || '') : opsiData;
-                const imgOpsi = typeof opsiData === 'object' ? (opsiData.i || opsiData.img || '') : '';
+                const val = opsiData.t || '';
+                const imgOpsi = opsiData.i || '';
                 
                 html += `<div class="opsi-input-wrapper">
                     <div class="opsi-input-main">
@@ -2227,7 +2232,6 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                     </div>
                 </div>`;
                 
-                // Store existing image in temp
                 if (imgOpsi) {
                     tempImages.editOpsi[i] = imgOpsi;
                 }
@@ -2511,7 +2515,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 document.getElementById('edit-nilai-npsn').value = npsn;
                 document.getElementById('edit-nilai-nama').innerText = data.nama || '-';
                 document.getElementById('edit-nilai-kelas').innerText = data.kelas || '-';
-                document.getElementById('edit-nilai-mapel').innerText = data.mapelNama || data.mapel || '-';
+                document.getElementById('edit-nilai-mapel').innerText = data.mapelNome || data.mapel || '-';
                 document.getElementById('input-nilai-pg').value = data.nilai_pg || 0;
                 document.getElementById('input-nilai-essay').value = data.nilai_essay || 0;
                 
@@ -2562,7 +2566,7 @@ Jawaban: Ini jawaban ideal untuk panduan koreksi</code>
                 if(!data) return;
 
                 document.getElementById('konfirmasi-text').innerText = `Yakin ingin menghapus data ujian "${data.nama}"?`;
-                document.getElementById('konfirmasi-subtext').innerText = `Kelas: ${data.kelas} | Mapel: ${data.mapelNama || data.mapel}`;
+                document.getElementById('konfirmasi-subtext').innerText = `Kelas: ${data.kelas} | Mapel: ${data.mapelNome || data.mapel}`;
 
                 deleteCallback = () => {
                     db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).remove()
