@@ -567,21 +567,6 @@
         .section-header.essay { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #92400E; }
         .section-header svg { width: 20px; height: 20px; }
 
-        .sorting-info {
-            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
-            border: 1px solid var(--accent-green);
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: #166534;
-        }
-
-        .sorting-info svg { width: 18px; height: 18px; flex-shrink: 0; }
-
         .nilai-input-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
 
         .nilai-input-item {
@@ -639,6 +624,79 @@
             align-items: center;
             gap: 15px;
             margin-top: 10px;
+        }
+
+        /* Image Upload Styles */
+        .img-upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            background: #FAFBFC;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .img-upload-box:hover { border-color: var(--accent); background: #F5F3FF; }
+        .img-upload-box.has-img { border-style: solid; border-color: var(--accent-green); background: #F0FDF4; }
+
+        .img-preview-container { position: relative; display: inline-block; margin-top: 10px; }
+
+        .img-preview {
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            object-fit: contain;
+        }
+
+        .img-preview-container .remove-img {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .img-preview-container .remove-img:hover { transform: scale(1.1); background: #DC2626; }
+
+        .upload-btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+            background: linear-gradient(135deg, var(--accent-blue), #2563EB);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .upload-btn-small:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+        .upload-btn-small svg { width: 14px; height: 14px; }
+
+        .opsi-img-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            margin-left: auto;
         }
 
         @media print {
@@ -775,6 +833,7 @@
                             <option value="kelas_5">Kelas 5</option>
                             <option value="kelas_6">Kelas 6</option>
                         </select>
+                        <span id="info-opsi" class="status status-info">Opsi: A, B, C (3 pilihan)</span>
                     </div>
                 </div>
 
@@ -804,19 +863,11 @@
                         <div class="alert alert-info">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <div>
-                                <b>Format JSON yang didukung:</b>
+                                <b>Format JSON:</b>
                                 <code style="display:block; background:#1E293B; color:#81ECEC; padding:10px; border-radius:6px; margin-top:8px; font-size:11px; white-space:pre; overflow-x:auto;">{
   "soal": [
-    { 
-      "tanya": "Pertanyaan?", 
-      "img": "", 
-      "opsi": [
-        {"t": "Opsi A", "i": ""}, 
-        {"t": "Opsi B", "i": ""}
-      ], 
-      "kunci": "a" 
-    },
-    { "tanya": "Essay?", "kunci": "Jawaban ideal" }
+    { "tanya": "Pertanyaan?", "img": "", "opsi": [{"t": "A", "i": ""}], "kunci": "a" },
+    { "tanya": "Essay?", "kunci": "Jawaban" }
   ]
 }</code>
                             </div>
@@ -826,7 +877,7 @@
                             <input type="file" id="file-input" accept=".json" style="display:none;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                             <div style="font-weight:600; color:var(--fg);">Klik atau drag file JSON</div>
-                            <div style="font-size:0.8rem; color:var(--muted); margin-top:5px;">Format: .json</div>
+                            <div style="font-size:0.8rem; color:var(--muted); margin-top:5px;">Data akan otomatis tersimpan</div>
                         </div>
 
                         <div id="upload-status" style="margin-top:15px;"></div>
@@ -840,14 +891,10 @@
                                 <b>Format yang didukung:</b>
                                 <div style="margin-top:8px; font-size:12px; line-height:1.6;">
                                     <b>PG:</b><br>
-                                    <code style="background:#1E293B; color:#81ECEC; padding:8px 12px; border-radius:6px; display:block; margin-top:4px; white-space:pre-wrap;">1. Pertanyaan di sini...
+                                    <code style="background:#1E293B; color:#81ECEC; padding:8px 12px; border-radius:6px; display:block; margin-top:4px; white-space:pre-wrap;">1. Pertanyaan...
 A. Opsi A
-B. Opsi B  
-C. Opsi C
+B. Opsi B
 Jawaban: A</code>
-                                    <br><b>Essay:</b><br>
-                                    <code style="background:#1E293B; color:#FBBF24; padding:8px 12px; border-radius:6px; display:block; margin-top:4px; white-space:pre-wrap;">1. Pertanyaan essay...
-Jawaban: Ini jawaban ideal</code>
                                 </div>
                             </div>
                         </div>
@@ -855,7 +902,7 @@ Jawaban: Ini jawaban ideal</code>
                         <div class="copas-box">
                             <div class="form-group" style="margin-bottom:0;">
                                 <label>Paste Soal dari Word</label>
-                                <textarea id="copas-input" rows="12" placeholder="Paste soal di sini..."></textarea>
+                                <textarea id="copas-input" rows="10" placeholder="Paste soal di sini..."></textarea>
                             </div>
                         </div>
 
@@ -880,6 +927,17 @@ Jawaban: Ini jawaban ideal</code>
                         <div class="form-group">
                             <label>Pertanyaan</label>
                             <textarea id="input-tanya" rows="3" placeholder="Tulis pertanyaan di sini..."></textarea>
+                            <div class="img-upload-box" id="img-upload-tanya">
+                                <input type="file" id="file-tanya" accept="image/*" style="display:none;" onchange="handleImageUpload('tanya', this)">
+                                <button class="upload-btn-small" onclick="document.getElementById('file-tanya').click()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    Upload Gambar
+                                </button>
+                                <div class="img-preview-container hidden" id="preview-tanya">
+                                    <img class="img-preview" id="img-preview-tanya" src="" alt="Preview">
+                                    <button class="remove-img" onclick="removeImage('tanya')">&times;</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div id="opsi-container">
@@ -1127,6 +1185,17 @@ Jawaban: Ini jawaban ideal</code>
                 <div class="form-group">
                     <label>Pertanyaan</label>
                     <textarea id="edit-tanya" rows="3"></textarea>
+                    <div class="img-upload-box" id="img-upload-edit-tanya">
+                        <input type="file" id="file-edit-tanya" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-tanya', this)">
+                        <button class="upload-btn-small" onclick="document.getElementById('file-edit-tanya').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            Upload Gambar
+                        </button>
+                        <div class="img-preview-container hidden" id="preview-edit-tanya">
+                            <img class="img-preview" id="img-preview-edit-tanya" src="" alt="Preview">
+                            <button class="remove-img" onclick="removeImage('edit-tanya')">&times;</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="edit-opsi-container">
@@ -1249,11 +1318,12 @@ Jawaban: Ini jawaban ideal</code>
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let soalTemp = {}; // Diubah menjadi object untuk Firebase
+        let soalTemp = {}; 
         let currentKelas = 'kelas_1';
         let sekolahCache = {};
         let allPengerjaan = {};
         let parsedSoal = [];
+        let tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
 
         // ========== LOGIN ==========
         function handleLogin() {
@@ -1280,10 +1350,7 @@ Jawaban: Ini jawaban ideal</code>
             event.target.closest('.menu-item').classList.add('active');
             if(window.innerWidth <= 768) toggleSidebar();
             if(id === 'sekolah') loadSekolahTable();
-            if(id === 'rekap') {
-                loadRekapData();
-                updateSekolahDropdown();
-            }
+            if(id === 'rekap') { loadRekapData(); updateSekolahDropdown(); }
         }
 
         function switchTab(tab) {
@@ -1349,6 +1416,66 @@ Jawaban: Ini jawaban ideal</code>
             generateOpsiInputs();
             loadSoalDariFirebase(m, k);
             loadTokenDisplay(m);
+            resetTempImages();
+        }
+        
+        function resetTempImages() {
+            tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
+        }
+
+        // ========== IMAGE HANDLING ==========
+        function handleImageUpload(type, input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Hanya file gambar yang diperbolehkan!');
+                return;
+            }
+            
+            if (file.size > 500 * 1024) {
+                alert('Ukuran gambar maksimal 500KB!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            const uploadBox = document.getElementById(`img-upload-${type}`);
+            const previewContainer = document.getElementById(`preview-${type}`);
+            const previewImg = document.getElementById(`img-preview-${type}`);
+            const btn = uploadBox.querySelector('.upload-btn-small');
+            
+            reader.onload = function(e) {
+                const base64 = e.target.result;
+                
+                if (type === 'tanya') tempImages.tanya = base64;
+                else if (type === 'edit-tanya') tempImages.editTanya = base64;
+                else if (type.startsWith('opsi-')) tempImages.opsi[type.replace('opsi-', '')] = base64;
+                else if (type.startsWith('edit-opsi-')) tempImages.editOpsi[type.replace('edit-opsi-', '')] = base64;
+                
+                previewImg.src = base64;
+                previewContainer.classList.remove('hidden');
+                uploadBox.classList.add('has-img');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Ganti Gambar';
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        function removeImage(type) {
+            const previewContainer = document.getElementById(`preview-${type}`);
+            const uploadBox = document.getElementById(`img-upload-${type}`);
+            const btn = uploadBox.querySelector('.upload-btn-small');
+            const input = document.getElementById(`file-${type}`);
+            
+            if (type === 'tanya') tempImages.tanya = '';
+            else if (type === 'edit-tanya') tempImages.editTanya = '';
+            else if (type.startsWith('opsi-')) delete tempImages.opsi[type.replace('opsi-', '')];
+            else if (type.startsWith('edit-opsi-')) delete tempImages.editOpsi[type.replace('edit-opsi-', '')];
+            
+            previewContainer.classList.add('hidden');
+            uploadBox.classList.remove('has-img');
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
+            input.value = '';
         }
 
         // ========== OPSI INPUTS ==========
@@ -1359,9 +1486,22 @@ Jawaban: Ini jawaban ideal</code>
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
-                html += `<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                    <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--accent), #9333EA); color:white; border-radius:50%; font-weight:700;">${label}</span>
-                    <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
+                html += `<div style="background:#F8FAFC; padding:12px; border-radius:12px; margin-bottom:12px; border:1px solid var(--border);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                        <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--accent), #9333EA); color:white; border-radius:50%; font-weight:700;">${label}</span>
+                        <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
+                    </div>
+                    <div class="img-upload-box" id="img-upload-opsi-${i}" style="margin-top:0; padding:10px;">
+                        <input type="file" id="file-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('opsi-${i}', this)">
+                        <button class="upload-btn-small" onclick="document.getElementById('file-opsi-${i}').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            Gambar Opsi
+                        </button>
+                        <div class="img-preview-container hidden" id="preview-opsi-${i}">
+                            <img class="img-preview" id="img-preview-opsi-${i}" src="" alt="Preview">
+                            <button class="remove-img" onclick="removeImage('opsi-${i}')">&times;</button>
+                        </div>
+                    </div>
                 </div>`;
             }
             document.getElementById('opsi-inputs').innerHTML = html;
@@ -1402,11 +1542,10 @@ Jawaban: Ini jawaban ideal</code>
             });
         }
 
-        // ========== SOAL MANAGEMENT (MENGGUNAKAN OBJECT) ==========
+        // ========== SOAL MANAGEMENT ==========
         function loadSoalDariFirebase(m, k) {
             db.ref(`admin_pusat/gudang_soal/${m}/${k}`).on('value', snap => {
-                const data = snap.val() || {};
-                soalTemp = data;
+                soalTemp = snap.val() || {};
                 renderPreview();
             });
         }
@@ -1431,7 +1570,6 @@ Jawaban: Ini jawaban ideal</code>
             let pgNum = 0;
             let essayNum = 0;
 
-            // Sort: PG dulu, Essay kemudian
             const sortedSoal = soalKeys.map((key, idx) => ({ key, ...soalArray[idx] })).sort((a, b) => {
                 const aIsEssay = !a.opsi || a.opsi.length === 0;
                 const bIsEssay = !b.opsi || b.opsi.length === 0;
@@ -1439,14 +1577,9 @@ Jawaban: Ini jawaban ideal</code>
             });
 
             if(pgCount > 0) {
-                h += `<div class="section-header pg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-                    PILIHAN GANDA (${pgCount} soal)
-                </div>`;
-                
+                h += `<div class="section-header pg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>PILIHAN GANDA (${pgCount})</div>`;
                 sortedSoal.forEach((s) => {
-                    const isEssay = !s.opsi || s.opsi.length === 0;
-                    if(!isEssay) {
+                    if(s.opsi && s.opsi.length > 0) {
                         pgNum++;
                         h += renderSoalItem(s, s.key, pgNum, 'pg');
                     }
@@ -1454,14 +1587,9 @@ Jawaban: Ini jawaban ideal</code>
             }
 
             if(essayCount > 0) {
-                h += `<div class="section-header essay" style="margin-top:20px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-                    ESSAY / URAIAN (${essayCount} soal)
-                </div>`;
-                
+                h += `<div class="section-header essay" style="margin-top:20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/></svg>ESSAY (${essayCount})</div>`;
                 sortedSoal.forEach((s) => {
-                    const isEssay = !s.opsi || s.opsi.length === 0;
-                    if(isEssay) {
+                    if(!s.opsi || s.opsi.length === 0) {
                         essayNum++;
                         h += renderSoalItem(s, s.key, essayNum, 'essay');
                     }
@@ -1473,146 +1601,83 @@ Jawaban: Ini jawaban ideal</code>
 
         function renderSoalItem(s, key, nomor, tipe) {
             const isEssay = tipe === 'essay';
-
             let h = `<div class="soal-item ${isEssay ? 'essay' : ''}">
                 <div class="soal-header">
                     <span class="soal-nomor">No. ${nomor}</span>
                     <span class="soal-tag ${isEssay ? 'essay' : 'pg'}">${isEssay ? 'Essay' : 'PG'}</span>
                 </div>
                 <div class="soal-text">${s.tanya || '-'}</div>`;
+            
+            if(s.img) h += `<img src="${s.img}" class="soal-img-preview" alt="Gambar Soal">`;
 
             if(!isEssay) {
                 const kunci = (s.kunci || "a").toLowerCase();
                 h += "<div style='margin-left:5px; font-size:0.85rem; margin-top:10px;'>";
                 (s.opsi || []).forEach((o, x) => {
                     let txt = typeof o === 'object' ? o.t : o;
+                    let imgOpsi = typeof o === 'object' ? o.i : '';
                     let c = (String.fromCharCode(97+x) === kunci) ? "opsi-benar" : "";
                     h += `<div class="opsi-item ${c}">
                         <b>${String.fromCharCode(65+x)}.</b> ${txt}
+                        ${imgOpsi ? `<img src="${imgOpsi}" class="opsi-img-thumb" alt="img">` : ''}
                     </div>`;
                 });
                 h += "</div>";
             } else {
-                h += `<div class="kuni-box">
-                    <small style="color:var(--muted);">Kunci / Jawaban Ideal:</small><br>
-                    <b style="color:#166534;">${s.kunci || '-'}</b>
-                </div>`;
+                h += `<div class="kunci-box"><small style="color:var(--muted);">Kunci:</small><br><b style="color:#166534;">${s.kunci || '-'}</b></div>`;
             }
 
             h += `<div class="soal-actions">
-                <button class="btn btn-sm btn-primary" onclick="bukaModalEdit('${key}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit
-                </button>
-                <button class="btn btn-sm btn-danger" onclick="hapusSoal('${key}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-                    Hapus
-                </button>
-            </div>`;
-            h += "</div>";
-
+                <button class="btn btn-sm btn-primary" onclick="bukaModalEdit('${key}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusSoal('${key}')">Hapus</button>
+            </div></div>`;
             return h;
         }
 
-        // ========== PARSE COPAS DARI WORD ==========
+        // ========== PARSE COPAS ==========
         function parseCopas() {
             const rawText = document.getElementById('copas-input').value.trim();
-            if(!rawText) {
-                alert("Paste soal terlebih dahulu!");
-                return;
-            }
-
+            if(!rawText) return alert("Paste soal terlebih dahulu!");
+            
             parsedSoal = [];
             const lines = rawText.split('\n');
             let currentSoal = null;
-            let isInEssayAnswer = false;
-            let essayAnswerBuffer = '';
-
-            for(let i = 0; i < lines.length; i++) {
-                let line = lines[i].trim();
+            
+            for(let line of lines) {
+                line = line.trim();
                 if(!line) continue;
-
+                
                 const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
-                
                 if(nomorMatch) {
-                    if(currentSoal) {
-                        if(isInEssayAnswer && essayAnswerBuffer) {
-                            currentSoal.kunci = essayAnswerBuffer.trim();
-                            essayAnswerBuffer = '';
-                            isInEssayAnswer = false;
-                        }
-                        parsedSoal.push(currentSoal);
-                    }
-                    
-                    currentSoal = {
-                        tanya: line.replace(nomorMatch[0], ''),
-                        opsi: [],
-                        kunci: ''
-                    };
-                    isInEssayAnswer = false;
+                    if(currentSoal) parsedSoal.push(currentSoal);
+                    currentSoal = { tanya: line.replace(nomorMatch[0], ''), opsi: [], kunci: '', img: '' };
                     continue;
                 }
-
-                const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
                 
-                if(opsiMatch && currentSoal && !isInEssayAnswer) {
-                    const opsiLabel = opsiMatch[1].toLowerCase();
-                    const opsiText = line.replace(opsiMatch[0], '');
-                    currentSoal.opsi.push({ t: opsiText, i: '' });
+                const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
+                if(opsiMatch && currentSoal) {
+                    currentSoal.opsi.push({ t: line.replace(opsiMatch[0], ''), i: '' });
                     continue;
                 }
-
-                const kunciMatch = line.match(/^(Jawaban|Kunci|JWB|KUNCI|Jawab)[:\s]+(.*)/i);
+                
+                const kunciMatch = line.match(/^(Jawaban|Kunci)[:\s]+(.*)/i);
                 if(kunciMatch && currentSoal) {
-                    const answerText = kunciMatch[2].trim();
-                    
-                    if(currentSoal.opsi && currentSoal.opsi.length > 0) {
-                        const kunciLetter = answerText.charAt(0).toLowerCase();
-                        if(['a','b','c','d'].includes(kunciLetter)) {
-                            currentSoal.kunci = kunciLetter;
-                        }
-                    } else {
-                        isInEssayAnswer = true;
-                        essayAnswerBuffer = answerText;
-                    }
+                    currentSoal.kunci = kunciMatch[2].trim().charAt(0).toLowerCase();
                     continue;
                 }
-
-                if(isInEssayAnswer && currentSoal) {
-                    essayAnswerBuffer += ' ' + line;
-                    continue;
-                }
-
-                if(currentSoal && !opsiMatch && !kunciMatch && !isInEssayAnswer) {
-                    currentSoal.tanya += ' ' + line;
-                }
+                
+                if(currentSoal) currentSoal.tanya += ' ' + line;
             }
-
-            if(currentSoal) {
-                if(isInEssayAnswer && essayAnswerBuffer) {
-                    currentSoal.kunci = essayAnswerBuffer.trim();
-                }
-                parsedSoal.push(currentSoal);
-            }
-
+            if(currentSoal) parsedSoal.push(currentSoal);
+            
             renderCopasPreview();
         }
 
         function renderCopasPreview() {
-            if(parsedSoal.length === 0) {
-                document.getElementById('copas-preview').innerHTML = '<div class="alert alert-warning">Tidak ada soal yang terdeteksi.</div>';
-                return;
-            }
-
-            let html = `<div class="alert alert-success" style="margin-bottom:15px;">
-                <b>Berhasil mendeteksi ${parsedSoal.length} soal!</b>
-            </div>`;
-
-            html += `<button class="btn btn-success" onclick="saveCopasSoal()" style="margin-top:15px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>
-                Simpan ke Bank Soal
-            </button>`;
-
+            if(parsedSoal.length === 0) return alert("Tidak ada soal terdeteksi.");
+            
+            let html = `<div class="alert alert-success">${parsedSoal.length} soal terdeteksi.</div>`;
+            html += `<button class="btn btn-success" onclick="saveCopasSoal()">Simpan ke Bank Soal</button>`;
             document.getElementById('copas-preview').innerHTML = html;
         }
 
@@ -1628,32 +1693,31 @@ Jawaban: Ini jawaban ideal</code>
 
             db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates)
                 .then(() => {
-                    alert(`${parsedSoal.length} soal berhasil disimpan!`);
+                    alert("Berhasil disimpan!");
                     parsedSoal = [];
                     document.getElementById('copas-input').value = '';
                     document.getElementById('copas-preview').innerHTML = '';
-                })
-                .catch(e => alert("Gagal menyimpan: " + e.message));
+                });
         }
 
         // ========== TAMBAH MANUAL ==========
         function tambahSoalManual() {
             const jenis = document.getElementById('jenis-soal').value;
             const tanya = document.getElementById('input-tanya').value.trim();
-
             if(!tanya) return alert("Pertanyaan tidak boleh kosong!");
 
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
 
-            let soalBaru = { tanya: tanya, opsi: [], kunci: "" };
+            let soalBaru = { tanya: tanya, img: tempImages.tanya || '', opsi: [], kunci: "" };
 
             if(jenis === 'pg') {
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
                     const val = document.getElementById(`opsi-${label}`).value.trim();
-                    if(!val) return alert(`Pilihan ${label.toUpperCase()} tidak boleh kosong!`);
-                    soalBaru.opsi.push({ t: val, i: '' });
+                    const imgOpsi = tempImages.opsi[i] || '';
+                    if(!val && !imgOpsi) return alert(`Pilihan ${label.toUpperCase()} kosong!`);
+                    soalBaru.opsi.push({ t: val, i: imgOpsi });
                 }
                 soalBaru.kunci = document.getElementById('input-kunci').value;
             } else {
@@ -1666,172 +1730,133 @@ Jawaban: Ini jawaban ideal</code>
 
             db.ref(`admin_pusat/gudang_soal/${m}/${k}/${newKey}`).set(soalBaru)
                 .then(() => {
-                    // Reset form
                     document.getElementById('input-tanya').value = '';
-                    for(let i = 0; i < jumlahOpsi; i++) {
-                        const label = String.fromCharCode(97 + i);
-                        document.getElementById(`opsi-${label}`).value = '';
-                    }
+                    resetTempImages();
+                    document.querySelectorAll('[id^="preview-opsi-"]').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('[id^="img-upload-opsi-"]').forEach(el => el.classList.remove('has-img'));
                     alert("Soal berhasil ditambahkan!");
                 });
         }
 
-        // ========== UPLOAD JSON - PERBAIKAN UTAMA ==========
+        // ========== UPLOAD JSON ==========
         function handleFile(file) {
-            if(!file.name.endsWith('.json')) {
-                alert("File harus berformat .json");
-                return;
-            }
-
+            if(!file.name.endsWith('.json')) return alert("File harus .json");
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
                     let soalData = parsed.soal || parsed;
-
-                    if(!Array.isArray(soalData)) {
-                        document.getElementById('upload-status').innerHTML = `<div class="alert alert-warning">Format JSON tidak valid!</div>`;
-                        return;
-                    }
+                    if(!Array.isArray(soalData)) return alert("Format salah");
 
                     const m = document.getElementById('mapel-select').value;
                     const k = document.getElementById('kelas-select').value;
 
-                    // Simpan langsung ke Firebase
                     let updates = {};
                     soalData.forEach(s => {
                         const newKey = db.ref().child('temp').push().key;
-                        // Normalisasi format
-                        const normalizedSoal = {
+                        updates[newKey] = {
                             tanya: s.tanya || s.pertanyaan || '',
-                            opsi: (s.opsi || []).map(o => {
-                                if (typeof o === 'string') return { t: o, i: '' };
-                                return { t: o.t || o.text || '', i: o.i || o.img || '' };
-                            }),
-                            kunci: s.kunci || s.jawaban || ''
+                            img: s.img || '',
+                            opsi: (s.opsi || []).map(o => typeof o === 'string' ? {t:o, i:''} : {t: o.t||'', i: o.i||''}),
+                            kunci: s.kunci || ''
                         };
-                        updates[newKey] = normalizedSoal;
                     });
 
                     db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates)
                         .then(() => {
-                            document.getElementById('upload-status').innerHTML = `
-                                <div class="alert alert-success">
-                                    <b>Berhasil!</b> ${soalData.length} soal berhasil diupload dan disimpan ke database.
-                                </div>`;
-                        })
-                        .catch(err => {
-                            document.getElementById('upload-status').innerHTML = `
-                                <div class="alert alert-warning">Gagal menyimpan: ${err.message}</div>`;
+                            document.getElementById('upload-status').innerHTML = `<div class="alert alert-success"><b>Berhasil!</b> ${soalData.length} soal disimpan.</div>`;
                         });
-
                 } catch(err) {
-                    document.getElementById('upload-status').innerHTML = `<div class="alert alert-warning">Error parsing JSON: ${err.message}</div>`;
+                    alert("Error JSON: " + err.message);
                 }
             };
             reader.readAsText(file);
         }
 
-        // ========== DISTRIBUSI SOAL ==========
+        // ========== DISTRIBUSI ==========
         async function distribusiSoal() {
-            if(Object.keys(soalTemp).length === 0) return alert("Tidak ada soal untuk didistribusikan!");
-
+            if(Object.keys(soalTemp).length === 0) return alert("Tidak ada soal!");
+            
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-
             const sekolahKeys = Object.keys(sekolahCache);
-            if(sekolahKeys.length === 0) return alert("Tidak ada sekolah terdaftar.");
+            
+            if(!confirm(`Distribusikan ke ${sekolahKeys.length} sekolah?`)) return;
 
             document.getElementById('modal-distribusi').classList.remove('hidden');
-            
-            let statusHtml = `
-                <div class="alert alert-info">
-                    <b>Distribusi Soal ke ${sekolahKeys.length} Sekolah</b><br>
-                    <small>Mapel: ${m.toUpperCase()} | Kelas: ${k}</small>
-                </div>
-                <div class="distribusi-status">
-                    <div class="distribusi-progress">
-                        <span id="distribusi-progress-text">0/${sekolahKeys.length}</span>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar-fill" id="distribusi-progress-bar" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="distribusi-log" style="max-height: 200px; overflow-y: auto; margin-top: 15px;"></div>
-            `;
-            document.getElementById('distribusi-status').innerHTML = statusHtml;
+            document.getElementById('distribusi-status').innerHTML = `<div class="distribusi-status"><div class="distribusi-progress"><span id="distribusi-progress-text">0/${sekolahKeys.length}</span><div class="progress-bar-container"><div class="progress-bar-fill" id="distribusi-progress-bar" style="width: 0%"></div></div></div></div><div id="distribusi-log" style="margin-top:15px;"></div>`;
 
-            let successCount = 0;
-            let failCount = 0;
             let logHtml = '';
-
             for(let i = 0; i < sekolahKeys.length; i++) {
                 const npsn = sekolahKeys[i];
-                const progress = ((i + 1) / sekolahKeys.length * 100).toFixed(0);
-                document.getElementById('distribusi-progress-text').innerText = `${i + 1}/${sekolahKeys.length}`;
-                document.getElementById('distribusi-progress-bar').style.width = progress + '%';
-
+                document.getElementById('distribusi-progress-text').innerText = `${i+1}/${sekolahKeys.length}`;
+                document.getElementById('distribusi-progress-bar').style.width = `${((i+1)/sekolahKeys.length*100)}%`;
+                
                 try {
                     await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalTemp);
-                    successCount++;
-                    logHtml += `<div style="color: var(--accent-green); padding: 4px 8px; margin: 2px 0; background: #F0FDF4; border-radius: 4px; font-size: 0.8rem;">✓ ${npsn}</div>`;
+                    logHtml += `<div style="color:var(--accent-green); font-size:0.8rem; padding:4px 8px; background:#F0FDF4; border-radius:4px; margin:2px 0;">✓ ${npsn}</div>`;
                 } catch(err) {
-                    failCount++;
-                    logHtml += `<div style="color: var(--accent-red); padding: 4px 8px; margin: 2px 0; background: #FEF2F2; border-radius: 4px; font-size: 0.8rem;">✗ ${npsn}: ${err.message}</div>`;
+                    logHtml += `<div style="color:var(--accent-red); font-size:0.8rem; padding:4px 8px; background:#FEF2F2; border-radius:4px; margin:2px 0;">✗ ${npsn}</div>`;
                 }
-                
                 document.getElementById('distribusi-log').innerHTML = logHtml;
             }
-
-            let finalHtml = `
-                <div class="alert ${failCount === 0 ? 'alert-success' : 'alert-warning'}">
-                    <b>Distribusi Selesai!</b><br>
-                    <small>Berhasil: ${successCount} | Gagal: ${failCount}</small>
-                </div>
-            ` + logHtml;
-            
-            document.getElementById('distribusi-status').innerHTML = finalHtml;
+            document.getElementById('distribusi-status').innerHTML = `<div class="alert alert-success">Selesai!</div>` + logHtml;
         }
 
         function hapusSemuaSoal() {
-            if(!confirm("Yakin hapus SEMUA soal?")) return;
+            if(!confirm("Yakin hapus SEMUA?")) return;
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).remove()
-                .then(() => alert("Semua soal dihapus!"));
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).remove();
         }
 
         function hapusSoal(key) {
-            if(confirm("Yakin hapus soal ini?")) {
-                const m = document.getElementById('mapel-select').value;
-                const k = document.getElementById('kelas-select').value;
-                db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove();
-            }
+            if(!confirm("Yakin hapus?")) return;
+            const m = document.getElementById('mapel-select').value;
+            const k = document.getElementById('kelas-select').value;
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove();
         }
 
         // ========== MODAL EDIT ==========
         function bukaModalEdit(key) {
             const s = soalTemp[key];
             if(!s) return;
-
+            
             const isEssay = !s.opsi || s.opsi.length === 0;
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
 
+            tempImages.editTanya = s.img || '';
+            
             document.getElementById('edit-id').value = key;
             document.getElementById('edit-jenis').value = isEssay ? 'essay' : 'pg';
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
+            // Handle image preview
+            const previewContainer = document.getElementById('preview-edit-tanya');
+            const previewImg = document.getElementById('img-preview-edit-tanya');
+            const uploadBox = document.getElementById('img-upload-edit-tanya');
+            const btn = uploadBox.querySelector('.upload-btn-small');
+            
+            if(s.img) {
+                previewImg.src = s.img;
+                previewContainer.classList.remove('hidden');
+                uploadBox.classList.add('has-img');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Ganti Gambar';
+            } else {
+                previewContainer.classList.add('hidden');
+                uploadBox.classList.remove('has-img');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
+            }
+
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
-                const opsiData = s.opsi && s.opsi[i] ? s.opsi[i] : { t: '' };
-                const val = typeof opsiData === 'object' ? opsiData.t : opsiData;
-                
+                const opsiData = s.opsi && s.opsi[i] ? s.opsi[i] : { t: '', i: '' };
                 html += `<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
                     <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--accent), #9333EA); color:white; border-radius:50%; font-weight:700;">${label}</span>
-                    <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${val}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
+                    <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${opsiData.t || ''}" style="flex-grow:1;">
                 </div>`;
             }
             document.getElementById('edit-opsi-inputs').innerHTML = html;
@@ -1855,6 +1880,7 @@ Jawaban: Ini jawaban ideal</code>
 
             let soalBaru = {
                 tanya: document.getElementById('edit-tanya').value,
+                img: tempImages.editTanya || '',
                 opsi: [],
                 kunci: ''
             };
@@ -1875,7 +1901,7 @@ Jawaban: Ini jawaban ideal</code>
             db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).set(soalBaru)
                 .then(() => {
                     closeModal('edit-soal');
-                    alert("Soal berhasil diupdate!");
+                    alert("Tersimpan!");
                 });
         }
 
@@ -1894,227 +1920,118 @@ Jawaban: Ini jawaban ideal</code>
         function saveDurasi() {
             let updates = {};
             const m = document.getElementById('dur-mapel-select').value;
-            for(let i=1; i<=6; i++) {
-                updates['kelas_'+i] = parseInt(document.getElementById('dur-kelas_'+i).value) || 0;
-            }
-            db.ref('admin_pusat/durasi/'+m).set(updates).then(() => alert("Waktu disimpan!"));
+            for(let i=1; i<=6; i++) updates['kelas_'+i] = parseInt(document.getElementById('dur-kelas_'+i).value) || 0;
+            db.ref('admin_pusat/durasi/'+m).set(updates).then(() => alert("Tersimpan!"));
         }
 
-        // ========== SEKOLAH ==========
+        // ========== SEKOLAH & REKAP ==========
         function loadSekolahTable() {
             db.ref('daftar_sekolah').once('value', snap => {
                 const d = snap.val() || {};
-                let r = "";
-                let no = 1;
+                let r = ""; let no = 1;
                 Object.keys(d).forEach(key => {
                     const s = d[key];
                     const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
-                    const jumlahSiswa = countSiswaInSchool(s);
-                    r += `<tr>
-                        <td>${no++}</td>
-                        <td><b>${key}</b></td>
-                        <td>${nama}</td>
-                        <td>${jumlahSiswa}</td>
-                        <td class="no-print">
-                            <button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button>
-                        </td>
-                    </tr>`;
+                    let cnt = 0;
+                    if(s.daftar_siswa) Object.values(s.daftar_siswa).forEach(kls => { if(Array.isArray(kls)) cnt += kls.length; });
+                    r += `<tr><td>${no++}</td><td><b>${key}</b></td><td>${nama}</td><td>${cnt}</td><td class="no-print"><button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button></td></tr>`;
                 });
-                document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Tidak ada data</td></tr>";
+                document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Kosong</td></tr>";
             });
         }
 
-        function countSiswaInSchool(schoolData) {
-            let count = 0;
-            if(schoolData.daftar_siswa) {
-                Object.values(schoolData.daftar_siswa).forEach(kelas => {
-                    if(Array.isArray(kelas)) count += kelas.length;
-                });
-            }
-            return count;
-        }
-
         function hapusSekolah(npsn) {
-            if(confirm("Yakin hapus sekolah ini?")) {
+            if(confirm("Hapus sekolah ini?")) {
                 db.ref('daftar_sekolah/'+npsn).remove();
                 db.ref('sekolah/'+npsn).remove();
-                alert("Hapus sukses");
                 loadSekolahTable();
             }
         }
 
-        // ========== REKAP ==========
         function loadRekapData() {
             const filterMapel = document.getElementById('filter-mapel-rekap').value;
             const filterKelas = document.getElementById('filter-kelas-rekap').value;
-
             let promises = [];
             let allData = {};
 
             Object.keys(sekolahCache).forEach(npsn => {
-                promises.push(
-                    db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => {
-                        allData[npsn] = snap.val() || {};
-                    })
-                );
+                promises.push(db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => { allData[npsn] = snap.val() || {}; }));
             });
 
             Promise.all(promises).then(() => {
                 allPengerjaan = allData;
-                renderRekapSummary(allData, filterMapel, filterKelas);
-                renderRekapPerSekolah(allData, filterMapel, filterKelas);
-            });
-        }
+                let tSekolah = 0, tSiswa = 0, sumNilai = 0, maxNilai = 0;
+                let schoolStats = [];
 
-        function renderRekapSummary(allData, filterMapel, filterKelas) {
-            let totalSekolah = 0;
-            let totalSiswa = 0;
-            let sumNilai = 0;
-            let maxNilai = 0;
+                Object.keys(allData).forEach(npsn => {
+                    const pengerjaan = allData[npsn];
+                    let cnt = 0, sum = 0, max = 0, min = 100, hasData = false;
 
-            Object.keys(allData).forEach(npsn => {
-                const pengerjaan = allData[npsn];
-                let sekolahHasData = false;
-
-                Object.values(pengerjaan || {}).forEach(item => {
-                    if(filterMapel && item.mapel !== filterMapel) return;
-                    if(filterKelas && !item.kelas.includes(filterKelas)) return;
-                    if(item.status !== 'Selesai') return;
-
-                    sekolahHasData = true;
-                    totalSiswa++;
-                    
-                    const nilaiAkhir = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
-                    sumNilai += nilaiAkhir;
-                    if(nilaiAkhir > maxNilai) maxNilai = nilaiAkhir;
-                });
-
-                if(sekolahHasData) totalSekolah++;
-            });
-
-            document.getElementById('rekap-total-sekolah').innerText = totalSekolah;
-            document.getElementById('rekap-total-siswa').innerText = totalSiswa;
-            document.getElementById('rekap-rata-rata').innerText = totalSiswa > 0 ? Math.round(sumNilai / totalSiswa) : 0;
-            document.getElementById('rekap-tertinggi').innerText = maxNilai;
-        }
-
-        function renderRekapPerSekolah(allData, filterMapel, filterKelas) {
-            let html = "";
-            let schoolStats = [];
-
-            Object.keys(sekolahCache).forEach(npsn => {
-                const schoolInfo = sekolahCache[npsn];
-                const namaSekolah = schoolInfo.info ? schoolInfo.info.nama : (schoolInfo.nama || 'Unknown');
-                const pengerjaan = allData[npsn] || {};
-
-                let jumlahSiswa = 0;
-                let sumNilai = 0;
-                let maxNilai = 0;
-                let minNilai = 100;
-
-                Object.values(pengerjaan).forEach(item => {
-                    if(filterMapel && item.mapel !== filterMapel) return;
-                    if(filterKelas && !item.kelas.includes(filterKelas)) return;
-                    if(item.status !== 'Selesai') return;
-
-                    jumlahSiswa++;
-                    const nilaiAkhir = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
-                    sumNilai += nilaiAkhir;
-                    if(nilaiAkhir > maxNilai) maxNilai = nilaiAkhir;
-                    if(nilaiAkhir < minNilai) minNilai = nilaiAkhir;
-                });
-
-                if(jumlahSiswa > 0) {
-                    schoolStats.push({
-                        npsn, nama: namaSekolah, jumlahSiswa,
-                        rataRata: Math.round(sumNilai / jumlahSiswa),
-                        maxNilai, minNilai: minNilai === 100 ? 0 : minNilai
+                    Object.values(pengerjaan).forEach(item => {
+                        if(filterMapel && item.mapel !== filterMapel) return;
+                        if(filterKelas && !item.kelas.includes(filterKelas)) return;
+                        if(item.status !== 'Selesai') return;
+                        
+                        hasData = true; cnt++;
+                        const n = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
+                        sum += n; if(n > max) max = n; if(n < min) min = n;
+                        tSiswa++; sumNilai += n; if(n > maxNilai) maxNilai = n;
                     });
-                }
+
+                    if(hasData) { tSekolah++; schoolStats.push({ npsn, nama: sekolahCache[npsn].info?.nama || sekolahCache[npsn].nama, cnt, avg: cnt ? Math.round(sum/cnt) : 0, max, min: min===100?0:min }); }
+                });
+
+                document.getElementById('rekap-total-sekolah').innerText = tSekolah;
+                document.getElementById('rekap-total-siswa').innerText = tSiswa;
+                document.getElementById('rekap-rata-rata').innerText = tSiswa ? Math.round(sumNilai/tSiswa) : 0;
+                document.getElementById('rekap-tertinggi').innerText = maxNilai;
+
+                schoolStats.sort((a,b) => b.avg - a.avg);
+                let html = "";
+                schoolStats.forEach((s, i) => {
+                    html += `<div class="school-card"><div class="school-header"><div><div class="school-name">${i+1}. ${s.nama}</div><div class="school-npsn">NPSN: ${s.npsn}</div></div><span class="status status-info">#${i+1}</span></div>
+                    <div class="school-stats"><div class="school-stat"><div class="school-stat-num">${s.cnt}</div><div class="school-stat-label">Peserta</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.avg}</div><div class="school-stat-label">Rata2</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.max}</div><div class="school-stat-label">Tertinggi</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.min}</div><div class="school-stat-label">Terendah</div></div></div></div>`;
+                });
+                document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center;color:var(--muted)'>Tidak ada data.</p>";
             });
-
-            schoolStats.sort((a, b) => b.rataRata - a.rataRata);
-
-            schoolStats.forEach((s, idx) => {
-                html += `
-                <div class="school-card">
-                    <div class="school-header">
-                        <div>
-                            <div class="school-name">${idx + 1}. ${s.nama}</div>
-                            <div class="school-npsn">NPSN: ${s.npsn}</div>
-                        </div>
-                        <span class="status status-info">Peringkat ${idx + 1}</span>
-                    </div>
-                    <div class="school-stats">
-                        <div class="school-stat"><div class="school-stat-num">${s.jumlahSiswa}</div><div class="school-stat-label">Peserta</div></div>
-                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.rataRata}</div><div class="school-stat-label">Rata-rata</div></div>
-                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.maxNilai}</div><div class="school-stat-label">Tertinggi</div></div>
-                        <div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.minNilai}</div><div class="school-stat-label">Terendah</div></div>
-                    </div>
-                </div>`;
-            });
-
-            document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center; color:var(--muted);'>Tidak ada data.</p>";
         }
 
         function loadDetailNilai() {
             const npsn = document.getElementById('filter-sekolah-detail').value;
-            if(!npsn) {
-                document.getElementById('nilai-table').innerHTML = "<tr><td colspan='8' style='text-align:center'>Pilih sekolah</td></tr>";
-                return;
-            }
-
+            if(!npsn) return;
             db.ref(`sekolah/${npsn}/pengerjaan`).once('value', snap => {
                 const data = snap.val() || {};
-                let h = "";
-                let no = 1;
+                let h = ""; let no = 1;
                 Object.keys(data).forEach(uid => {
                     const item = data[uid];
-                    const nilaiAkhir = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
-                    
-                    h += `<tr>
-                        <td>${no++}</td>
-                        <td><b>${item.nama}</b></td>
-                        <td>${item.kelas || '-'}</td>
-                        <td>${item.mapelNome || item.mapel || '-'}</td>
-                        <td>${item.nilai_pg || 0}</td>
-                        <td>${item.nilai_essay || 0}</td>
-                        <td><b>${nilaiAkhir}</b></td>
-                        <td class="no-print">
-                            <div class="action-btns">
-                                <button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}', '${uid}')">Edit</button>
-                            </div>
-                        </td>
-                    </tr>`;
+                    const n = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
+                    h += `<tr><td>${no++}</td><td><b>${item.nama}</b></td><td>${item.kelas||'-'}</td><td>${item.mapelNome||item.mapel||'-'}</td><td>${item.nilai_pg||0}</td><td>${item.nilai_essay||0}</td><td><b>${n}</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}','${uid}')">Edit</button></td></tr>`;
                 });
-                document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Tidak ada data</td></tr>";
+                document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Kosong</td></tr>";
             });
         }
 
         function bukaModalEditNilai(npsn, uid) {
             db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).once('value', snap => {
-                const data = snap.val();
-                if(!data) return alert("Data tidak ditemukan!");
-
+                const d = snap.val();
+                if(!d) return;
                 document.getElementById('edit-nilai-uid').value = uid;
                 document.getElementById('edit-nilai-npsn').value = npsn;
-                document.getElementById('edit-nilai-nama').innerText = data.nama || '-';
-                document.getElementById('edit-nilai-kelas').innerText = data.kelas || '-';
-                document.getElementById('edit-nilai-mapel').innerText = data.mapelNome || data.mapel || '-';
-                document.getElementById('input-nilai-pg').value = data.nilai_pg || 0;
-                document.getElementById('input-nilai-essay').value = data.nilai_essay || 0;
-                
+                document.getElementById('edit-nilai-nama').innerText = d.nama;
+                document.getElementById('edit-nilai-kelas').innerText = d.kelas;
+                document.getElementById('edit-nilai-mapel').innerText = d.mapelNome || d.mapel;
+                document.getElementById('input-nilai-pg').value = d.nilai_pg || 0;
+                document.getElementById('input-nilai-essay').value = d.nilai_essay || 0;
+                document.getElementById('check-status').checked = d.status === 'Selesai';
                 hitungNilaiAkhir();
-                document.getElementById('check-status').checked = (data.status === 'Selesai');
-
                 document.getElementById('modal-edit-nilai').classList.remove('hidden');
             });
         }
 
         function hitungNilaiAkhir() {
             const pg = parseInt(document.getElementById('input-nilai-pg').value) || 0;
-            const essay = parseInt(document.getElementById('input-nilai-essay').value) || 0;
-            const akhir = Math.round((pg + essay) / 2);
+            const es = parseInt(document.getElementById('input-nilai-essay').value) || 0;
+            const akhir = Math.round((pg + es) / 2);
             document.getElementById('input-nilai-akhir').value = akhir;
             document.getElementById('preview-nilai-akhir').innerText = akhir;
         }
@@ -2122,75 +2039,41 @@ Jawaban: Ini jawaban ideal</code>
         function simpanEditNilai() {
             const uid = document.getElementById('edit-nilai-uid').value;
             const npsn = document.getElementById('edit-nilai-npsn').value;
-            const nilaiPG = parseInt(document.getElementById('input-nilai-pg').value) || 0;
-            const nilaiEssay = parseInt(document.getElementById('input-nilai-essay').value) || 0;
-            const nilaiAkhir = parseInt(document.getElementById('input-nilai-akhir').value) || 0;
-            const status = document.getElementById('check-status').checked ? 'Selesai' : 'Perlu Koreksi';
-
-            const updates = {
-                nilai_pg: nilaiPG,
-                nilai_essay: nilaiEssay,
-                nilai: nilaiAkhir,
-                status: status
-            };
-
-            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).update(updates)
-                .then(() => {
-                    alert("Nilai berhasil diupdate!");
-                    closeModal('edit-nilai');
-                    loadDetailNilai();
-                    loadRekapData();
-                });
+            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).update({
+                nilai_pg: parseInt(document.getElementById('input-nilai-pg').value) || 0,
+                nilai_essay: parseInt(document.getElementById('input-nilai-essay').value) || 0,
+                nilai: parseInt(document.getElementById('input-nilai-akhir').value) || 0,
+                status: document.getElementById('check-status').checked ? 'Selesai' : 'Perlu Koreksi'
+            }).then(() => { closeModal('edit-nilai'); loadDetailNilai(); loadRekapData(); alert('Tersimpan!'); });
         }
 
-        function closeModal(id) {
-            document.getElementById('modal-' + id).classList.add('hidden');
-        }
+        function closeModal(id) { document.getElementById('modal-' + id).classList.add('hidden'); }
 
         function exportRekap() {
-            let csv = "No,NPSN,Nama Sekolah,Jumlah Peserta,Rata-rata,Tertinggi,Terendah\n";
+            let csv = "No,NPSN,Nama,Jumlah,Rata2,Tertinggi,Terendah\n";
             let no = 1;
             document.querySelectorAll('.school-card').forEach(card => {
-                const nama = card.querySelector('.school-name').innerText.split('. ')[1] || '';
                 const npsn = card.querySelector('.school-npsn').innerText.replace('NPSN: ', '');
-                const stats = card.querySelectorAll('.school-stat-num');
-                csv += `${no++},${npsn},"${nama}",${stats[0].innerText},${stats[1].innerText},${stats[2].innerText},${stats[3].innerText}\n`;
+                const nama = card.querySelector('.school-name').innerText.split('. ')[1] || '';
+                const nums = card.querySelectorAll('.school-stat-num');
+                csv += `${no++},${npsn},"${nama}",${nums[0].innerText},${nums[1].innerText},${nums[2].innerText},${nums[3].innerText}\n`;
             });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([csv], {type: 'text/csv'});
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `rekap_sts_majalengka_${new Date().toISOString().split('T')[0]}.csv`;
+            a.href = URL.createObjectURL(blob);
+            a.download = `rekap.csv`;
             a.click();
-            URL.revokeObjectURL(url);
         }
 
-        // ========== DRAG DROP HANDLER ==========
+        // ========== DRAG & DROP HANDLER ==========
         document.addEventListener('DOMContentLoaded', () => {
             const uploadZone = document.getElementById('upload-zone');
             const fileInput = document.getElementById('file-input');
-
-            if(fileInput) {
-                fileInput.addEventListener('change', (e) => {
-                    if(e.target.files.length > 0) handleFile(e.target.files[0]);
-                });
-            }
-
+            if(fileInput) fileInput.addEventListener('change', e => { if(e.target.files[0]) handleFile(e.target.files[0]); });
             if(uploadZone) {
-                uploadZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    uploadZone.classList.add('dragover');
-                });
-
-                uploadZone.addEventListener('dragleave', () => {
-                    uploadZone.classList.remove('dragover');
-                });
-
-                uploadZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    uploadZone.classList.remove('dragover');
-                    if(e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-                });
+                uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+                uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+                uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('dragover'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
             }
         });
     </script>
