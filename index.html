@@ -699,7 +699,7 @@
             margin-left: auto;
         }
 
-        /* NEW: Rekap Soal Styles */
+        /* Rekap Soal Styles */
         .rekap-mapel-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -751,35 +751,24 @@
             color: var(--muted);
         }
 
-        /* NEW: Mass Upload Zone */
-        .mass-upload-zone {
-            border: 3px dashed var(--accent);
+        /* Distribusi Masal Zone */
+        .distribusi-masal-zone {
+            border: 3px solid var(--accent);
             border-radius: 16px;
-            padding: 50px;
+            padding: 30px;
             text-align: center;
             background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .mass-upload-zone:hover {
-            border-color: #9333EA;
-            background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
-        }
-
-        .mass-upload-zone.dragover {
-            border-color: var(--accent-green);
-            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
-        }
-
-        .mass-upload-zone svg {
-            width: 64px;
-            height: 64px;
+        .distribusi-masal-zone svg {
+            width: 48px;
+            height: 48px;
             color: var(--accent);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        /* NEW: Progress Log */
+        /* Progress Log */
         .progress-log {
             max-height: 300px;
             overflow-y: auto;
@@ -796,45 +785,6 @@
         .progress-log .log-error { color: #F87171; }
         .progress-log .log-info { color: #60A5FA; }
         .progress-log .log-warning { color: #FBBF24; }
-
-        /* NEW: Checklist Sekolah */
-        .sekolah-checklist {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            background: #FAFBFC;
-        }
-
-        .sekolah-check-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: white;
-            transition: all 0.2s ease;
-            border: 1px solid var(--border);
-        }
-
-        .sekolah-check-item:hover {
-            background: #F1F5F9;
-        }
-
-        .sekolah-check-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--accent);
-        }
-
-        .sekolah-check-item label {
-            flex-grow: 1;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
 
         @media print {
             .sidebar, .mobile-header, .no-print { display: none !important; }
@@ -913,9 +863,9 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
                     <span>Bank Soal & Token</span>
                 </div>
-                <div class="menu-item" onclick="showPanel('upload-masal')">
+                <div class="menu-item" onclick="showPanel('distribusi-masal')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <span>Upload Masal & Rekap</span>
+                    <span>Distribusi & Rekap</span>
                 </div>
                 <div class="menu-item" onclick="showPanel('waktu')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -1115,10 +1065,6 @@ Jawaban: A</code>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
                                 Hapus Semua
                             </button>
-                            <button class="btn btn-sm btn-success" onclick="distribusiSoal()">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                                Distribusikan
-                            </button>
                         </div>
                     </div>
 
@@ -1143,12 +1089,12 @@ Jawaban: A</code>
                 </div>
             </div>
 
-            <!-- NEW: Panel Upload Masal & Rekap -->
-            <div id="panel-upload-masal" class="hidden">
+            <!-- NEW: Panel Distribusi Masal & Rekap -->
+            <div id="panel-distribusi-masal" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        Upload Masal & Rekap Soal
+                        Distribusi Masal & Rekap Soal
                     </h1>
                 </div>
 
@@ -1185,109 +1131,88 @@ Jawaban: A</code>
                     </div>
 
                     <div class="rekap-mapel-grid" id="rekap-mapel-grid">
-                        <!-- Diisi oleh JavaScript -->
+                        <!-- Diisi JavaScript -->
                     </div>
                 </div>
 
-                <!-- Upload Masal ke Semua Sekolah -->
+                <!-- Distribusi Masal -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                            Upload Masal ke Semua Sekolah
+                            Distribusi Soal ke Semua Sekolah
                         </div>
                     </div>
 
                     <div class="alert alert-info">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <div>
-                            <b>Fitur Upload Masal:</b><br>
-                            Upload file JSON soal yang akan dikirim ke <b>semua sekolah terdaftar</b> sekaligus. 
-                            Soal akan tersimpan permanen di Bank Soal Pusat dan langsung didistribusikan.
+                            <b>Cara Kerja:</b><br>
+                            1. Pilih Mapel dan Kelas yang ada soalnya<br>
+                            2. Klik tombol "Distribusikan ke Semua Sekolah"<br>
+                            3. Sistem akan mengirim soal ke setiap sekolah yang terdaftar
                         </div>
                     </div>
 
-                    <div class="alert alert-warning" style="margin-bottom:20px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        <div>
-                            <b>Format JSON Upload Masal:</b>
-                            <code style="display:block; background:#1E293B; color:#81ECEC; padding:12px; border-radius:6px; margin-top:8px; font-size:10px; white-space:pre; overflow-x:auto;">{
-  "data": {
-    "ppkn": {
-      "kelas_1": [
-        { "tanya": "Soal PG?", "opsi": [{"t":"A"},{"t":"B"},{"t":"C"}], "kunci": "a" },
-        { "tanya": "Soal Essay?", "kunci": "Jawaban" }
-      ],
-      "kelas_2": [...]
-    },
-    "mtk": {
-      "kelas_1": [...]
-    }
-  }
-}</code>
-                        </div>
-                    </div>
-
-                    <div class="mass-upload-zone" id="mass-upload-zone" onclick="document.getElementById('mass-file-input').click()">
-                        <input type="file" id="mass-file-input" accept=".json" style="display:none;">
+                    <div class="distribusi-masal-zone">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <div style="font-weight:600; color:var(--fg); font-size:1.1rem;">Klik atau drag file JSON di sini</div>
-                        <div style="font-size:0.9rem; color:var(--muted); margin-top:8px;">File akan diproses dan dikirim ke semua sekolah terdaftar</div>
-                    </div>
+                        <div style="font-weight:600; color:var(--fg); font-size:1.1rem; margin-bottom:15px;">Distribusi Soal Masal</div>
+                        
+                        <div class="filter-row" style="justify-content:center; margin-bottom:15px;">
+                            <select id="dist-mapel-select" onchange="updateDistInfo()">
+                                <option value="">-- Pilih Mapel --</option>
+                                <option value="ppkn">PPKN</option>
+                                <option value="mtk">Matematika</option>
+                                <option value="bind">B. Indonesia</option>
+                                <option value="sbk">Seni Budaya</option>
+                                <option value="ipas">IPAS</option>
+                                <option value="bsd">B. Sunda</option>
+                                <option value="pai">PAI</option>
+                                <option value="pjok">PJOK</option>
+                                <option value="bing">B. Inggris</option>
+                            </select>
+                            <select id="dist-kelas-select" onchange="updateDistInfo()">
+                                <option value="">-- Pilih Kelas --</option>
+                                <option value="kelas_1">Kelas 1</option>
+                                <option value="kelas_2">Kelas 2</option>
+                                <option value="kelas_3">Kelas 3</option>
+                                <option value="kelas_4">Kelas 4</option>
+                                <option value="kelas_5">Kelas 5</option>
+                                <option value="kelas_6">Kelas 6</option>
+                            </select>
+                        </div>
 
-                    <div id="mass-upload-status" style="margin-top:20px;"></div>
+                        <div id="dist-info" style="margin-bottom:15px; padding:15px; background:rgba(255,255,255,0.5); border-radius:10px;">
+                            <p style="font-size:0.9rem; color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>
+                        </div>
+
+                        <button class="btn btn-success btn-sm" onclick="executeDistribusiMasal()" id="btn-distribusi-masal" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            Distribusikan ke Semua Sekolah
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Preview dan Distribusi -->
-                <div class="card" id="card-mass-preview" style="display:none;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            Preview Data yang Akan Di-upload
-                        </div>
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn btn-sm btn-secondary" onclick="cancelMassUpload()">Batal</button>
-                            <button class="btn btn-sm btn-success" onclick="executeMassUpload()">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                                Upload ke Semua Sekolah
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="mass-preview-content"></div>
-
-                    <div style="margin-top:20px;">
-                        <h4 style="margin-bottom:10px; color:var(--fg);">Pilih Sekolah Tujuan:</h4>
-                        <div style="display:flex; gap:10px; margin-bottom:15px;">
-                            <button class="btn btn-sm btn-secondary" onclick="selectAllSchools()">Pilih Semua</button>
-                            <button class="btn btn-sm btn-secondary" onclick="deselectAllSchools()">Hapus Pilihan</button>
-                        </div>
-                        <div class="sekolah-checklist" id="sekolah-checklist">
-                            <!-- Diisi oleh JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Progress Upload -->
-                <div class="card" id="card-mass-progress" style="display:none;">
+                <!-- Progress Distribusi -->
+                <div class="card" id="card-dist-progress" style="display:none;">
                     <div class="card-header">
                         <div class="card-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            Progress Upload
+                            Progress Distribusi
                         </div>
                     </div>
 
                     <div class="distribusi-status">
                         <div class="distribusi-progress">
-                            <span id="mass-progress-text">0/0</span>
+                            <span id="dist-progress-text">0/0</span>
                             <div class="progress-bar-container">
-                                <div class="progress-bar-fill" id="mass-progress-bar" style="width: 0%"></div>
+                                <div class="progress-bar-fill" id="dist-progress-bar" style="width: 0%"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="progress-log" id="mass-progress-log">
-                        <!-- Log akan muncul di sini -->
+                    <div class="progress-log" id="dist-progress-log">
+                        <!-- Log muncul di sini -->
                     </div>
                 </div>
             </div>
@@ -1360,7 +1285,7 @@ Jawaban: A</code>
                 </div>
             </div>
 
-            <!-- Panel Rekap -->
+            <!-- Panel Rekap Hasil -->
             <div id="panel-rekap" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -1577,25 +1502,6 @@ Jawaban: A</code>
         </div>
     </div>
 
-    <!-- Modal Distribusi Status -->
-    <div id="modal-distribusi" class="modal-layer hidden">
-        <div class="modal-box" style="max-width: 500px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, var(--accent-blue), #2563EB);">
-                <h3>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    Distribusi Soal
-                </h3>
-                <button class="close-btn" onclick="closeModal('distribusi')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="distribusi-status"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-sm btn-secondary" onclick="closeModal('distribusi')">Tutup</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // ========== FIREBASE CONFIG ==========
         const firebaseConfig = {
@@ -1617,10 +1523,9 @@ Jawaban: A</code>
         let allPengerjaan = {};
         let parsedSoal = [];
         let tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
-        let massUploadData = null;
         let rekapSoalCache = {};
 
-        // Mapel names for display
+        // Mapel names
         const mapelNames = {
             'ppkn': 'Pendidikan Pancasila',
             'mtk': 'Matematika',
@@ -1659,7 +1564,7 @@ Jawaban: A</code>
             if(window.innerWidth <= 768) toggleSidebar();
             if(id === 'sekolah') loadSekolahTable();
             if(id === 'rekap') { loadRekapData(); updateSekolahDropdown(); }
-            if(id === 'upload-masal') { loadRekapSoal(); renderSekolahChecklist(); }
+            if(id === 'distribusi-masal') { loadRekapSoal(); }
         }
 
         function switchTab(tab) {
@@ -2079,43 +1984,13 @@ Jawaban: A</code>
                             document.getElementById('upload-status').innerHTML = `<div class="alert alert-success"><b>Berhasil!</b> ${soalData.length} soal disimpan ke Bank Soal. Data tersimpan permanen.</div>`;
                         })
                         .catch(err => {
-                            document.getElementById('upload-status').innerHTML = `<div class="alert alert-error"><b>Error!</b> ${err.message}</div>`;
+                            document.getElementById('upload-status').innerHTML = `<div class="alert" style="background:#FEF2F2;color:#DC2626;"><b>Error!</b> ${err.message}</div>`;
                         });
                 } catch(err) {
                     alert("Error JSON: " + err.message);
                 }
             };
             reader.readAsText(file);
-        }
-
-        // ========== DISTRIBUSI ==========
-        async function distribusiSoal() {
-            if(Object.keys(soalTemp).length === 0) return alert("Tidak ada soal!");
-            
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
-            const sekolahKeys = Object.keys(sekolahCache);
-            
-            if(!confirm(`Distribusikan ${Object.keys(soalTemp).length} soal ke ${sekolahKeys.length} sekolah?`)) return;
-
-            document.getElementById('modal-distribusi').classList.remove('hidden');
-            document.getElementById('distribusi-status').innerHTML = `<div class="distribusi-status"><div class="distribusi-progress"><span id="distribusi-progress-text">0/${sekolahKeys.length}</span><div class="progress-bar-container"><div class="progress-bar-fill" id="distribusi-progress-bar" style="width: 0%"></div></div></div></div><div id="distribusi-log" style="margin-top:15px;"></div>`;
-
-            let logHtml = '';
-            for(let i = 0; i < sekolahKeys.length; i++) {
-                const npsn = sekolahKeys[i];
-                document.getElementById('distribusi-progress-text').innerText = `${i+1}/${sekolahKeys.length}`;
-                document.getElementById('distribusi-progress-bar').style.width = `${((i+1)/sekolahKeys.length*100)}%`;
-                
-                try {
-                    await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalTemp);
-                    logHtml += `<div style="color:var(--accent-green); font-size:0.8rem; padding:4px 8px; background:#F0FDF4; border-radius:4px; margin:2px 0;">✓ ${npsn} - ${sekolahCache[npsn].info?.nama || sekolahCache[npsn].nama || 'Unknown'}</div>`;
-                } catch(err) {
-                    logHtml += `<div style="color:var(--accent-red); font-size:0.8rem; padding:4px 8px; background:#FEF2F2; border-radius:4px; margin:2px 0;">✗ ${npsn} - Error: ${err.message}</div>`;
-                }
-                document.getElementById('distribusi-log').innerHTML = logHtml;
-            }
-            document.getElementById('distribusi-status').innerHTML = `<div class="alert alert-success">Selesai! Soal terdistribusi ke ${sekolahKeys.length} sekolah.</div>` + logHtml;
         }
 
         function hapusSemuaSoal() {
@@ -2238,7 +2113,7 @@ Jawaban: A</code>
             db.ref('admin_pusat/durasi/'+m).set(updates).then(() => alert("Tersimpan!"));
         }
 
-        // ========== SEKOLAH & REKAP ==========
+        // ========== SEKOLAH & REKAP HASIL ==========
         function loadSekolahTable() {
             db.ref('daftar_sekolah').once('value', snap => {
                 const d = snap.val() || {};
@@ -2380,7 +2255,7 @@ Jawaban: A</code>
         }
 
         // ========================================
-        // NEW: REKAP SOAL PER MAPEL
+        // REKAP SOAL PER MAPEL (DARI DATABASE)
         // ========================================
         
         function loadRekapSoal() {
@@ -2461,247 +2336,106 @@ Jawaban: A</code>
         }
 
         // ========================================
-        // NEW: UPLOAD MASAL KE SEMUA SEKOLAH
+        // DISTRIBUSI MASAL KE SEMUA SEKOLAH
         // ========================================
 
-        function handleMassFile(file) {
-            if(!file.name.endsWith('.json')) {
-                alert("File harus berformat .json");
+        function updateDistInfo() {
+            const m = document.getElementById('dist-mapel-select').value;
+            const k = document.getElementById('dist-kelas-select').value;
+            const btn = document.getElementById('btn-distribusi-masal');
+            const info = document.getElementById('dist-info');
+
+            if(!m || !k) {
+                info.innerHTML = `<p style="font-size:0.9rem; color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>`;
+                btn.disabled = true;
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const parsed = JSON.parse(e.target.result);
-                    
-                    if(!parsed.data) {
-                        alert("Format JSON tidak valid. Pastikan ada key 'data' di root.");
-                        return;
-                    }
+            const mapelData = rekapSoalCache[m] || {};
+            const kelasSoal = mapelData[k] || {};
+            const jumlahSoal = Object.keys(kelasSoal).length;
+            const jumlahSekolah = Object.keys(sekolahCache).length;
 
-                    massUploadData = parsed.data;
-                    renderMassPreview();
-                    
-                } catch(err) {
-                    alert("Error parsing JSON: " + err.message);
-                }
-            };
-            reader.readAsText(file);
+            if(jumlahSoal === 0) {
+                info.innerHTML = `<p style="font-size:0.9rem; color:var(--accent-red);"><b>Tidak ada soal</b> di ${mapelNames[m]} - ${k.replace('kelas_', 'Kelas ')}.</p>`;
+                btn.disabled = true;
+            } else {
+                info.innerHTML = `
+                    <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                        <div style="text-align:center;">
+                            <div style="font-size:1.5rem; font-weight:700; color:var(--accent);">${jumlahSoal}</div>
+                            <small style="color:var(--muted);">Soal tersimpan</small>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:1.5rem; font-weight:700; color:var(--accent-green);">${jumlahSekolah}</div>
+                            <small style="color:var(--muted);">Sekolah tujuan</small>
+                        </div>
+                    </div>
+                    <p style="margin-top:10px; font-size:0.85rem; color:var(--fg);"><b>${mapelNames[m]}</b> - <b>${k.replace('kelas_', 'Kelas ')}</b></p>
+                `;
+                btn.disabled = false;
+            }
         }
 
-        function renderMassPreview() {
-            if(!massUploadData) return;
+        async function executeDistribusiMasal() {
+            const m = document.getElementById('dist-mapel-select').value;
+            const k = document.getElementById('dist-kelas-select').value;
 
-            let totalSoal = 0;
-            let totalMapel = 0;
-            let totalKelas = 0;
+            if(!m || !k) return alert("Pilih mapel dan kelas!");
 
-            let html = '<div class="stats-grid" style="margin-bottom:20px;">';
+            const mapelData = rekapSoalCache[m] || {};
+            const soalData = mapelData[k] || {};
+
+            if(Object.keys(soalData).length === 0) return alert("Tidak ada soal untuk didistribusikan!");
+
+            const sekolahKeys = Object.keys(sekolahCache);
             
-            Object.keys(massUploadData).forEach(mapelKey => {
-                totalMapel++;
-                const kelasData = massUploadData[mapelKey];
-                
-                Object.keys(kelasData).forEach(kelasKey => {
-                    totalKelas++;
-                    const soalArray = kelasData[kelasKey];
-                    if(Array.isArray(soalArray)) {
-                        totalSoal += soalArray.length;
-                    }
-                });
-            });
+            if(!confirm(`Distribusikan ${Object.keys(soalData).length} soal ke ${sekolahKeys.length} sekolah?`)) return;
 
-            html += `<div class="stat-card highlight">
-                <div class="stat-num">${totalMapel}</div>
-                <div class="stat-label">Mapel</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-num" style="color:var(--accent-blue)">${totalKelas}</div>
-                <div class="stat-label">Kelas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-num" style="color:var(--accent-green)">${totalSoal}</div>
-                <div class="stat-label">Total Soal</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-num" style="color:var(--accent-orange)">${Object.keys(sekolahCache).length}</div>
-                <div class="stat-label">Sekolah Tujuan</div>
-            </div>`;
-            
-            html += '</div>';
+            // Show progress
+            document.getElementById('card-dist-progress').style.display = 'block';
+            const progressLog = document.getElementById('dist-progress-log');
+            const progressBar = document.getElementById('dist-progress-bar');
+            const progressText = document.getElementById('dist-progress-text');
 
-            // Detail per mapel
-            html += '<div style="margin-top:20px;"><h4 style="margin-bottom:10px;">Detail Data:</h4>';
-            html += '<div class="table-container"><table><thead><tr><th>Mapel</th><th>Kelas</th><th>Jumlah Soal</th></tr></thead><tbody>';
-
-            Object.keys(massUploadData).forEach(mapelKey => {
-                const kelasData = massUploadData[mapelKey];
-                Object.keys(kelasData).forEach(kelasKey => {
-                    const soalArray = kelasData[kelasKey];
-                    const count = Array.isArray(soalArray) ? soalArray.length : 0;
-                    html += `<tr>
-                        <td><b>${mapelNames[mapelKey] || mapelKey}</b></td>
-                        <td>${kelasKey.replace('kelas_', 'Kelas ')}</td>
-                        <td>${count} soal</td>
-                    </tr>`;
-                });
-            });
-
-            html += '</tbody></table></div></div>';
-
-            document.getElementById('mass-preview-content').innerHTML = html;
-            document.getElementById('card-mass-preview').style.display = 'block';
-        }
-
-        function renderSekolahChecklist() {
-            let html = '';
-            Object.keys(sekolahCache).forEach(npsn => {
-                const s = sekolahCache[npsn];
-                const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
-                html += `<div class="sekolah-check-item">
-                    <input type="checkbox" id="check-${npsn}" value="${npsn}" checked>
-                    <label for="check-${npsn}"><b>${npsn}</b> - ${nama}</label>
-                </div>`;
-            });
-            document.getElementById('sekolah-checklist').innerHTML = html;
-        }
-
-        function selectAllSchools() {
-            document.querySelectorAll('#sekolah-checklist input[type="checkbox"]').forEach(cb => cb.checked = true);
-        }
-
-        function deselectAllSchools() {
-            document.querySelectorAll('#sekolah-checklist input[type="checkbox"]').forEach(cb => cb.checked = false);
-        }
-
-        function getSelectedSchools() {
-            const selected = [];
-            document.querySelectorAll('#sekolah-checklist input[type="checkbox"]:checked').forEach(cb => {
-                selected.push(cb.value);
-            });
-            return selected;
-        }
-
-        function cancelMassUpload() {
-            massUploadData = null;
-            document.getElementById('card-mass-preview').style.display = 'none';
-            document.getElementById('card-mass-progress').style.display = 'none';
-            document.getElementById('mass-file-input').value = '';
-            document.getElementById('mass-upload-status').innerHTML = '';
-        }
-
-        async function executeMassUpload() {
-            if(!massUploadData) {
-                alert("Tidak ada data untuk di-upload!");
-                return;
-            }
-
-            const selectedSchools = getSelectedSchools();
-            if(selectedSchools.length === 0) {
-                alert("Pilih minimal satu sekolah tujuan!");
-                return;
-            }
-
-            if(!confirm(`Upload ke ${selectedSchools.length} sekolah?\n\nProses ini mungkin memerlukan waktu beberapa menit.`)) {
-                return;
-            }
-
-            // Show progress card
-            document.getElementById('card-mass-progress').style.display = 'block';
-            document.getElementById('card-mass-preview').style.display = 'none';
-
-            const progressLog = document.getElementById('mass-progress-log');
-            const progressBar = document.getElementById('mass-progress-bar');
-            const progressText = document.getElementById('mass-progress-text');
-
-            let totalOperations = 0;
-            let currentOperation = 0;
             let successCount = 0;
             let errorCount = 0;
 
-            // Count total operations
-            Object.keys(massUploadData).forEach(mapelKey => {
-                Object.keys(massUploadData[mapelKey]).forEach(kelasKey => {
-                    totalOperations += selectedSchools.length;
-                });
-            });
+            progressLog.innerHTML = '<span class="log-info">[INFO] Memulai distribusi soal...</span>\n';
 
-            progressLog.innerHTML = '<span class="log-info">[INFO] Memulai proses upload masal...</span>\n';
-            
-            // Process each mapel and kelas
-            for(const mapelKey of Object.keys(massUploadData)) {
-                const kelasData = massUploadData[mapelKey];
-                
-                for(const kelasKey of Object.keys(kelasData)) {
-                    const soalArray = kelasData[kelasKey];
-                    
-                    // Prepare soal data
-                    let soalUpdates = {};
-                    soalArray.forEach((s, idx) => {
-                        const newKey = db.ref().child('temp').push().key;
-                        soalUpdates[newKey] = {
-                            tanya: s.tanya || s.pertanyaan || '',
-                            img: s.img || '',
-                            opsi: (s.opsi || []).map(o => typeof o === 'string' ? {t:o, i:''} : {t: o.t||'', i: o.i||''}),
-                            kunci: s.kunci || ''
-                        };
-                    });
+            for(let i = 0; i < sekolahKeys.length; i++) {
+                const npsn = sekolahKeys[i];
+                const sekolah = sekolahCache[npsn];
+                const namaSekolah = sekolah.info?.nama || sekolah.nama || 'Unknown';
 
-                    // Save to admin_pusat gudang_soal first (BANK SOAL PUSAT)
-                    try {
-                                                await db.ref(`admin_pusat/gudang_soal/${mapelKey}/${kelasKey}`).set(soalUpdates);
-                        progressLog.innerHTML += `<span class="log-success">[BANK SOAL] Tersimpan: ${mapelNames[mapelKey]} - Kelas ${kelasKey.replace('kelas_', '')} (${soalArray.length} soal)</span>\n`;
-                    } catch(err) {
-                        progressLog.innerHTML += `<span class="log-error">[ERROR] Gagal simpan ke Bank Soal: ${mapelNames[mapelKey]} - ${err.message}</span>\n`;
-                    }
+                progressText.innerText = `${i+1}/${sekolahKeys.length}`;
+                progressBar.style.width = `${((i+1)/sekolahKeys.length*100)}%`;
 
-                    // Distribute to each selected school
-                    for(const npsn of selectedSchools) {
-                        currentOperation++;
-                        const progress = Math.round((currentOperation / totalOperations) * 100);
-                        progressBar.style.width = progress + '%';
-                        progressText.innerText = `${currentOperation}/${totalOperations}`;
-
-                        try {
-                            await db.ref(`sekolah/${npsn}/master_soal/${mapelKey}/${kelasKey}`).set(soalUpdates);
-                            successCount++;
-                            progressLog.innerHTML += `<span class="log-success">[OK] ${npsn} - ${mapelNames[mapelKey]} Kelas ${kelasKey.replace('kelas_', '')}</span>\n`;
-                        } catch(err) {
-                            errorCount++;
-                            progressLog.innerHTML += `<span class="log-error">[GAGAL] ${npsn} - ${err.message}</span>\n`;
-                        }
-
-                        // Auto scroll to bottom
-                        progressLog.scrollTop = progressLog.scrollHeight;
-
-                        // Small delay to prevent Firebase rate limiting
-                        await new Promise(resolve => setTimeout(resolve, 50));
-                    }
+                try {
+                    // Kirim soal ke setiap sekolah (path: sekolah/{npsn}/master_soal/{mapel}/{kelas})
+                    await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalData);
+                    successCount++;
+                    progressLog.innerHTML += `<span class="log-success">[OK] ${npsn} - ${namaSekolah}</span>\n`;
+                } catch(err) {
+                    errorCount++;
+                    progressLog.innerHTML += `<span class="log-error">[GAGAL] ${npsn} - ${err.message}</span>\n`;
                 }
+
+                // Auto scroll
+                progressLog.scrollTop = progressLog.scrollHeight;
+
+                // Small delay
+                await new Promise(resolve => setTimeout(resolve, 50));
             }
 
-            // Final summary
+            // Summary
             progressLog.innerHTML += `\n<span class="log-info">========================================</span>\n`;
-            progressLog.innerHTML += `<span class="log-warning">[SELESAI] Total: ${currentOperation} operasi</span>\n`;
-            progressLog.innerHTML += `<span class="log-success">[BERHASIL] ${successCount} operasi sukses</span>\n`;
+            progressLog.innerHTML += `<span class="log-success">[SELESAI] Berhasil: ${successCount} sekolah</span>\n`;
             if(errorCount > 0) {
-                progressLog.innerHTML += `<span class="log-error">[GAGAL] ${errorCount} operasi gagal</span>\n`;
+                progressLog.innerHTML += `<span class="log-error">[ERROR] Gagal: ${errorCount} sekolah</span>\n`;
             }
 
-            // Update status
-            document.getElementById('mass-upload-status').innerHTML = `
-                <div class="alert alert-success">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <div>
-                        <b>Upload Masal Selesai!</b><br>
-                        Total: ${currentOperation} operasi | Berhasil: ${successCount} | Gagal: ${errorCount}<br>
-                        <small>Semua soal telah tersimpan di Bank Soal Pusat dan terdistribusi ke sekolah.</small>
-                    </div>
-                </div>`;
-
-            // Refresh rekap soal
-            loadRekapSoal();
+            alert(`Distribusi selesai!\nBerhasil: ${successCount}\nGagal: ${errorCount}`);
         }
 
         // ========================================
@@ -2709,7 +2443,6 @@ Jawaban: A</code>
         // ========================================
         
         document.addEventListener('DOMContentLoaded', () => {
-            // Single file upload handler
             const uploadZone = document.getElementById('upload-zone');
             const fileInput = document.getElementById('file-input');
             
@@ -2729,29 +2462,6 @@ Jawaban: A</code>
                     e.preventDefault(); 
                     uploadZone.classList.remove('dragover'); 
                     if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); 
-                });
-            }
-
-            // Mass upload handler
-            const massUploadZone = document.getElementById('mass-upload-zone');
-            const massFileInput = document.getElementById('mass-file-input');
-            
-            if(massFileInput) {
-                massFileInput.addEventListener('change', e => { 
-                    if(e.target.files[0]) handleMassFile(e.target.files[0]); 
-                });
-            }
-            
-            if(massUploadZone) {
-                massUploadZone.addEventListener('dragover', e => { 
-                    e.preventDefault(); 
-                    massUploadZone.classList.add('dragover'); 
-                });
-                massUploadZone.addEventListener('dragleave', () => massUploadZone.classList.remove('dragover'));
-                massUploadZone.addEventListener('drop', e => { 
-                    e.preventDefault(); 
-                    massUploadZone.classList.remove('dragover'); 
-                    if(e.dataTransfer.files[0]) handleMassFile(e.dataTransfer.files[0]); 
                 });
             }
         });
