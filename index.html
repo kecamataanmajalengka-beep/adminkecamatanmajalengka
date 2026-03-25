@@ -699,6 +699,79 @@
             margin-left: auto;
         }
 
+        /* Opsi Input Container dengan Upload Gambar */
+        .opsi-input-container {
+            background: #F8FAFC;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .opsi-input-container:hover {
+            border-color: var(--accent);
+        }
+
+        .opsi-input-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .opsi-label-circle {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent), #9333EA);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .opsi-text-input {
+            flex-grow: 1;
+        }
+
+        .opsi-text-input input {
+            margin: 0;
+        }
+
+        .opsi-img-upload {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .opsi-img-preview-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .opsi-img-preview-row img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .opsi-img-preview-row .remove-opsi-img {
+            padding: 5px 10px;
+            font-size: 11px;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
         /* Rekap Soal Styles */
         .rekap-mapel-grid {
             display: grid;
@@ -1693,7 +1766,7 @@ Jawaban: A</code>
             if(input) input.value = '';
         }
 
-        // ========== OPSI INPUTS ==========
+        // ========== OPSI INPUTS (MANUAL) ==========
         function generateOpsiInputs() {
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
@@ -1701,16 +1774,16 @@ Jawaban: A</code>
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
-                html += `<div style="background:#F8FAFC; padding:12px; border-radius:12px; margin-bottom:12px; border:1px solid var(--border);">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                        <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--accent), #9333EA); color:white; border-radius:50%; font-weight:700;">${label}</span>
-                        <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" style="flex-grow:1;">
+                html += `<div class="opsi-input-container">
+                    <div class="opsi-input-header">
+                        <span class="opsi-label-circle">${label}</span>
+                        <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
                     </div>
-                    <div class="img-upload-box" id="img-upload-opsi-${i}" style="margin-top:0; padding:10px;">
+                    <div class="opsi-img-upload">
                         <input type="file" id="file-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('opsi-${i}', this)">
                         <button class="upload-btn-small" onclick="document.getElementById('file-opsi-${i}').click()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            Gambar Opsi
+                            Upload Gambar Opsi
                         </button>
                         <div class="img-preview-container hidden" id="preview-opsi-${i}">
                             <img class="img-preview" id="img-preview-opsi-${i}" src="" alt="Preview">
@@ -1739,6 +1812,57 @@ Jawaban: A</code>
             const jenis = document.getElementById('edit-jenis').value;
             document.getElementById('edit-opsi-container').classList.toggle('hidden', jenis === 'essay');
             document.getElementById('edit-essay-container').classList.toggle('hidden', jenis === 'pg');
+            
+            // Generate opsi inputs when switching to PG
+            if(jenis === 'pg') {
+                generateEditOpsiInputs();
+            }
+        }
+
+        // ========== GENERATE EDIT OPSI INPUTS ==========
+        function generateEditOpsiInputs(existingOpsi = []) {
+            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
+            const jumlahOpsi = isKelasRendah ? 3 : 4;
+
+            let html = '';
+            for(let i = 0; i < jumlahOpsi; i++) {
+                const label = String.fromCharCode(65 + i);
+                const opsiData = existingOpsi[i] || { t: '', i: '' };
+                const hasImg = opsiData.i ? true : false;
+                
+                html += `<div class="opsi-input-container">
+                    <div class="opsi-input-header">
+                        <span class="opsi-label-circle">${label}</span>
+                        <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${opsiData.t || ''}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
+                    </div>
+                    <div class="opsi-img-upload" id="img-upload-edit-opsi-${i}">
+                        <input type="file" id="file-edit-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-opsi-${i}', this)">
+                        <button class="upload-btn-small" onclick="document.getElementById('file-edit-opsi-${i}').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            ${hasImg ? 'Ganti' : 'Upload'} Gambar
+                        </button>
+                        <div class="img-preview-container ${hasImg ? '' : 'hidden'}" id="preview-edit-opsi-${i}">
+                            <img class="img-preview" id="img-preview-edit-opsi-${i}" src="${opsiData.i || ''}" alt="Preview">
+                            <button class="remove-img" onclick="removeImage('edit-opsi-${i}')">&times;</button>
+                        </div>
+                    </div>
+                </div>`;
+                
+                // Store existing image in tempImages
+                if(opsiData.i) {
+                    tempImages.editOpsi[i] = opsiData.i;
+                }
+            }
+            document.getElementById('edit-opsi-inputs').innerHTML = html;
+
+            // Update kunci options
+            let kunciHtml = '';
+            const currentKunci = document.getElementById('edit-kunci').value || 'a';
+            for(let i = 0; i < jumlahOpsi; i++) {
+                const label = String.fromCharCode(65 + i);
+                kunciHtml += `<option value="${label.toLowerCase()}" ${currentKunci === label.toLowerCase() ? 'selected' : ''}>${label}</option>`;
+            }
+            document.getElementById('edit-kunci').innerHTML = kunciHtml;
         }
 
         // ========== TOKEN DISPLAY ==========
@@ -2016,13 +2140,24 @@ Jawaban: A</code>
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
 
+            // Reset tempImages untuk edit
             tempImages.editTanya = s.img || '';
+            tempImages.editOpsi = {};
             
+            // Store existing opsi images
+            if(s.opsi) {
+                s.opsi.forEach((o, i) => {
+                    const imgOpsi = typeof o === 'object' ? (o.i || '') : '';
+                    if(imgOpsi) tempImages.editOpsi[i] = imgOpsi;
+                });
+            }
+
             document.getElementById('edit-id').value = key;
             document.getElementById('edit-jenis').value = isEssay ? 'essay' : 'pg';
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
+            // Handle image preview for pertanyaan
             const previewContainer = document.getElementById('preview-edit-tanya');
             const previewImg = document.getElementById('img-preview-edit-tanya');
             const uploadBox = document.getElementById('img-upload-edit-tanya');
@@ -2039,23 +2174,8 @@ Jawaban: A</code>
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
             }
 
-            let html = '';
-            for(let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                const opsiData = s.opsi && s.opsi[i] ? s.opsi[i] : { t: '', i: '' };
-                html += `<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                    <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--accent), #9333EA); color:white; border-radius:50%; font-weight:700;">${label}</span>
-                    <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${opsiData.t || ''}" style="flex-grow:1;">
-                </div>`;
-            }
-            document.getElementById('edit-opsi-inputs').innerHTML = html;
-
-            let kunciHtml = '';
-            for(let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                kunciHtml += `<option value="${label.toLowerCase()}" ${(s.kunci || 'a').toLowerCase() === label.toLowerCase() ? 'selected' : ''}>${label}</option>`;
-            }
-            document.getElementById('edit-kunci').innerHTML = kunciHtml;
+            // Generate opsi inputs with existing data
+            generateEditOpsiInputs(s.opsi || []);
 
             toggleEditOpsi();
             document.getElementById('modal-edit-soal').classList.remove('hidden');
@@ -2077,7 +2197,9 @@ Jawaban: A</code>
             if(jenis === 'pg') {
                 for(let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
-                    soalBaru.opsi.push({ t: document.getElementById(`edit-opsi-${label}`).value, i: '' });
+                    const textVal = document.getElementById(`edit-opsi-${label}`).value;
+                    const imgVal = tempImages.editOpsi[i] || '';
+                    soalBaru.opsi.push({ t: textVal, i: imgVal });
                 }
                 soalBaru.kunci = document.getElementById('edit-kunci').value;
             } else {
@@ -2383,10 +2505,13 @@ Jawaban: A</code>
 
             if(!m || !k) return alert("Pilih mapel dan kelas!");
 
-            const mapelData = rekapSoalCache[m] || {};
-            const soalData = mapelData[k] || {};
+            // Refresh data dari Firebase langsung
+            const soalSnap = await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value');
+            const soalData = soalSnap.val();
 
-            if(Object.keys(soalData).length === 0) return alert("Tidak ada soal untuk didistribusikan!");
+            if(!soalData || Object.keys(soalData).length === 0) {
+                return alert("Tidak ada soal untuk didistribusikan!");
+            }
 
             const sekolahKeys = Object.keys(sekolahCache);
             
@@ -2402,6 +2527,8 @@ Jawaban: A</code>
             let errorCount = 0;
 
             progressLog.innerHTML = '<span class="log-info">[INFO] Memulai distribusi soal...</span>\n';
+            progressLog.innerHTML += `<span class="log-info">[INFO] Mapel: ${mapelNames[m]}, Kelas: ${k}</span>\n`;
+            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah soal: ${Object.keys(soalData).length}</span>\n`;
 
             for(let i = 0; i < sekolahKeys.length; i++) {
                 const npsn = sekolahKeys[i];
@@ -2412,7 +2539,6 @@ Jawaban: A</code>
                 progressBar.style.width = `${((i+1)/sekolahKeys.length*100)}%`;
 
                 try {
-                    // Kirim soal ke setiap sekolah (path: sekolah/{npsn}/master_soal/{mapel}/{kelas})
                     await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalData);
                     successCount++;
                     progressLog.innerHTML += `<span class="log-success">[OK] ${npsn} - ${namaSekolah}</span>\n`;
@@ -2421,14 +2547,10 @@ Jawaban: A</code>
                     progressLog.innerHTML += `<span class="log-error">[GAGAL] ${npsn} - ${err.message}</span>\n`;
                 }
 
-                // Auto scroll
                 progressLog.scrollTop = progressLog.scrollHeight;
-
-                // Small delay
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
 
-            // Summary
             progressLog.innerHTML += `\n<span class="log-info">========================================</span>\n`;
             progressLog.innerHTML += `<span class="log-success">[SELESAI] Berhasil: ${successCount} sekolah</span>\n`;
             if(errorCount > 0) {
@@ -2436,6 +2558,9 @@ Jawaban: A</code>
             }
 
             alert(`Distribusi selesai!\nBerhasil: ${successCount}\nGagal: ${errorCount}`);
+            
+            // Refresh rekap
+            loadRekapSoal();
         }
 
         // ========================================
