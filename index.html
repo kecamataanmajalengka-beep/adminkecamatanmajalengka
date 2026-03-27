@@ -1868,11 +1868,13 @@ Jawaban: A</code>
             document.getElementById('edit-essay-container').classList.toggle('hidden', jenis === 'pg');
             
             if(jenis === 'pg') {
-                generateEditOpsiInputs();
+                // Panggil dengan array kosong agar generate input kosong jika switch manual
+                generateEditOpsiInputs([]); 
             }
         }
 
         // ========== GENERATE EDIT OPSI INPUTS ==========
+        // PERBAIKAN: Fungsi ini sekarang menerima 'existingOpsi' dan mengisi nilainya
         function generateEditOpsiInputs(existingOpsi = []) {
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
@@ -1880,12 +1882,14 @@ Jawaban: A</code>
             let html = '';
             for(let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
+                // Ambil data opsi jika ada
                 const opsiData = existingOpsi[i] || { t: '', i: '' };
                 const hasImg = opsiData.i ? true : false;
                 
                 html += `<div class="opsi-input-container">
                     <div class="opsi-input-header">
                         <span class="opsi-label-circle">${label}</span>
+                        <!-- PENTING: Value diisi dari opsiData.t -->
                         <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${opsiData.t || ''}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
                     </div>
                     <div class="opsi-img-upload" id="img-upload-edit-opsi-${i}">
@@ -1907,6 +1911,7 @@ Jawaban: A</code>
             }
             document.getElementById('edit-opsi-inputs').innerHTML = html;
 
+            // Update dropdown kunci jawaban
             let kunciHtml = '';
             const currentKunci = document.getElementById('edit-kunci').value || 'a';
             for(let i = 0; i < jumlahOpsi; i++) {
@@ -2188,27 +2193,17 @@ Jawaban: A</code>
             if(!s) return;
             
             const isEssay = !s.opsi || s.opsi.length === 0;
-            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
-            const jumlahOpsi = isKelasRendah ? 3 : 4;
-
-            // Reset tempImages untuk edit
+            
+            // Reset image temp
             tempImages.editTanya = s.img || '';
             tempImages.editOpsi = {};
-            
-            // Store existing opsi images
-            if(s.opsi) {
-                s.opsi.forEach((o, i) => {
-                    const imgOpsi = typeof o === 'object' ? (o.i || '') : '';
-                    if(imgOpsi) tempImages.editOpsi[i] = imgOpsi;
-                });
-            }
 
             document.getElementById('edit-id').value = key;
             document.getElementById('edit-jenis').value = isEssay ? 'essay' : 'pg';
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
-            // Handle image preview for pertanyaan
+            // Handle Image Preview Pertanyaan
             const previewContainer = document.getElementById('preview-edit-tanya');
             const previewImg = document.getElementById('img-preview-edit-tanya');
             const uploadBox = document.getElementById('img-upload-edit-tanya');
@@ -2225,8 +2220,15 @@ Jawaban: A</code>
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
             }
 
-            // Generate opsi inputs with existing data
-            generateEditOpsiInputs(s.opsi || []);
+            // Set Kunci Jawaban awal
+            document.getElementById('edit-kunci').value = s.kunci || 'a';
+
+            // === BAGIAN PENTING: Kirim data opsi ke fungsi generate ===
+            if (!isEssay) {
+                generateEditOpsiInputs(s.opsi || []);
+            } else {
+                document.getElementById('edit-opsi-inputs').innerHTML = '';
+            }
 
             toggleEditOpsi();
             document.getElementById('modal-edit-soal').classList.remove('hidden');
