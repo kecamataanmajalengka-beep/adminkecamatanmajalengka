@@ -57,10 +57,7 @@
         .login-bg::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
+            top: 0; left: 0; right: 0; height: 50%;
             background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.3), transparent);
         }
 
@@ -108,8 +105,7 @@
         }
 
         .login-icon {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, var(--accent), #9333EA);
             border-radius: 20px;
             margin: 0 auto 20px;
@@ -126,19 +122,11 @@
         }
 
         .login-icon svg { width: 40px; height: 40px; fill: white; }
-
         .login-title { font-size: 1.6rem; color: var(--sidebar); margin-bottom: 5px; }
         .login-subtitle { font-size: 0.9rem; color: var(--accent); margin-bottom: 25px; }
 
         .form-group { margin-bottom: 15px; text-align: left; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
 
         input, select, textarea {
             width: 100%;
@@ -173,17 +161,8 @@
             gap: 8px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #9333EA);
-            color: white;
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-        }
-
+        .btn-primary { background: linear-gradient(135deg, var(--accent), #9333EA); color: white; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4); }
         .btn-success { background: linear-gradient(135deg, var(--accent-green), #059669); color: white; }
         .btn-danger { background: linear-gradient(135deg, var(--accent-red), #DC2626); color: white; }
         .btn-info { background: linear-gradient(135deg, var(--accent-blue), #2563EB); color: white; }
@@ -380,10 +359,23 @@
             margin-bottom: 12px;
             border-left: 4px solid var(--accent-blue);
             transition: all 0.3s ease;
+            position: relative; /* Added for ID display */
         }
 
         .soal-item:hover { border-left-color: var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .soal-item.essay { border-left-color: var(--accent-orange); }
+
+        .soal-id-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #F1F5F9;
+            color: var(--muted);
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
 
         .soal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .soal-nomor { font-weight: 700; color: var(--accent); }
@@ -1868,13 +1860,12 @@ Jawaban: A</code>
             document.getElementById('edit-essay-container').classList.toggle('hidden', jenis === 'pg');
             
             if(jenis === 'pg') {
-                // Panggil dengan array kosong agar generate input kosong jika switch manual
+                // Reset inputs when switching type, pass empty array
                 generateEditOpsiInputs([]); 
             }
         }
 
-        // ========== GENERATE EDIT OPSI INPUTS ==========
-        // PERBAIKAN: Fungsi ini sekarang menerima 'existingOpsi' dan mengisi nilainya
+        // ========== GENERATE EDIT OPSI INPUTS (FIXED) ==========
         function generateEditOpsiInputs(existingOpsi = []) {
             const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
             const jumlahOpsi = isKelasRendah ? 3 : 4;
@@ -1965,7 +1956,11 @@ Jawaban: A</code>
             let pgNum = 0;
             let essayNum = 0;
 
-            const sortedSoal = soalKeys.map((key, idx) => ({ key, ...soalArray[idx] })).sort((a, b) => {
+            // Mapping soal with keys
+            const mappedSoal = soalKeys.map((key, idx) => ({ key, ...soalArray[idx] }));
+            
+            // Sort: PG first, then Essay
+            const sortedSoal = mappedSoal.sort((a, b) => {
                 const aIsEssay = !a.opsi || a.opsi.length === 0;
                 const bIsEssay = !b.opsi || b.opsi.length === 0;
                 return aIsEssay - bIsEssay;
@@ -1997,6 +1992,7 @@ Jawaban: A</code>
         function renderSoalItem(s, key, nomor, tipe) {
             const isEssay = tipe === 'essay';
             let h = `<div class="soal-item ${isEssay ? 'essay' : ''}">
+                <div class="soal-id-badge">${key}</div>
                 <div class="soal-header">
                     <span class="soal-nomor">No. ${nomor}</span>
                     <span class="soal-tag ${isEssay ? 'essay' : 'pg'}">${isEssay ? 'Essay' : 'PG'}</span>
@@ -2187,7 +2183,7 @@ Jawaban: A</code>
             db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove();
         }
 
-        // ========== MODAL EDIT ==========
+        // ========== MODAL EDIT (FIXED) ==========
         function bukaModalEdit(key) {
             const s = soalTemp[key];
             if(!s) return;
