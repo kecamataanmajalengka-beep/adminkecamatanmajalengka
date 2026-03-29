@@ -465,7 +465,6 @@
         .progress-log .log-info { color: #60A5FA; }
         .progress-log .log-warning { color: #FBBF24; }
 
-        /* Confirm Dialog */
         .confirm-layer {
             position: fixed; inset: 0; background: rgba(15,23,42,0.7);
             display: flex; justify-content: center; align-items: center;
@@ -487,20 +486,12 @@
         .confirm-body p { font-size: 0.95rem; color: var(--fg); line-height: 1.6; }
         .confirm-footer { padding: 15px 25px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
 
-        /* Loading Spinner */
         .spinner {
             width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
             border-top-color: white; border-radius: 50%;
             animation: spin 0.6s linear infinite; display: inline-block;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
-            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px;
-        }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         @media print {
             .sidebar, .mobile-header, .no-print { display: none !important; }
@@ -1154,7 +1145,6 @@ Jawaban: A</code>
         let tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
         let rekapSoalCache = {};
         let confirmResolver = null;
-        // Simpan opsi saat edit agar tidak hilang saat switch jenis
         let editOpsiBackup = null;
 
         const mapelNames = {
@@ -1165,38 +1155,41 @@ Jawaban: A</code>
         };
 
         // =============================================
-        // TOAST NOTIFICATION (pengganti alert)
+        // TOAST NOTIFICATION
         // =============================================
-        function showToast(message, type = 'info', duration = 3000) {
-            const container = document.getElementById('toast-container');
-            const icons = {
+        function showToast(message, type, duration) {
+            type = type || 'info';
+            duration = duration || 3000;
+            var container = document.getElementById('toast-container');
+            var icons = {
                 success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>',
                 error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
                 info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
                 warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
             };
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.innerHTML = `${icons[type] || icons.info}<span>${message}</span>`;
+            var toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.innerHTML = (icons[type] || icons.info) + '<span>' + message + '</span>';
             container.appendChild(toast);
-            setTimeout(() => {
+            setTimeout(function() {
                 toast.style.animation = 'toastOut 0.3s ease forwards';
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(function() { toast.remove(); }, 300);
             }, duration);
         }
 
         // =============================================
-        // CUSTOM CONFIRM DIALOG (pengganti confirm)
+        // CUSTOM CONFIRM DIALOG
         // =============================================
-        function customConfirm(message, type = 'danger') {
-            return new Promise((resolve) => {
+        function customConfirm(message, type) {
+            return new Promise(function(resolve) {
                 confirmResolver = resolve;
-                const layer = document.getElementById('confirm-layer');
-                const header = document.getElementById('confirm-header');
-                const msgEl = document.getElementById('confirm-message');
-                const okBtn = document.getElementById('confirm-ok-btn');
+                var layer = document.getElementById('confirm-layer');
+                var header = document.getElementById('confirm-header');
+                var msgEl = document.getElementById('confirm-message');
+                var okBtn = document.getElementById('confirm-ok-btn');
 
-                header.className = `confirm-header ${type}`;
+                type = type || 'danger';
+                header.className = 'confirm-header ' + type;
                 msgEl.textContent = message;
 
                 if (type === 'warning') {
@@ -1220,40 +1213,25 @@ Jawaban: A</code>
         }
 
         // =============================================
-        // LOGIN (dengan hash comparison sederhana)
+        // LOGIN - Password: admin pusat
         // =============================================
         function handleLogin() {
-            const pass = document.getElementById('pass-input').value;
-            // Hash sederhana - masih bisa di-bypass lewat source, tapi setidaknya bukan plaintext
-            const expectedHash = 'a]7h8k9L@3mN!';
-            if (pass && simpleHash(pass) === expectedHash) {
+            var pass = document.getElementById('pass-input').value;
+            if (pass === 'admin pusat') {
                 document.getElementById('login-layer').classList.add('hidden');
                 document.getElementById('app-layer').classList.remove('hidden');
                 initApp();
             } else {
                 document.getElementById('error-msg').style.display = 'block';
                 document.getElementById('pass-input').style.borderColor = 'var(--accent-red)';
-                setTimeout(() => {
+                setTimeout(function() {
                     document.getElementById('pass-input').style.borderColor = '';
                 }, 2000);
             }
         }
 
-        // Hash sederhana (bukan keamanan serius, tapi lebih baik dari plaintext)
-        function simpleHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash;
-            }
-            return String.fromCharCode(
-                ...[...str].map((c, i) => c.charCodeAt(0) ^ (i * 7 + 3))
-            ).substring(0, 12);
-        }
-
         function handleLogout() {
-            customConfirm('Yakin ingin keluar dari panel admin?', 'warning').then(yes => {
+            customConfirm('Yakin ingin keluar dari panel admin?', 'warning').then(function(yes) {
                 if (yes) location.reload();
             });
         }
@@ -1267,9 +1245,11 @@ Jawaban: A</code>
         }
 
         function showPanel(id, menuItem) {
-            document.querySelectorAll('[id^="panel-"]').forEach(e => e.classList.add('hidden'));
+            var panels = document.querySelectorAll('[id^="panel-"]');
+            for (var i = 0; i < panels.length; i++) panels[i].classList.add('hidden');
             document.getElementById('panel-' + id).classList.remove('hidden');
-            document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('active'));
+            var items = document.querySelectorAll('.menu-item');
+            for (var j = 0; j < items.length; j++) items[j].classList.remove('active');
             if (menuItem) menuItem.classList.add('active');
             if (window.innerWidth <= 768) toggleSidebar();
             if (id === 'sekolah') loadSekolahTable();
@@ -1278,7 +1258,8 @@ Jawaban: A</code>
         }
 
         function switchTab(tab, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
             btn.classList.add('active');
             document.getElementById('tab-copas').classList.toggle('hidden', tab !== 'copas');
             document.getElementById('tab-manual').classList.toggle('hidden', tab !== 'manual');
@@ -1298,20 +1279,22 @@ Jawaban: A</code>
         }
 
         function loadSekolahCache() {
-            db.ref('daftar_sekolah').on('value', snap => {
+            db.ref('daftar_sekolah').on('value', function(snap) {
                 sekolahCache = snap.val() || {};
                 updateSekolahDropdown();
             });
         }
 
         function updateSekolahDropdown() {
-            let o = "<option value=''>-- Pilih Sekolah --</option>";
-            Object.keys(sekolahCache).forEach(key => {
-                const s = sekolahCache[key];
-                const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
-                o += `<option value="${key}">${nama}</option>`;
-            });
-            const el = document.getElementById('filter-sekolah-detail');
+            var o = "<option value=''>-- Pilih Sekolah --</option>";
+            var keys = Object.keys(sekolahCache);
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var s = sekolahCache[key];
+                var nama = s.info ? s.info.nama : (s.nama || 'Unknown');
+                o += '<option value="' + key + '">' + escapeHtml(nama) + '</option>';
+            }
+            var el = document.getElementById('filter-sekolah-detail');
             if (el) el.innerHTML = o;
         }
 
@@ -1319,30 +1302,34 @@ Jawaban: A</code>
         // TOKEN ENGINE
         // =============================================
         function startGlobalTokenEngine() {
-            const generateTokens = () => {
-                const mapels = ['ppkn','mtk','bind','sbk','ipas','bsd','pai','pjok','bing'];
-                const kelas = ['kelas_1','kelas_2','kelas_3','kelas_4','kelas_5','kelas_6'];
-                let updates = {};
-                mapels.forEach(m => {
-                    updates[m] = {};
-                    kelas.forEach(k => updates[m][k] = Math.random().toString(36).substring(2, 6).toUpperCase());
-                });
+            var mapels = ['ppkn','mtk','bind','sbk','ipas','bsd','pai','pjok','bing'];
+            var kelas = ['kelas_1','kelas_2','kelas_3','kelas_4','kelas_5','kelas_6'];
+
+            function generateTokens() {
+                var updates = {};
+                for (var m = 0; m < mapels.length; m++) {
+                    updates[mapels[m]] = {};
+                    for (var k = 0; k < kelas.length; k++) {
+                        updates[mapels[m]][kelas[k]] = Math.random().toString(36).substring(2, 6).toUpperCase();
+                    }
+                }
                 db.ref('admin_pusat/live_tokens').set(updates);
-            };
+            }
+
             generateTokens();
-            setInterval(generateTokens, 600000); // Setiap 10 menit
+            setInterval(generateTokens, 600000);
         }
 
         // =============================================
         // MAPEL KELAS CHANGE
         // =============================================
         function onMapelKelasChange() {
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
+            var m = document.getElementById('mapel-select').value;
+            var k = document.getElementById('kelas-select').value;
             currentKelas = k;
 
-            const isKelasRendah = (k === 'kelas_1' || k === 'kelas_2');
-            const infoOpsi = document.getElementById('info-opsi');
+            var isKelasRendah = (k === 'kelas_1' || k === 'kelas_2');
+            var infoOpsi = document.getElementById('info-opsi');
             if (infoOpsi) infoOpsi.innerText = isKelasRendah ? 'Opsi: A, B, C (3 pilihan)' : 'Opsi: A, B, C, D (4 pilihan)';
 
             generateOpsiInputs();
@@ -1358,39 +1345,36 @@ Jawaban: A</code>
         // =============================================
         // IMAGE COMPRESSION
         // =============================================
-        function compressImage(file, maxSizeKB = 50) {
-            return new Promise((resolve, reject) => {
+        function compressImage(file, maxSizeKB) {
+            maxSizeKB = maxSizeKB || 50;
+            return new Promise(function(resolve, reject) {
                 if (file.size > 5 * 1024 * 1024) {
                     return reject(new Error('Ukuran file melebihi 5MB'));
                 }
-                const reader = new FileReader();
+                var reader = new FileReader();
                 reader.onload = function(event) {
-                    const img = new Image();
+                    var img = new Image();
                     img.onload = function() {
-                        let width = img.width;
-                        let height = img.height;
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-
-                        // Coba kompres dengan ukuran asli
+                        var width = img.width;
+                        var height = img.height;
+                        var canvas = document.createElement('canvas');
+                        var ctx = canvas.getContext('2d');
                         canvas.width = width;
                         canvas.height = height;
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        let quality = 0.85;
-                        let dataUrl = canvas.toDataURL('image/jpeg', quality);
-                        let sizeKB = (dataUrl.length * 3 / 4) / 1024;
+                        var quality = 0.85;
+                        var dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        var sizeKB = (dataUrl.length * 3 / 4) / 1024;
 
-                        // Turunkan quality
                         while (sizeKB > maxSizeKB && quality > 0.05) {
                             quality -= 0.05;
                             dataUrl = canvas.toDataURL('image/jpeg', quality);
                             sizeKB = (dataUrl.length * 3 / 4) / 1024;
                         }
 
-                        // Kalau masih terlalu besar, scale down
                         if (sizeKB > maxSizeKB) {
-                            const scale = Math.sqrt(maxSizeKB / sizeKB) * 0.85;
+                            var scale = Math.sqrt(maxSizeKB / sizeKB) * 0.85;
                             width = Math.floor(width * scale);
                             height = Math.floor(height * scale);
                             canvas.width = Math.max(1, width);
@@ -1401,60 +1385,59 @@ Jawaban: A</code>
 
                         resolve(dataUrl);
                     };
-                    img.onerror = () => reject(new Error('Gagal memuat gambar'));
+                    img.onerror = function() { reject(new Error('Gagal memuat gambar')); };
                     img.src = event.target.result;
                 };
-                reader.onerror = () => reject(new Error('Gagal membaca file'));
+                reader.onerror = function() { reject(new Error('Gagal membaca file')); };
                 reader.readAsDataURL(file);
             });
         }
 
-        async function handleImageUpload(type, input) {
-            const file = input.files[0];
+        function handleImageUpload(type, input) {
+            var file = input.files[0];
             if (!file) return;
             if (!file.type.startsWith('image/')) {
                 showToast('Hanya file gambar yang diperbolehkan!', 'error');
                 return;
             }
 
-            const uploadBox = document.getElementById(`img-upload-${type}`);
-            const previewContainer = document.getElementById(`preview-${type}`);
-            const previewImg = document.getElementById(`img-preview-${type}`);
-            const btn = uploadBox.querySelector('.upload-btn-small');
+            var uploadBox = document.getElementById('img-upload-' + type);
+            var previewContainer = document.getElementById('preview-' + type);
+            var previewImg = document.getElementById('img-preview-' + type);
+            var btn = uploadBox.querySelector('.upload-btn-small');
 
-            const originalText = btn.innerHTML;
+            var originalText = btn.innerHTML;
             btn.innerHTML = '<span class="spinner"></span> Memproses...';
             btn.disabled = true;
 
-            try {
-                const base64 = await compressImage(file, 50);
-
+            compressImage(file, 50).then(function(base64) {
                 if (type === 'tanya') tempImages.tanya = base64;
                 else if (type === 'edit-tanya') tempImages.editTanya = base64;
-                else if (type.startsWith('opsi-')) tempImages.opsi[type.replace('opsi-', '')] = base64;
-                else if (type.startsWith('edit-opsi-')) tempImages.editOpsi[type.replace('edit-opsi-', '')] = base64;
+                else if (type.indexOf('opsi-') === 0) tempImages.opsi[type.replace('opsi-', '')] = base64;
+                else if (type.indexOf('edit-opsi-') === 0) tempImages.editOpsi[type.replace('edit-opsi-', '')] = base64;
 
                 previewImg.src = base64;
                 previewContainer.classList.remove('hidden');
                 uploadBox.classList.add('has-img');
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Ganti Gambar';
-            } catch (error) {
+                btn.disabled = false;
+            }).catch(function(error) {
                 showToast('Gagal memproses gambar: ' + error.message, 'error');
                 btn.innerHTML = originalText;
-            }
-            btn.disabled = false;
+                btn.disabled = false;
+            });
         }
 
         function removeImage(type) {
-            const previewContainer = document.getElementById(`preview-${type}`);
-            const uploadBox = document.getElementById(`img-upload-${type}`);
-            const btn = uploadBox.querySelector('.upload-btn-small');
-            const input = document.getElementById(`file-${type}`);
+            var previewContainer = document.getElementById('preview-' + type);
+            var uploadBox = document.getElementById('img-upload-' + type);
+            var btn = uploadBox.querySelector('.upload-btn-small');
+            var input = document.getElementById('file-' + type);
 
             if (type === 'tanya') tempImages.tanya = '';
             else if (type === 'edit-tanya') tempImages.editTanya = '';
-            else if (type.startsWith('opsi-')) delete tempImages.opsi[type.replace('opsi-', '')];
-            else if (type.startsWith('edit-opsi-')) delete tempImages.editOpsi[type.replace('edit-opsi-', '')];
+            else if (type.indexOf('opsi-') === 0) delete tempImages.opsi[type.replace('opsi-', '')];
+            else if (type.indexOf('edit-opsi-') === 0) delete tempImages.editOpsi[type.replace('edit-opsi-', '')];
 
             previewContainer.classList.add('hidden');
             uploadBox.classList.remove('has-img');
@@ -1470,39 +1453,36 @@ Jawaban: A</code>
         }
 
         function generateOpsiInputs() {
-            const jumlahOpsi = getJumlahOpsi();
-            let html = '';
-            for (let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                html += `<div class="opsi-input-container">
-                    <div class="opsi-input-header">
-                        <span class="opsi-label-circle">${label}</span>
-                        <input type="text" id="opsi-${label.toLowerCase()}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
-                    </div>
-                    <div class="opsi-img-upload">
-                        <input type="file" id="file-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('opsi-${i}', this)">
-                        <button class="upload-btn-small" onclick="document.getElementById('file-opsi-${i}').click()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            Upload Gambar Opsi
-                        </button>
-                        <div class="img-preview-container hidden" id="preview-opsi-${i}">
-                            <img class="img-preview" id="img-preview-opsi-${i}" src="" alt="Preview">
-                            <button class="remove-img" onclick="removeImage('opsi-${i}')">&times;</button>
-                        </div>
-                    </div>
-                </div>`;
+            var jumlahOpsi = getJumlahOpsi();
+            var html = '';
+            for (var i = 0; i < jumlahOpsi; i++) {
+                var label = String.fromCharCode(65 + i);
+                html += '<div class="opsi-input-container">' +
+                    '<div class="opsi-input-header">' +
+                    '<span class="opsi-label-circle">' + label + '</span>' +
+                    '<input type="text" id="opsi-' + label.toLowerCase() + '" placeholder="Teks pilihan ' + label + '" class="opsi-text-input">' +
+                    '</div>' +
+                    '<div class="opsi-img-upload">' +
+                    '<input type="file" id="file-opsi-' + i + '" accept="image/*" style="display:none;" onchange="handleImageUpload(\'opsi-' + i + '\', this)">' +
+                    '<button class="upload-btn-small" onclick="document.getElementById(\'file-opsi-' + i + '\').click()">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                    ' Upload Gambar Opsi</button>' +
+                    '<div class="img-preview-container hidden" id="preview-opsi-' + i + '">' +
+                    '<img class="img-preview" id="img-preview-opsi-' + i + '" src="" alt="Preview">' +
+                    '<button class="remove-img" onclick="removeImage(\'opsi-' + i + '\')">&times;</button>' +
+                    '</div></div></div>';
             }
             document.getElementById('opsi-inputs').innerHTML = html;
 
-            let kunciHtml = '';
-            for (let i = 0; i < jumlahOpsi; i++) {
-                kunciHtml += `<option value="${String.fromCharCode(97 + i)}">${String.fromCharCode(65 + i)}</option>`;
+            var kunciHtml = '';
+            for (var j = 0; j < jumlahOpsi; j++) {
+                kunciHtml += '<option value="' + String.fromCharCode(97 + j) + '">' + String.fromCharCode(65 + j) + '</option>';
             }
             document.getElementById('input-kunci').innerHTML = kunciHtml;
         }
 
         function toggleOpsiInput() {
-            const jenis = document.getElementById('jenis-soal').value;
+            var jenis = document.getElementById('jenis-soal').value;
             document.getElementById('opsi-container').classList.toggle('hidden', jenis === 'essay');
             document.getElementById('essay-container').classList.toggle('hidden', jenis === 'pg');
         }
@@ -1510,18 +1490,14 @@ Jawaban: A</code>
         // =============================================
         // EDIT OPSI - FIX UTAMA
         // =============================================
-
-        // Dipanggil saat user ganti jenis soal di modal edit
-        // TIDAK menghapus opsi yang sudah diisi
         function handleEditJenisChange() {
-            const jenis = document.getElementById('edit-jenis').value;
-            const opsiContainer = document.getElementById('edit-opsi-container');
-            const essayContainer = document.getElementById('edit-essay-container');
+            var jenis = document.getElementById('edit-jenis').value;
+            var opsiContainer = document.getElementById('edit-opsi-container');
+            var essayContainer = document.getElementById('edit-essay-container');
 
             if (jenis === 'pg') {
                 opsiContainer.classList.remove('hidden');
                 essayContainer.classList.add('hidden');
-                // Gunakan backup jika ada, else buat baru
                 if (editOpsiBackup) {
                     generateEditOpsiInputs(editOpsiBackup);
                 } else {
@@ -1530,64 +1506,58 @@ Jawaban: A</code>
             } else {
                 opsiContainer.classList.add('hidden');
                 essayContainer.classList.remove('hidden');
-                // Simpan opsi saat ini ke backup sebelum sembunyikan
                 editOpsiBackup = collectCurrentEditOpsi();
             }
         }
 
-        // Kumpulkan opsi yang sedang diisi di form edit
         function collectCurrentEditOpsi() {
-            const jumlahOpsi = getJumlahOpsi();
-            let opsi = [];
-            for (let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(97 + i);
-                const textEl = document.getElementById(`edit-opsi-${label}`);
-                const text = textEl ? textEl.value : '';
-                const img = tempImages.editOpsi[i] || '';
+            var jumlahOpsi = getJumlahOpsi();
+            var opsi = [];
+            for (var i = 0; i < jumlahOpsi; i++) {
+                var label = String.fromCharCode(97 + i);
+                var textEl = document.getElementById('edit-opsi-' + label);
+                var text = textEl ? textEl.value : '';
+                var img = tempImages.editOpsi[i] || '';
                 opsi.push({ t: text, i: img });
             }
             return opsi;
         }
 
-        function generateEditOpsiInputs(existingOpsi = []) {
-            const jumlahOpsi = getJumlahOpsi();
-            let html = '';
+        function generateEditOpsiInputs(existingOpsi) {
+            existingOpsi = existingOpsi || [];
+            var jumlahOpsi = getJumlahOpsi();
+            var html = '';
 
-            for (let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                const labelLow = label.toLowerCase();
-                const opsiData = existingOpsi[i] || { t: '', i: '' };
-                const hasImg = !!(opsiData.i || tempImages.editOpsi[i]);
-                const imgSrc = tempImages.editOpsi[i] || opsiData.i || '';
+            for (var i = 0; i < jumlahOpsi; i++) {
+                var label = String.fromCharCode(65 + i);
+                var labelLow = label.toLowerCase();
+                var opsiData = existingOpsi[i] || { t: '', i: '' };
+                var hasImg = !!(opsiData.i || tempImages.editOpsi[i]);
+                var imgSrc = tempImages.editOpsi[i] || opsiData.i || '';
 
-                html += `<div class="opsi-input-container">
-                    <div class="opsi-input-header">
-                        <span class="opsi-label-circle">${label}</span>
-                        <input type="text" id="edit-opsi-${labelLow}" value="${escapeHtml(opsiData.t || '')}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
-                    </div>
-                    <div class="opsi-img-upload" id="img-upload-edit-opsi-${i}">
-                        <input type="file" id="file-edit-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-opsi-${i}', this)">
-                        <button class="upload-btn-small" onclick="document.getElementById('file-edit-opsi-${i}').click()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            ${hasImg ? 'Ganti' : 'Upload'} Gambar
-                        </button>
-                        <div class="img-preview-container ${hasImg ? '' : 'hidden'}" id="preview-edit-opsi-${i}">
-                            <img class="img-preview" id="img-preview-edit-opsi-${i}" src="${imgSrc}" alt="Preview">
-                            <button class="remove-img" onclick="removeImage('edit-opsi-${i}')">&times;</button>
-                        </div>
-                    </div>
-                </div>`;
+                html += '<div class="opsi-input-container">' +
+                    '<div class="opsi-input-header">' +
+                    '<span class="opsi-label-circle">' + label + '</span>' +
+                    '<input type="text" id="edit-opsi-' + labelLow + '" value="' + escapeHtml(opsiData.t || '') + '" placeholder="Teks pilihan ' + label + '" class="opsi-text-input">' +
+                    '</div>' +
+                    '<div class="opsi-img-upload" id="img-upload-edit-opsi-' + i + '">' +
+                    '<input type="file" id="file-edit-opsi-' + i + '" accept="image/*" style="display:none;" onchange="handleImageUpload(\'edit-opsi-' + i + '\', this)">' +
+                    '<button class="upload-btn-small" onclick="document.getElementById(\'file-edit-opsi-' + i + '\').click()">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                    ' ' + (hasImg ? 'Ganti' : 'Upload') + ' Gambar</button>' +
+                    '<div class="img-preview-container ' + (hasImg ? '' : 'hidden') + '" id="preview-edit-opsi-' + i + '">' +
+                    '<img class="img-preview" id="img-preview-edit-opsi-' + i + '" src="' + imgSrc + '" alt="Preview">' +
+                    '<button class="remove-img" onclick="removeImage(\'edit-opsi-' + i + '\')">&times;</button>' +
+                    '</div></div></div>';
 
-                // Simpan gambar yang sudah ada ke temp
                 if (imgSrc) tempImages.editOpsi[i] = imgSrc;
             }
             document.getElementById('edit-opsi-inputs').innerHTML = html;
         }
 
-        // Escape HTML untuk mencegah XSS di value attribute
         function escapeHtml(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
+            var div = document.createElement('div');
+            div.textContent = str || '';
             return div.innerHTML;
         }
 
@@ -1595,15 +1565,12 @@ Jawaban: A</code>
         // TOKEN DISPLAY
         // =============================================
         function loadTokenDisplay(m) {
-            db.ref('admin_pusat/live_tokens').on('value', snap => {
-                const all = snap.val() || {};
-                const t = all[m] || {};
-                let h = "";
-                for (let i = 1; i <= 6; i++) {
-                    h += `<div class="token-card">
-                        <div class="token-label">Kelas ${i}</div>
-                        <div class="token-value">${t['kelas_'+i] || '-'}</div>
-                    </div>`;
+            db.ref('admin_pusat/live_tokens').on('value', function(snap) {
+                var all = snap.val() || {};
+                var t = all[m] || {};
+                var h = "";
+                for (var i = 1; i <= 6; i++) {
+                    h += '<div class="token-card"><div class="token-label">Kelas ' + i + '</div><div class="token-value">' + (t['kelas_' + i] || '-') + '</div></div>';
                 }
                 document.getElementById('token-grid').innerHTML = h;
             });
@@ -1613,17 +1580,20 @@ Jawaban: A</code>
         // SOAL MANAGEMENT
         // =============================================
         function loadSoalDariFirebase(m, k) {
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).on('value', snap => {
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k).on('value', function(snap) {
                 soalTemp = snap.val() || {};
                 renderPreview();
             });
         }
 
         function renderPreview() {
-            const soalArray = Object.values(soalTemp);
-            const soalKeys = Object.keys(soalTemp);
-            const pgCount = soalArray.filter(s => s.opsi && s.opsi.length > 0).length;
-            const essayCount = soalArray.filter(s => !s.opsi || s.opsi.length === 0).length;
+            var soalArray = Object.values(soalTemp);
+            var soalKeys = Object.keys(soalTemp);
+            var pgCount = 0, essayCount = 0;
+            for (var x = 0; x < soalArray.length; x++) {
+                if (soalArray[x].opsi && soalArray[x].opsi.length > 0) pgCount++;
+                else essayCount++;
+            }
 
             document.getElementById('stat-total').innerText = soalArray.length;
             document.getElementById('stat-pg').innerText = pgCount;
@@ -1634,57 +1604,68 @@ Jawaban: A</code>
                 return;
             }
 
-            let h = '';
-            let pgNum = 0, essayNum = 0;
-            const mappedSoal = soalKeys.map((key, idx) => ({ key, ...soalArray[idx] }));
-            const sortedSoal = mappedSoal.sort((a, b) => {
-                const aE = !a.opsi || a.opsi.length === 0;
-                const bE = !b.opsi || b.opsi.length === 0;
-                return aE - bE;
+            var mappedSoal = [];
+            for (var idx = 0; idx < soalKeys.length; idx++) {
+                var obj = soalTemp[soalKeys[idx]];
+                obj._key = soalKeys[idx];
+                mappedSoal.push(obj);
+            }
+            mappedSoal.sort(function(a, b) {
+                var aE = !a.opsi || a.opsi.length === 0;
+                var bE = !b.opsi || b.opsi.length === 0;
+                return (aE ? 1 : 0) - (bE ? 1 : 0);
             });
+
+            var h = '';
+            var pgNum = 0, essayNum = 0;
 
             if (pgCount > 0) {
                 h += '<div class="section-header pg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>PILIHAN GANDA (' + pgCount + ')</div>';
-                sortedSoal.forEach(s => {
-                    if (s.opsi && s.opsi.length > 0) { pgNum++; h += renderSoalItem(s, s.key, pgNum, 'pg'); }
-                });
+                for (var i = 0; i < mappedSoal.length; i++) {
+                    var s = mappedSoal[i];
+                    if (s.opsi && s.opsi.length > 0) { pgNum++; h += renderSoalItem(s, s._key, pgNum, 'pg'); }
+                }
             }
             if (essayCount > 0) {
                 h += '<div class="section-header essay" style="margin-top:20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/></svg>ESSAY (' + essayCount + ')</div>';
-                sortedSoal.forEach(s => {
-                    if (!s.opsi || s.opsi.length === 0) { essayNum++; h += renderSoalItem(s, s.key, essayNum, 'essay'); }
-                });
+                for (var j = 0; j < mappedSoal.length; j++) {
+                    var s2 = mappedSoal[j];
+                    if (!s2.opsi || s2.opsi.length === 0) { essayNum++; h += renderSoalItem(s2, s2._key, essayNum, 'essay'); }
+                }
             }
             document.getElementById('soal-container').innerHTML = h;
         }
 
         function renderSoalItem(s, key, nomor, tipe) {
-            const isEssay = tipe === 'essay';
-            let h = `<div class="soal-item ${isEssay ? 'essay' : ''}">
-                <div class="soal-id-badge">${key}</div>
-                <div class="soal-header">
-                    <span class="soal-nomor">No. ${nomor}</span>
-                    <span class="soal-tag ${isEssay ? 'essay' : 'pg'}">${isEssay ? 'Essay' : 'PG'}</span>
-                </div>
-                <div class="soal-text">${escapeHtml(s.tanya || '-')}</div>`;
-            if (s.img) h += `<img src="${s.img}" class="soal-img-preview" alt="Gambar Soal">`;
+            var isEssay = tipe === 'essay';
+            var h = '<div class="soal-item ' + (isEssay ? 'essay' : '') + '">' +
+                '<div class="soal-id-badge">' + key + '</div>' +
+                '<div class="soal-header"><span class="soal-nomor">No. ' + nomor + '</span>' +
+                '<span class="soal-tag ' + (isEssay ? 'essay' : 'pg') + '">' + (isEssay ? 'Essay' : 'PG') + '</span></div>' +
+                '<div class="soal-text">' + escapeHtml(s.tanya || '-') + '</div>';
+
+            if (s.img) h += '<img src="' + s.img + '" class="soal-img-preview" alt="Gambar Soal">';
+
             if (!isEssay) {
-                const kunci = (s.kunci || 'a').toLowerCase();
+                var kunci = (s.kunci || 'a').toLowerCase();
                 h += '<div style="margin-left:5px;font-size:0.85rem;margin-top:10px;">';
-                (s.opsi || []).forEach((o, x) => {
-                    let txt = typeof o === 'object' ? o.t : o;
-                    let imgO = typeof o === 'object' ? o.i : '';
-                    let c = (String.fromCharCode(97+x) === kunci) ? 'opsi-benar' : '';
-                    h += `<div class="opsi-item ${c}"><b>${String.fromCharCode(65+x)}.</b> ${escapeHtml(txt)}${imgO ? '<img src="'+imgO+'" class="opsi-img-thumb" alt="img">' : ''}</div>`;
-                });
+                var opsiArr = s.opsi || [];
+                for (var x = 0; x < opsiArr.length; x++) {
+                    var o = opsiArr[x];
+                    var txt = typeof o === 'object' ? o.t : o;
+                    var imgO = typeof o === 'object' ? o.i : '';
+                    var c = (String.fromCharCode(97 + x) === kunci) ? 'opsi-benar' : '';
+                    h += '<div class="opsi-item ' + c + '"><b>' + String.fromCharCode(65 + x) + '.</b> ' + escapeHtml(txt) + (imgO ? '<img src="' + imgO + '" class="opsi-img-thumb" alt="img">' : '') + '</div>';
+                }
                 h += '</div>';
             } else {
-                h += `<div class="kunci-box"><small style="color:var(--muted);">Kunci:</small><br><b style="color:#166534;">${escapeHtml(s.kunci || '-')}</b></div>`;
+                h += '<div class="kunci-box"><small style="color:var(--muted);">Kunci:</small><br><b style="color:#166534;">' + escapeHtml(s.kunci || '-') + '</b></div>';
             }
-            h += `<div class="soal-actions">
-                <button class="btn btn-sm btn-primary" onclick="bukaModalEdit('${key}')">Edit</button>
-                <button class="btn btn-sm btn-danger" onclick="hapusSoal('${key}')">Hapus</button>
-            </div></div>`;
+
+            h += '<div class="soal-actions">' +
+                '<button class="btn btn-sm btn-primary" onclick="bukaModalEdit(\'' + key + '\')">Edit</button>' +
+                '<button class="btn btn-sm btn-danger" onclick="hapusSoal(\'' + key + '\')">Hapus</button>' +
+                '</div></div>';
             return h;
         }
 
@@ -1692,31 +1673,31 @@ Jawaban: A</code>
         // PARSE COPAS
         // =============================================
         function parseCopas() {
-            const rawText = document.getElementById('copas-input').value.trim();
+            var rawText = document.getElementById('copas-input').value.trim();
             if (!rawText) { showToast('Paste soal terlebih dahulu!', 'warning'); return; }
 
             parsedSoal = [];
-            const lines = rawText.split('\n');
-            let currentSoal = null;
+            var lines = rawText.split('\n');
+            var currentSoal = null;
 
-            for (let line of lines) {
-                line = line.trim();
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
                 if (!line) continue;
 
-                const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
+                var nomorMatch = line.match(/^(\d+)[.\)]\s*/);
                 if (nomorMatch) {
                     if (currentSoal) parsedSoal.push(currentSoal);
                     currentSoal = { tanya: line.replace(nomorMatch[0], ''), opsi: [], kunci: '', img: '' };
                     continue;
                 }
 
-                const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
+                var opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
                 if (opsiMatch && currentSoal) {
                     currentSoal.opsi.push({ t: line.replace(opsiMatch[0], ''), i: '' });
                     continue;
                 }
 
-                const kunciMatch = line.match(/^(Jawaban|Kunci)[:\s]+(.*)/i);
+                var kunciMatch = line.match(/^(Jawaban|Kunci)[:\s]+(.*)/i);
                 if (kunciMatch && currentSoal) {
                     currentSoal.kunci = kunciMatch[2].trim().charAt(0).toLowerCase();
                     continue;
@@ -1730,44 +1711,44 @@ Jawaban: A</code>
 
         function renderCopasPreview() {
             if (parsedSoal.length === 0) { showToast('Tidak ada soal terdeteksi.', 'warning'); return; }
-            document.getElementById('copas-preview').innerHTML = `
-                <div class="alert alert-success">${parsedSoal.length} soal terdeteksi.</div>
-                <button class="btn btn-success" onclick="saveCopasSoal()">Simpan ke Bank Soal</button>`;
+            document.getElementById('copas-preview').innerHTML =
+                '<div class="alert alert-success">' + parsedSoal.length + ' soal terdeteksi.</div>' +
+                '<button class="btn btn-success" onclick="saveCopasSoal()">Simpan ke Bank Soal</button>';
         }
 
         function saveCopasSoal() {
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
-            let updates = {};
-            parsedSoal.forEach(s => {
-                updates[db.ref().child('temp').push().key] = s;
-            });
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates).then(() => {
+            var m = document.getElementById('mapel-select').value;
+            var k = document.getElementById('kelas-select').value;
+            var updates = {};
+            for (var i = 0; i < parsedSoal.length; i++) {
+                updates[db.ref().child('temp').push().key] = parsedSoal[i];
+            }
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k).update(updates).then(function() {
                 showToast(parsedSoal.length + ' soal berhasil disimpan!', 'success');
                 parsedSoal = [];
                 document.getElementById('copas-input').value = '';
                 document.getElementById('copas-preview').innerHTML = '';
                 refreshRekapSoal();
-            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
+            }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
         }
 
         // =============================================
         // TAMBAH MANUAL
         // =============================================
         function tambahSoalManual() {
-            const jenis = document.getElementById('jenis-soal').value;
-            const tanya = document.getElementById('input-tanya').value.trim();
+            var jenis = document.getElementById('jenis-soal').value;
+            var tanya = document.getElementById('input-tanya').value.trim();
             if (!tanya) { showToast('Pertanyaan tidak boleh kosong!', 'warning'); return; }
 
-            const jumlahOpsi = getJumlahOpsi();
-            let soalBaru = { tanya, img: tempImages.tanya || '', opsi: [], kunci: '' };
+            var jumlahOpsi = getJumlahOpsi();
+            var soalBaru = { tanya: tanya, img: tempImages.tanya || '', opsi: [], kunci: '' };
 
             if (jenis === 'pg') {
-                for (let i = 0; i < jumlahOpsi; i++) {
-                    const label = String.fromCharCode(97 + i);
-                    const val = document.getElementById(`opsi-${label}`).value.trim();
-                    const imgOpsi = tempImages.opsi[i] || '';
-                    if (!val && !imgOpsi) { showToast(`Pilihan ${label.toUpperCase()} kosong!`, 'warning'); return; }
+                for (var i = 0; i < jumlahOpsi; i++) {
+                    var label = String.fromCharCode(97 + i);
+                    var val = document.getElementById('opsi-' + label).value.trim();
+                    var imgOpsi = tempImages.opsi[i] || '';
+                    if (!val && !imgOpsi) { showToast('Pilihan ' + label.toUpperCase() + ' kosong!', 'warning'); return; }
                     soalBaru.opsi.push({ t: val, i: imgOpsi });
                 }
                 soalBaru.kunci = document.getElementById('input-kunci').value;
@@ -1775,19 +1756,18 @@ Jawaban: A</code>
                 soalBaru.kunci = document.getElementById('input-kunci-essay').value.trim();
             }
 
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
+            var m = document.getElementById('mapel-select').value;
+            var k = document.getElementById('kelas-select').value;
+            var newKey = db.ref().child('temp').push().key;
 
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${db.ref().child('temp').push().key}`).set(soalBaru).then(() => {
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k + '/' + newKey).set(soalBaru).then(function() {
                 showToast('Soal berhasil ditambahkan!', 'success');
                 document.getElementById('input-tanya').value = '';
                 document.getElementById('input-kunci-essay').value = '';
                 resetTempImages();
-                document.querySelectorAll('[id^="preview-opsi-"]').forEach(el => el.classList.add('hidden'));
-                document.querySelectorAll('[id^="img-upload-opsi-"]').forEach(el => el.classList.remove('has-img'));
-                document.querySelectorAll('[id^="opsi-"]').forEach(el => { if (el.tagName === 'INPUT') el.value = ''; });
+                generateOpsiInputs();
                 refreshRekapSoal();
-            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
+            }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
         }
 
         // =============================================
@@ -1795,31 +1775,38 @@ Jawaban: A</code>
         // =============================================
         function handleFile(file) {
             if (!file.name.endsWith('.json')) { showToast('File harus .json!', 'error'); return; }
-            const reader = new FileReader();
-            reader.onload = (e) => {
+            var reader = new FileReader();
+            reader.onload = function(e) {
                 try {
-                    const parsed = JSON.parse(e.target.result);
-                    let soalData = parsed.soal || parsed;
+                    var parsed = JSON.parse(e.target.result);
+                    var soalData = parsed.soal || parsed;
                     if (!Array.isArray(soalData)) { showToast('Format salah. Harus array soal.', 'error'); return; }
 
-                    const m = document.getElementById('mapel-select').value;
-                    const k = document.getElementById('kelas-select').value;
-                    let updates = {};
+                    var m = document.getElementById('mapel-select').value;
+                    var k = document.getElementById('kelas-select').value;
+                    var updates = {};
 
-                    soalData.forEach(s => {
+                    for (var i = 0; i < soalData.length; i++) {
+                        var s = soalData[i];
+                        var opsArr = s.opsi || [];
+                        var mappedOpsi = [];
+                        for (var j = 0; j < opsArr.length; j++) {
+                            var o = opsArr[j];
+                            mappedOpsi.push(typeof o === 'string' ? {t: o, i: ''} : {t: o.t || '', i: o.i || ''});
+                        }
                         updates[db.ref().child('temp').push().key] = {
                             tanya: s.tanya || s.pertanyaan || '',
                             img: s.img || '',
-                            opsi: (s.opsi || []).map(o => typeof o === 'string' ? {t:o, i:''} : {t: o.t||'', i: o.i||''}),
+                            opsi: mappedOpsi,
                             kunci: s.kunci || ''
                         };
-                    });
+                    }
 
-                    db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates).then(() => {
-                        document.getElementById('upload-status').innerHTML = `<div class="alert alert-success"><b>Berhasil!</b> ${soalData.length} soal disimpan ke Bank Soal.</div>`;
+                    db.ref('admin_pusat/gudang_soal/' + m + '/' + k).update(updates).then(function() {
+                        document.getElementById('upload-status').innerHTML = '<div class="alert alert-success"><b>Berhasil!</b> ' + soalData.length + ' soal disimpan ke Bank Soal.</div>';
                         refreshRekapSoal();
-                    }).catch(err => {
-                        document.getElementById('upload-status').innerHTML = `<div class="alert" style="background:#FEF2F2;color:#DC2626;"><b>Error!</b> ${err.message}</div>`;
+                    }).catch(function(err) {
+                        document.getElementById('upload-status').innerHTML = '<div class="alert" style="background:#FEF2F2;color:#DC2626;"><b>Error!</b> ' + err.message + '</div>';
                     });
                 } catch (err) {
                     showToast('Error JSON: ' + err.message, 'error');
@@ -1828,37 +1815,38 @@ Jawaban: A</code>
             reader.readAsText(file);
         }
 
-        async function hapusSemuaSoal() {
-            const yes = await customConfirm('Yakin hapus SEMUA soal di mapel & kelas ini? Tindakan ini tidak bisa dibatalkan.');
-            if (!yes) return;
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).remove().then(() => {
-                showToast('Semua soal berhasil dihapus.', 'success');
-                refreshRekapSoal();
+        function hapusSemuaSoal() {
+            customConfirm('Yakin hapus SEMUA soal di mapel & kelas ini? Tindakan ini tidak bisa dibatalkan.').then(function(yes) {
+                if (!yes) return;
+                var m = document.getElementById('mapel-select').value;
+                var k = document.getElementById('kelas-select').value;
+                db.ref('admin_pusat/gudang_soal/' + m + '/' + k).remove().then(function() {
+                    showToast('Semua soal berhasil dihapus.', 'success');
+                    refreshRekapSoal();
+                });
             });
         }
 
-        async function hapusSoal(key) {
-            const yes = await customConfirm('Yakin hapus soal ini?');
-            if (!yes) return;
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove().then(() => {
-                showToast('Soal dihapus.', 'success');
+        function hapusSoal(key) {
+            customConfirm('Yakin hapus soal ini?').then(function(yes) {
+                if (!yes) return;
+                var m = document.getElementById('mapel-select').value;
+                var k = document.getElementById('kelas-select').value;
+                db.ref('admin_pusat/gudang_soal/' + m + '/' + k + '/' + key).remove().then(function() {
+                    showToast('Soal dihapus.', 'success');
+                });
             });
         }
 
         // =============================================
-        // MODAL EDIT SOAL (FIX)
+        // MODAL EDIT SOAL
         // =============================================
         function bukaModalEdit(key) {
-            const s = soalTemp[key];
+            var s = soalTemp[key];
             if (!s) return;
 
-            const isEssay = !s.opsi || s.opsi.length === 0;
+            var isEssay = !s.opsi || s.opsi.length === 0;
 
-            // Reset state
             tempImages.editTanya = s.img || '';
             tempImages.editOpsi = {};
             editOpsiBackup = null;
@@ -1868,11 +1856,10 @@ Jawaban: A</code>
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
-            // Handle gambar preview pertanyaan
-            const previewContainer = document.getElementById('preview-edit-tanya');
-            const previewImg = document.getElementById('img-preview-edit-tanya');
-            const uploadBox = document.getElementById('img-upload-edit-tanya');
-            const btn = uploadBox.querySelector('.upload-btn-small');
+            var previewContainer = document.getElementById('preview-edit-tanya');
+            var previewImg = document.getElementById('img-preview-edit-tanya');
+            var uploadBox = document.getElementById('img-upload-edit-tanya');
+            var btn = uploadBox.querySelector('.upload-btn-small');
 
             if (s.img) {
                 previewImg.src = s.img;
@@ -1885,22 +1872,28 @@ Jawaban: A</code>
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
             }
 
-            // Set visibilitas container berdasarkan jenis
-            const opsiContainer = document.getElementById('edit-opsi-container');
-            const essayContainer = document.getElementById('edit-essay-container');
+            var opsiContainer = document.getElementById('edit-opsi-container');
+            var essayContainer = document.getElementById('edit-essay-container');
 
             if (isEssay) {
                 opsiContainer.classList.add('hidden');
                 essayContainer.classList.remove('hidden');
-                // Simpan opsi lama ke backup (meski tidak ditampilkan)
-                editOpsiBackup = (s.opsi || []).map(o => typeof o === 'object' ? {t:o.t||'', i:o.i||''} : {t:o, i:''});
+                editOpsiBackup = [];
+                var opsiArr = s.opsi || [];
+                for (var i = 0; i < opsiArr.length; i++) {
+                    var o = opsiArr[i];
+                    editOpsiBackup.push(typeof o === 'object' ? {t: o.t || '', i: o.i || ''} : {t: o, i: ''});
+                }
             } else {
                 opsiContainer.classList.remove('hidden');
                 essayContainer.classList.add('hidden');
-                // Generate opsi inputs dengan data yang sudah ada
-                const opsiData = (s.opsi || []).map(o => typeof o === 'object' ? {t:o.t||'', i:o.i||''} : {t:o, i:''});
+                var opsiData = [];
+                var opsiArr2 = s.opsi || [];
+                for (var j = 0; j < opsiArr2.length; j++) {
+                    var o2 = opsiArr2[j];
+                    opsiData.push(typeof o2 === 'object' ? {t: o2.t || '', i: o2.i || ''} : {t: o2, i: ''});
+                }
                 generateEditOpsiInputs(opsiData);
-                // Set kunci SETELAH generate opsi inputs
                 document.getElementById('edit-kunci').value = s.kunci || 'a';
             }
 
@@ -1908,11 +1901,11 @@ Jawaban: A</code>
         }
 
         function simpanEditSoal() {
-            const key = document.getElementById('edit-id').value;
-            const jenis = document.getElementById('edit-jenis').value;
-            const jumlahOpsi = getJumlahOpsi();
+            var key = document.getElementById('edit-id').value;
+            var jenis = document.getElementById('edit-jenis').value;
+            var jumlahOpsi = getJumlahOpsi();
 
-            let soalBaru = {
+            var soalBaru = {
                 tanya: document.getElementById('edit-tanya').value,
                 img: tempImages.editTanya || '',
                 opsi: [],
@@ -1920,11 +1913,11 @@ Jawaban: A</code>
             };
 
             if (jenis === 'pg') {
-                for (let i = 0; i < jumlahOpsi; i++) {
-                    const label = String.fromCharCode(97 + i);
-                    const textEl = document.getElementById(`edit-opsi-${label}`);
-                    const textVal = textEl ? textEl.value : '';
-                    const imgVal = tempImages.editOpsi[i] || '';
+                for (var i = 0; i < jumlahOpsi; i++) {
+                    var label = String.fromCharCode(97 + i);
+                    var textEl = document.getElementById('edit-opsi-' + label);
+                    var textVal = textEl ? textEl.value : '';
+                    var imgVal = tempImages.editOpsi[i] || '';
                     soalBaru.opsi.push({ t: textVal, i: imgVal });
                 }
                 soalBaru.kunci = document.getElementById('edit-kunci').value;
@@ -1933,139 +1926,164 @@ Jawaban: A</code>
                 soalBaru.kunci = document.getElementById('edit-kunci-essay').value;
             }
 
-            const m = document.getElementById('mapel-select').value;
-            const k = document.getElementById('kelas-select').value;
+            var m = document.getElementById('mapel-select').value;
+            var k = document.getElementById('kelas-select').value;
 
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).set(soalBaru).then(() => {
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k + '/' + key).set(soalBaru).then(function() {
                 closeModal('edit-soal');
                 showToast('Soal berhasil diperbarui!', 'success');
                 refreshRekapSoal();
-            }).catch(err => showToast('Gagal menyimpan: ' + err.message, 'error'));
+            }).catch(function(err) { showToast('Gagal menyimpan: ' + err.message, 'error'); });
         }
 
         // =============================================
         // DURASI
         // =============================================
         function loadDurasiSettings() {
-            const m = document.getElementById('dur-mapel-select').value;
-            db.ref('admin_pusat/durasi/' + m).once('value', snap => {
-                const d = snap.val() || {};
-                for (let i = 1; i <= 6; i++) {
-                    const el = document.getElementById('dur-kelas_' + i);
+            var m = document.getElementById('dur-mapel-select').value;
+            db.ref('admin_pusat/durasi/' + m).once('value', function(snap) {
+                var d = snap.val() || {};
+                for (var i = 1; i <= 6; i++) {
+                    var el = document.getElementById('dur-kelas_' + i);
                     if (el) el.value = d['kelas_' + i] || 0;
                 }
             });
         }
 
         function saveDurasi() {
-            let updates = {};
-            const m = document.getElementById('dur-mapel-select').value;
-            for (let i = 1; i <= 6; i++) updates['kelas_' + i] = parseInt(document.getElementById('dur-kelas_' + i).value) || 0;
-            db.ref('admin_pusat/durasi/' + m).set(updates).then(() => showToast('Waktu berhasil disimpan!', 'success'));
+            var updates = {};
+            var m = document.getElementById('dur-mapel-select').value;
+            for (var i = 1; i <= 6; i++) {
+                updates['kelas_' + i] = parseInt(document.getElementById('dur-kelas_' + i).value) || 0;
+            }
+            db.ref('admin_pusat/durasi/' + m).set(updates).then(function() {
+                showToast('Waktu berhasil disimpan!', 'success');
+            });
         }
 
         // =============================================
         // SEKOLAH
         // =============================================
         function loadSekolahTable() {
-            db.ref('daftar_sekolah').once('value', snap => {
-                const d = snap.val() || {};
-                let r = '', no = 1;
-                Object.keys(d).forEach(key => {
-                    const s = d[key];
-                    const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
-                    let cnt = 0;
-                    if (s.daftar_siswa) Object.values(s.daftar_siswa).forEach(kls => { if (Array.isArray(kls)) cnt += kls.length; });
-                    r += `<tr><td>${no++}</td><td><b>${key}</b></td><td>${escapeHtml(nama)}</td><td>${cnt}</td><td class="no-print"><button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button></td></tr>`;
-                });
+            db.ref('daftar_sekolah').once('value', function(snap) {
+                var d = snap.val() || {};
+                var r = '', no = 1;
+                var keys = Object.keys(d);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    var s = d[key];
+                    var nama = s.info ? s.info.nama : (s.nama || 'Unknown');
+                    var cnt = 0;
+                    if (s.daftar_siswa) {
+                        var klsKeys = Object.values(s.daftar_siswa);
+                        for (var j = 0; j < klsKeys.length; j++) {
+                            if (Array.isArray(klsKeys[j])) cnt += klsKeys[j].length;
+                        }
+                    }
+                    r += '<tr><td>' + (no++) + '</td><td><b>' + key + '</b></td><td>' + escapeHtml(nama) + '</td><td>' + cnt + '</td><td class="no-print"><button class="btn btn-sm btn-danger" onclick="hapusSekolah(\'' + key + '\')">Hapus</button></td></tr>';
+                }
                 document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Kosong</td></tr>";
             });
         }
 
-        async function hapusSekolah(npsn) {
-            const yes = await customConfirm('Hapus sekolah ini? Semua data terkait akan ikut terhapus.');
-            if (!yes) return;
-            db.ref('daftar_sekolah/' + npsn).remove();
-            db.ref('sekolah/' + npsn).remove();
-            loadSekolahTable();
-            showToast('Sekolah dihapus.', 'success');
+        function hapusSekolah(npsn) {
+            customConfirm('Hapus sekolah ini? Semua data terkait akan ikut terhapus.').then(function(yes) {
+                if (!yes) return;
+                db.ref('daftar_sekolah/' + npsn).remove();
+                db.ref('sekolah/' + npsn).remove();
+                loadSekolahTable();
+                showToast('Sekolah dihapus.', 'success');
+            });
         }
 
         // =============================================
         // REKAP HASIL UJIAN
         // =============================================
         function loadRekapData() {
-            const filterMapel = document.getElementById('filter-mapel-rekap').value;
-            const filterKelas = document.getElementById('filter-kelas-rekap').value;
-            let promises = [];
-            let allData = {};
+            var filterMapel = document.getElementById('filter-mapel-rekap').value;
+            var filterKelas = document.getElementById('filter-kelas-rekap').value;
+            var promises = [];
+            var allData = {};
+            var sekolahKeys = Object.keys(sekolahCache);
 
-            Object.keys(sekolahCache).forEach(npsn => {
-                promises.push(db.ref(`sekolah/${npsn}/pengerjaan`).once('value').then(snap => { allData[npsn] = snap.val() || {}; }));
-            });
+            for (var i = 0; i < sekolahKeys.length; i++) {
+                (function(npsn) {
+                    promises.push(db.ref('sekolah/' + npsn + '/pengerjaan').once('value').then(function(snap) {
+                        allData[npsn] = snap.val() || {};
+                    }));
+                })(sekolahKeys[i]);
+            }
 
-            Promise.all(promises).then(() => {
+            Promise.all(promises).then(function() {
                 allPengerjaan = allData;
-                let tSekolah = 0, tSiswa = 0, sumNilai = 0, maxNilai = 0;
-                let schoolStats = [];
+                var tSekolah = 0, tSiswa = 0, sumNilai = 0, maxNilai = 0;
+                var schoolStats = [];
 
-                Object.keys(allData).forEach(npsn => {
-                    const pengerjaan = allData[npsn];
-                    let cnt = 0, sum = 0, max = 0, min = 100, hasData = false;
+                var dataKeys = Object.keys(allData);
+                for (var a = 0; a < dataKeys.length; a++) {
+                    var npsn = dataKeys[a];
+                    var pengerjaan = allData[npsn];
+                    var cnt = 0, sum = 0, max = 0, min = 100, hasData = false;
 
-                    Object.values(pengerjaan).forEach(item => {
-                        if (filterMapel && item.mapel !== filterMapel) return;
-                        if (filterKelas && !(item.kelas || '').includes(filterKelas)) return;
-                        if (item.status !== 'Selesai') return;
+                    var pKeys = Object.values(pengerjaan);
+                    for (var b = 0; b < pKeys.length; b++) {
+                        var item = pKeys[b];
+                        if (filterMapel && item.mapel !== filterMapel) continue;
+                        if (filterKelas && (item.kelas || '').indexOf(filterKelas) === -1) continue;
+                        if (item.status !== 'Selesai') continue;
 
                         hasData = true; cnt++;
-                        const n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
+                        var n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
                         sum += n; if (n > max) max = n; if (n < min) min = n;
                         tSiswa++; sumNilai += n; if (n > maxNilai) maxNilai = n;
-                    });
+                    }
 
                     if (hasData) {
                         tSekolah++;
                         schoolStats.push({
-                            npsn, nama: sekolahCache[npsn]?.info?.nama || sekolahCache[npsn]?.nama || 'Unknown',
-                            cnt, avg: cnt ? Math.round(sum / cnt) : 0, max, min: min === 100 ? 0 : min
+                            npsn: npsn,
+                            nama: (sekolahCache[npsn] && sekolahCache[npsn].info) ? sekolahCache[npsn].info.nama : (sekolahCache[npsn] ? sekolahCache[npsn].nama : 'Unknown'),
+                            cnt: cnt, avg: cnt ? Math.round(sum / cnt) : 0, max: max, min: min === 100 ? 0 : min
                         });
                     }
-                });
+                }
 
                 document.getElementById('rekap-total-sekolah').innerText = tSekolah;
                 document.getElementById('rekap-total-siswa').innerText = tSiswa;
                 document.getElementById('rekap-rata-rata').innerText = tSiswa ? Math.round(sumNilai / tSiswa) : 0;
                 document.getElementById('rekap-tertinggi').innerText = maxNilai;
 
-                schoolStats.sort((a, b) => b.avg - a.avg);
-                let html = '';
-                schoolStats.forEach((s, i) => {
-                    html += `<div class="school-card"><div class="school-header"><div><div class="school-name">${i+1}. ${escapeHtml(s.nama)}</div><div class="school-npsn">NPSN: ${s.npsn}</div></div><span class="status status-info">#${i+1}</span></div>
-                    <div class="school-stats"><div class="school-stat"><div class="school-stat-num">${s.cnt}</div><div class="school-stat-label">Peserta</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.avg}</div><div class="school-stat-label">Rata2</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.max}</div><div class="school-stat-label">Tertinggi</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.min}</div><div class="school-stat-label">Terendah</div></div></div></div>`;
-                });
+                schoolStats.sort(function(a, b) { return b.avg - a.avg; });
+                var html = '';
+                for (var c = 0; c < schoolStats.length; c++) {
+                    var sc = schoolStats[c];
+                    html += '<div class="school-card"><div class="school-header"><div><div class="school-name">' + (c+1) + '. ' + escapeHtml(sc.nama) + '</div><div class="school-npsn">NPSN: ' + sc.npsn + '</div></div><span class="status status-info">#' + (c+1) + '</span></div>' +
+                    '<div class="school-stats"><div class="school-stat"><div class="school-stat-num">' + sc.cnt + '</div><div class="school-stat-label">Peserta</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">' + sc.avg + '</div><div class="school-stat-label">Rata2</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">' + sc.max + '</div><div class="school-stat-label">Tertinggi</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">' + sc.min + '</div><div class="school-stat-label">Terendah</div></div></div></div>';
+                }
                 document.getElementById('rekap-sekolah-list').innerHTML = html || '<p style="text-align:center;color:var(--muted);">Tidak ada data.</p>';
             });
         }
 
         function loadDetailNilai() {
-            const npsn = document.getElementById('filter-sekolah-detail').value;
+            var npsn = document.getElementById('filter-sekolah-detail').value;
             if (!npsn) return;
-            db.ref(`sekolah/${npsn}/pengerjaan`).once('value', snap => {
-                const data = snap.val() || {};
-                let h = '', no = 1;
-                Object.keys(data).forEach(uid => {
-                    const item = data[uid];
-                    const n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
-                    h += `<tr><td>${no++}</td><td><b>${escapeHtml(item.nama)}</b></td><td>${item.kelas || '-'}</td><td>${item.mapelNome || item.mapel || '-'}</td><td>${item.nilai_pg || 0}</td><td>${item.nilai_essay || 0}</td><td><b>${n}</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}','${uid}')">Edit</button></td></tr>`;
-                });
+            db.ref('sekolah/' + npsn + '/pengerjaan').once('value', function(snap) {
+                var data = snap.val() || {};
+                var h = '', no = 1;
+                var keys = Object.keys(data);
+                for (var i = 0; i < keys.length; i++) {
+                    var uid = keys[i];
+                    var item = data[uid];
+                    var n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
+                    h += '<tr><td>' + (no++) + '</td><td><b>' + escapeHtml(item.nama) + '</b></td><td>' + (item.kelas || '-') + '</td><td>' + (item.mapelNome || item.mapel || '-') + '</td><td>' + (item.nilai_pg || 0) + '</td><td>' + (item.nilai_essay || 0) + '</td><td><b>' + n + '</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai(\'' + npsn + '\',\'' + uid + '\')">Edit</button></td></tr>';
+                }
                 document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Kosong</td></tr>";
             });
         }
 
         function bukaModalEditNilai(npsn, uid) {
-            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).once('value', snap => {
-                const d = snap.val();
+            db.ref('sekolah/' + npsn + '/pengerjaan/' + uid).once('value', function(snap) {
+                var d = snap.val();
                 if (!d) { showToast('Data tidak ditemukan.', 'error'); return; }
                 document.getElementById('edit-nilai-uid').value = uid;
                 document.getElementById('edit-nilai-npsn').value = npsn;
@@ -2081,27 +2099,27 @@ Jawaban: A</code>
         }
 
         function hitungNilaiAkhir() {
-            const pg = parseInt(document.getElementById('input-nilai-pg').value) || 0;
-            const es = parseInt(document.getElementById('input-nilai-essay').value) || 0;
-            const akhir = Math.round((pg + es) / 2);
+            var pg = parseInt(document.getElementById('input-nilai-pg').value) || 0;
+            var es = parseInt(document.getElementById('input-nilai-essay').value) || 0;
+            var akhir = Math.round((pg + es) / 2);
             document.getElementById('input-nilai-akhir').value = akhir;
             document.getElementById('preview-nilai-akhir').innerText = akhir;
         }
 
         function simpanEditNilai() {
-            const uid = document.getElementById('edit-nilai-uid').value;
-            const npsn = document.getElementById('edit-nilai-npsn').value;
-            db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).update({
+            var uid = document.getElementById('edit-nilai-uid').value;
+            var npsn = document.getElementById('edit-nilai-npsn').value;
+            db.ref('sekolah/' + npsn + '/pengerjaan/' + uid).update({
                 nilai_pg: parseInt(document.getElementById('input-nilai-pg').value) || 0,
                 nilai_essay: parseInt(document.getElementById('input-nilai-essay').value) || 0,
                 nilai: parseInt(document.getElementById('input-nilai-akhir').value) || 0,
                 status: document.getElementById('check-status').checked ? 'Selesai' : 'Perlu Koreksi'
-            }).then(() => {
+            }).then(function() {
                 closeModal('edit-nilai');
                 loadDetailNilai();
                 loadRekapData();
                 showToast('Nilai berhasil diperbarui!', 'success');
-            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
+            }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
         }
 
         function closeModal(id) {
@@ -2109,16 +2127,19 @@ Jawaban: A</code>
         }
 
         function exportRekap() {
-            let csv = "No,NPSN,Nama,Jumlah,Rata2,Tertinggi,Terendah\n";
-            let no = 1;
-            document.querySelectorAll('.school-card').forEach(card => {
-                const npsn = card.querySelector('.school-npsn').innerText.replace('NPSN: ', '');
-                const nama = card.querySelector('.school-name').innerText.split('. ')[1] || '';
-                const nums = card.querySelectorAll('.school-stat-num');
-                csv += `${no++},${npsn},"${nama}",${nums[0].innerText},${nums[1].innerText},${nums[2].innerText},${nums[3].innerText}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const a = document.createElement('a');
+            var csv = "No,NPSN,Nama,Jumlah,Rata2,Tertinggi,Terendah\n";
+            var no = 1;
+            var cards = document.querySelectorAll('.school-card');
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var npsn = card.querySelector('.school-npsn').innerText.replace('NPSN: ', '');
+                var nameEl = card.querySelector('.school-name').innerText.split('. ');
+                var nama = nameEl.length > 1 ? nameEl.slice(1).join('. ') : '';
+                var nums = card.querySelectorAll('.school-stat-num');
+                csv += no++ + ',' + npsn + ',"' + nama + '",' + nums[0].innerText + ',' + nums[1].innerText + ',' + nums[2].innerText + ',' + nums[3].innerText + '\n';
+            }
+            var blob = new Blob([csv], { type: 'text/csv' });
+            var a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = 'rekap_nilai.csv';
             a.click();
@@ -2129,61 +2150,55 @@ Jawaban: A</code>
         // REKAP SOAL PER MAPEL
         // =============================================
         function refreshRekapSoal() {
-            db.ref('admin_pusat/gudang_soal').once('value', snap => {
+            db.ref('admin_pusat/gudang_soal').once('value', function(snap) {
                 rekapSoalCache = snap.val() || {};
                 renderRekapSoal();
             });
         }
 
         function renderRekapSoal() {
-            let totalSemua = 0, totalPG = 0, totalEssay = 0, mapelAktif = 0;
-            let html = '';
+            var totalSemua = 0, totalPG = 0, totalEssay = 0, mapelAktif = 0;
+            var html = '';
+            var mapelKeys = Object.keys(mapelNames);
 
-            Object.keys(mapelNames).forEach(mapelKey => {
-                const mapelData = rekapSoalCache[mapelKey] || {};
-                let mTotal = 0, mPG = 0, mEssay = 0;
+            for (var mi = 0; mi < mapelKeys.length; mi++) {
+                var mapelKey = mapelKeys[mi];
+                var mapelData = rekapSoalCache[mapelKey] || {};
+                var mTotal = 0, mPG = 0, mEssay = 0;
 
-                Object.keys(mapelData).forEach(kelasKey => {
-                    const kelasSoal = mapelData[kelasKey] || {};
-                    Object.values(kelasSoal).forEach(soal => {
+                var kelasKeys = Object.keys(mapelData);
+                for (var ki = 0; ki < kelasKeys.length; ki++) {
+                    var kelasSoal = mapelData[kelasKeys[ki]] || {};
+                    var soalVals = Object.values(kelasSoal);
+                    for (var si = 0; si < soalVals.length; si++) {
+                        var soal = soalVals[si];
                         mTotal++; totalSemua++;
                         if (soal.opsi && soal.opsi.length > 0) { mPG++; totalPG++; }
                         else { mEssay++; totalEssay++; }
-                    });
-                });
+                    }
+                }
 
                 if (mTotal > 0) mapelAktif++;
 
-                html += `<div class="rekap-mapel-card" onclick="showMapelDetail('${mapelKey}')">
-                    <div class="mapel-name">${mapelNames[mapelKey]}</div>
-                    <div class="mapel-stats">
-                        <div class="mapel-stat-item">
-                            <div class="mapel-stat-num">${mTotal}</div>
-                            <div class="mapel-stat-label">Total</div>
-                        </div>
-                        <div class="mapel-stat-item">
-                            <div class="mapel-stat-num" style="color:var(--accent-blue)">${mPG}</div>
-                            <div class="mapel-stat-label">PG</div>
-                        </div>
-                        <div class="mapel-stat-item">
-                            <div class="mapel-stat-num" style="color:var(--accent-orange)">${mEssay}</div>
-                            <div class="mapel-stat-label">Essay</div>
-                        </div>
-                    </div>
-                </div>`;
-            });
+                html += '<div class="rekap-mapel-card" onclick="showMapelDetail(\'' + mapelKey + '\')">' +
+                    '<div class="mapel-name">' + mapelNames[mapelKey] + '</div>' +
+                    '<div class="mapel-stats">' +
+                    '<div class="mapel-stat-item"><div class="mapel-stat-num">' + mTotal + '</div><div class="mapel-stat-label">Total</div></div>' +
+                    '<div class="mapel-stat-item"><div class="mapel-stat-num" style="color:var(--accent-blue)">' + mPG + '</div><div class="mapel-stat-label">PG</div></div>' +
+                    '<div class="mapel-stat-item"><div class="mapel-stat-num" style="color:var(--accent-orange)">' + mEssay + '</div><div class="mapel-stat-label">Essay</div></div>' +
+                    '</div></div>';
+            }
 
             document.getElementById('rekap-total-semua').innerText = totalSemua;
             document.getElementById('rekap-total-pg').innerText = totalPG;
             document.getElementById('rekap-total-essay').innerText = totalEssay;
             document.getElementById('rekap-jumlah-mapel').innerText = mapelAktif;
-            document.getElementById('rekap-mapel-grid').innerHTML = html;
+            document.getElementById('rekap-mapel-grid').innerHTML =            document.getElementById('rekap-mapel-grid').innerHTML = html;
         }
 
         function showMapelDetail(mapelKey) {
             document.getElementById('mapel-select').value = mapelKey;
-            // Aktifkan menu soal di sidebar
-            const menuSoal = document.querySelector('.menu-item[data-panel="soal"]');
+            var menuSoal = document.querySelector('.menu-item[data-panel="soal"]');
             showPanel('soal', menuSoal);
             onMapelKelasChange();
         }
@@ -2191,11 +2206,11 @@ Jawaban: A</code>
         // =============================================
         // DISTRIBUSI MASAL
         // =============================================
-        async function updateDistInfo() {
-            const m = document.getElementById('dist-mapel-select').value;
-            const k = document.getElementById('dist-kelas-select').value;
-            const btn = document.getElementById('btn-distribusi-masal');
-            const info = document.getElementById('dist-info');
+        function updateDistInfo() {
+            var m = document.getElementById('dist-mapel-select').value;
+            var k = document.getElementById('dist-kelas-select').value;
+            var btn = document.getElementById('btn-distribusi-masal');
+            var info = document.getElementById('dist-info');
 
             if (!m || !k) {
                 info.innerHTML = '<p style="font-size:0.9rem;color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>';
@@ -2203,140 +2218,135 @@ Jawaban: A</code>
                 return;
             }
 
-            // Selalu ambil data terbaru dari Firebase, jangan andalkan cache
-            const snap = await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value');
-            const kelasSoal = snap.val() || {};
-            const jumlahSoal = Object.keys(kelasSoal).length;
-            const jumlahSekolah = Object.keys(sekolahCache).length;
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k).once('value').then(function(snap) {
+                var kelasSoal = snap.val() || {};
+                var jumlahSoal = Object.keys(kelasSoal).length;
+                var jumlahSekolah = Object.keys(sekolahCache).length;
 
-            if (jumlahSoal === 0) {
-                info.innerHTML = `<p style="font-size:0.9rem;color:var(--accent-red);"><b>Tidak ada soal</b> di ${mapelNames[m]} - ${k.replace('kelas_', 'Kelas ')}.</p>`;
-                btn.disabled = true;
-            } else {
-                info.innerHTML = `
-                    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
-                        <div style="text-align:center;">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">${jumlahSoal}</div>
-                            <small style="color:var(--muted);">Soal tersimpan</small>
-                        </div>
-                        <div style="text-align:center;">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent-green);">${jumlahSekolah}</div>
-                            <small style="color:var(--muted);">Sekolah tujuan</small>
-                        </div>
-                    </div>
-                    <p style="margin-top:10px;font-size:0.85rem;color:var(--fg);"><b>${mapelNames[m]}</b> - <b>${k.replace('kelas_', 'Kelas ')}</b></p>
-                `;
-                btn.disabled = false;
-            }
+                if (jumlahSoal === 0) {
+                    info.innerHTML = '<p style="font-size:0.9rem;color:var(--accent-red);"><b>Tidak ada soal</b> di ' + mapelNames[m] + ' - ' + k.replace('kelas_', 'Kelas ') + '.</p>';
+                    btn.disabled = true;
+                } else {
+                    info.innerHTML = '<div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">' +
+                        '<div style="text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--accent);">' + jumlahSoal + '</div><small style="color:var(--muted);">Soal tersimpan</small></div>' +
+                        '<div style="text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--accent-green);">' + jumlahSekolah + '</div><small style="color:var(--muted);">Sekolah tujuan</small></div>' +
+                        '</div>' +
+                        '<p style="margin-top:10px;font-size:0.85rem;color:var(--fg);"><b>' + mapelNames[m] + '</b> - <b>' + k.replace('kelas_', 'Kelas ') + '</b></p>';
+                    btn.disabled = false;
+                }
+            });
         }
 
-        async function executeDistribusiMasal() {
-            const m = document.getElementById('dist-mapel-select').value;
-            const k = document.getElementById('dist-kelas-select').value;
+        function executeDistribusiMasal() {
+            var m = document.getElementById('dist-mapel-select').value;
+            var k = document.getElementById('dist-kelas-select').value;
 
             if (!m || !k) { showToast('Pilih mapel dan kelas!', 'warning'); return; }
 
-            // Ambil data soal terbaru langsung dari Firebase
-            const soalSnap = await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value');
-            const soalData = soalSnap.val();
+            db.ref('admin_pusat/gudang_soal/' + m + '/' + k).once('value').then(function(soalSnap) {
+                var soalData = soalSnap.val();
 
-            if (!soalData || Object.keys(soalData).length === 0) {
-                showToast('Tidak ada soal untuk didistribusikan!', 'error');
-                return;
-            }
-
-            const sekolahKeys = Object.keys(sekolahCache);
-            if (sekolahKeys.length === 0) {
-                showToast('Tidak ada sekolah terdaftar!', 'error');
-                return;
-            }
-
-            const jumlahSoal = Object.keys(soalData).length;
-            const yes = await customConfirm(
-                `Distribusikan ${jumlahSoal} soal ke ${sekolahKeys.length} sekolah?`,
-                'warning'
-            );
-            if (!yes) return;
-
-            // Tampilkan progress
-            const cardProgress = document.getElementById('card-dist-progress');
-            cardProgress.classList.remove('hidden');
-            const progressLog = document.getElementById('dist-progress-log');
-            const progressBar = document.getElementById('dist-progress-bar');
-            const progressText = document.getElementById('dist-progress-text');
-            const btnDist = document.getElementById('btn-distribusi-masal');
-
-            btnDist.disabled = true;
-            btnDist.innerHTML = '<span class="spinner"></span> Mendistribusikan...';
-            let successCount = 0, errorCount = 0;
-
-            progressLog.innerHTML = '<span class="log-info">[INFO] Memulai distribusi soal...</span>\n';
-            progressLog.innerHTML += `<span class="log-info">[INFO] Mapel: ${mapelNames[m]}, Kelas: ${k.replace('kelas_', 'Kelas ')}</span>\n`;
-            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah soal: ${jumlahSoal}</span>\n`;
-            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah sekolah: ${sekolahKeys.length}</span>\n`;
-            progressLog.innerHTML += '<span class="log-info">----------------------------------------</span>\n';
-
-            for (let i = 0; i < sekolahKeys.length; i++) {
-                const npsn = sekolahKeys[i];
-                const sekolah = sekolahCache[npsn];
-                const namaSekolah = sekolah?.info?.nama || sekolah?.nama || 'Unknown';
-
-                progressText.innerText = `${i + 1}/${sekolahKeys.length}`;
-                progressBar.style.width = `${((i + 1) / sekolahKeys.length * 100)}%`;
-
-                try {
-                    await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalData);
-                    successCount++;
-                    progressLog.innerHTML += `<span class="log-success">[OK] ${npsn} - ${namaSekolah}</span>\n`;
-                } catch (err) {
-                    errorCount++;
-                    progressLog.innerHTML += `<span class="log-error">[GAGAL] ${npsn} - ${err.message}</span>\n`;
+                if (!soalData || Object.keys(soalData).length === 0) {
+                    showToast('Tidak ada soal untuk didistribusikan!', 'error');
+                    return;
                 }
 
-                progressLog.scrollTop = progressLog.scrollHeight;
-                // Delay kecil agar tidak membebani Firebase
-                await new Promise(resolve => setTimeout(resolve, 80));
-            }
+                var sekolahKeys = Object.keys(sekolahCache);
+                if (sekolahKeys.length === 0) {
+                    showToast('Tidak ada sekolah terdaftar!', 'error');
+                    return;
+                }
 
-            progressLog.innerHTML += '\n<span class="log-info">========================================</span>\n';
-            progressLog.innerHTML += `<span class="log-success">[SELESAI] Berhasil: ${successCount} sekolah</span>\n`;
-            if (errorCount > 0) {
-                progressLog.innerHTML += `<span class="log-error">[ERROR] Gagal: ${errorCount} sekolah</span>\n`;
-            }
+                var jumlahSoal = Object.keys(soalData).length;
 
-            btnDist.disabled = false;
-            btnDist.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Distribusikan ke Semua Sekolah';
+                customConfirm('Distribusikan ' + jumlahSoal + ' soal ke ' + sekolahKeys.length + ' sekolah?', 'warning').then(function(yes) {
+                    if (!yes) return;
 
-            if (errorCount === 0) {
-                showToast(`Distribusi berhasil ke ${successCount} sekolah!`, 'success');
-            } else {
-                showToast(`Selesai. Berhasil: ${successCount}, Gagal: ${errorCount}`, 'warning');
-            }
+                    var cardProgress = document.getElementById('card-dist-progress');
+                    cardProgress.classList.remove('hidden');
+                    var progressLog = document.getElementById('dist-progress-log');
+                    var progressBar = document.getElementById('dist-progress-bar');
+                    var progressText = document.getElementById('dist-progress-text');
+                    var btnDist = document.getElementById('btn-distribusi-masal');
 
-            refreshRekapSoal();
+                    btnDist.disabled = true;
+                    btnDist.innerHTML = '<span class="spinner"></span> Mendistribusikan...';
+                    var successCount = 0, errorCount = 0;
+
+                    progressLog.innerHTML = '<span class="log-info">[INFO] Memulai distribusi soal...</span>\n';
+                    progressLog.innerHTML += '<span class="log-info">[INFO] Mapel: ' + mapelNames[m] + ', Kelas: ' + k.replace('kelas_', 'Kelas ') + '</span>\n';
+                    progressLog.innerHTML += '<span class="log-info">[INFO] Jumlah soal: ' + jumlahSoal + '</span>\n';
+                    progressLog.innerHTML += '<span class="log-info">[INFO] Jumlah sekolah: ' + sekolahKeys.length + '</span>\n';
+                    progressLog.innerHTML += '<span class="log-info">----------------------------------------</span>\n';
+
+                    function prosesSekolah(index) {
+                        if (index >= sekolahKeys.length) {
+                            // Selesai semua
+                            progressLog.innerHTML += '\n<span class="log-info">========================================</span>\n';
+                            progressLog.innerHTML += '<span class="log-success">[SELESAI] Berhasil: ' + successCount + ' sekolah</span>\n';
+                            if (errorCount > 0) {
+                                progressLog.innerHTML += '<span class="log-error">[ERROR] Gagal: ' + errorCount + ' sekolah</span>\n';
+                            }
+
+                            btnDist.disabled = false;
+                            btnDist.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Distribusikan ke Semua Sekolah';
+
+                            if (errorCount === 0) {
+                                showToast('Distribusi berhasil ke ' + successCount + ' sekolah!', 'success');
+                            } else {
+                                showToast('Selesai. Berhasil: ' + successCount + ', Gagal: ' + errorCount, 'warning');
+                            }
+                            refreshRekapSoal();
+                            return;
+                        }
+
+                        var npsn = sekolahKeys[index];
+                        var sekolah = sekolahCache[npsn];
+                        var namaSekolah = (sekolah && sekolah.info) ? sekolah.info.nama : (sekolah ? sekolah.nama : 'Unknown');
+
+                        progressText.innerText = (index + 1) + '/' + sekolahKeys.length;
+                        progressBar.style.width = ((index + 1) / sekolahKeys.length * 100) + '%';
+
+                        db.ref('sekolah/' + npsn + '/master_soal/' + m + '/' + k).set(soalData).then(function() {
+                            successCount++;
+                            progressLog.innerHTML += '<span class="log-success">[OK] ' + npsn + ' - ' + namaSekolah + '</span>\n';
+                        }).catch(function(err) {
+                            errorCount++;
+                            progressLog.innerHTML += '<span class="log-error">[GAGAL] ' + npsn + ' - ' + err.message + '</span>\n';
+                        }).finally(function() {
+                            progressLog.scrollTop = progressLog.scrollHeight;
+                            setTimeout(function() { prosesSekolah(index + 1); }, 80);
+                        });
+                    }
+
+                    prosesSekolah(0);
+                });
+            });
         }
 
         // =============================================
         // DRAG & DROP & EVENT LISTENERS
         // =============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const uploadZone = document.getElementById('upload-zone');
-            const fileInput = document.getElementById('file-input');
+        document.addEventListener('DOMContentLoaded', function() {
+            var uploadZone = document.getElementById('upload-zone');
+            var fileInput = document.getElementById('file-input');
 
             if (fileInput) {
-                fileInput.addEventListener('change', e => {
+                fileInput.addEventListener('change', function(e) {
                     if (e.target.files[0]) handleFile(e.target.files[0]);
-                    e.target.value = ''; // Reset agar bisa upload file sama lagi
+                    e.target.value = '';
                 });
             }
 
             if (uploadZone) {
-                uploadZone.addEventListener('dragover', e => {
+                uploadZone.addEventListener('dragover', function(e) {
                     e.preventDefault();
                     uploadZone.classList.add('dragover');
                 });
-                uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-                uploadZone.addEventListener('drop', e => {
+                uploadZone.addEventListener('dragleave', function() {
+                    uploadZone.classList.remove('dragover');
+                });
+                uploadZone.addEventListener('drop', function(e) {
                     e.preventDefault();
                     uploadZone.classList.remove('dragover');
                     if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
@@ -2344,7 +2354,7 @@ Jawaban: A</code>
             }
 
             // Close modal dengan Escape key
-            document.addEventListener('keydown', e => {
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     if (!document.getElementById('confirm-layer').classList.contains('hidden')) {
                         resolveConfirm(false);
@@ -2357,14 +2367,17 @@ Jawaban: A</code>
             });
 
             // Close modal klik di luar
-            document.querySelectorAll('.modal-layer').forEach(layer => {
-                layer.addEventListener('click', e => {
-                    if (e.target === layer) {
-                        layer.classList.add('hidden');
-                    }
-                });
-            });
+            var modalLayers = document.querySelectorAll('.modal-layer');
+            for (var i = 0; i < modalLayers.length; i++) {
+                (function(layer) {
+                    layer.addEventListener('click', function(e) {
+                        if (e.target === layer) {
+                            layer.classList.add('hidden');
+                        }
+                    });
+                })(modalLayers[i]);
+            }
         });
     </script>
 </body>
-</html>                if (mTotal > 0) map
+</html>
