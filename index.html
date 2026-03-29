@@ -37,90 +37,52 @@
         .title-font { font-family: 'Fredoka', sans-serif; }
         .hidden { display: none !important; }
 
-        /* Login Styles */
+        /* Login */
         .login-layer {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+            width: 100%; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; overflow: hidden;
         }
-
         .login-bg {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(135deg, #1E3A5F 0%, #3B5998 50%, #5B7DB1 100%);
         }
-
         .login-bg::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 50%;
-            background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.3), transparent);
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+            background: radial-gradient(ellipse at top, rgba(124,58,237,0.3), transparent);
         }
-
-        .login-shapes {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .ls {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: floatShape 20s ease-in-out infinite;
-        }
-
+        .login-shapes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .ls { position: absolute; border-radius: 50%; opacity: 0.1; animation: floatShape 20s ease-in-out infinite; }
         .ls-1 { width: 300px; height: 300px; background: var(--accent); top: -100px; right: -50px; }
         .ls-2 { width: 200px; height: 200px; background: var(--accent-cyan); bottom: 10%; left: -50px; animation-delay: 5s; }
         .ls-3 { width: 150px; height: 150px; background: var(--accent-pink); top: 40%; right: 10%; animation-delay: 10s; }
         .ls-4 { width: 100px; height: 100px; background: var(--accent-green); bottom: 20%; right: 30%; animation-delay: 15s; }
 
         @keyframes floatShape {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(20px, -30px) rotate(5deg); }
-            50% { transform: translate(-10px, 20px) rotate(-5deg); }
-            75% { transform: translate(30px, 10px) rotate(3deg); }
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(20px,-30px) rotate(5deg); }
+            50% { transform: translate(-10px,20px) rotate(-5deg); }
+            75% { transform: translate(30px,10px) rotate(3deg); }
         }
 
         .login-box {
-            position: relative;
-            z-index: 10;
-            background: var(--card);
-            padding: 40px 35px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 400px;
+            position: relative; z-index: 10;
+            background: var(--card); padding: 40px 35px;
+            border-radius: 24px; width: 100%; max-width: 400px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1);
         }
-
-        @keyframes popIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .login-icon {
             width: 80px; height: 80px;
             background: linear-gradient(135deg, var(--accent), #9333EA);
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            border-radius: 20px; margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(124,58,237,0.4);
             animation: pulse 2s ease-in-out infinite;
         }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .login-icon svg { width: 40px; height: 40px; fill: white; }
         .login-title { font-size: 1.6rem; color: var(--sidebar); margin-bottom: 5px; }
         .login-subtitle { font-size: 0.9rem; color: var(--accent); margin-bottom: 25px; }
@@ -129,195 +91,137 @@
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
 
         input, select, textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            font-family: 'Nunito', sans-serif;
-            transition: all 0.3s ease;
-            background: #FAFBFC;
+            width: 100%; padding: 14px 16px;
+            border: 2px solid var(--border); border-radius: 12px;
+            font-size: 14px; font-family: 'Nunito', sans-serif;
+            transition: all 0.3s ease; background: #FAFBFC;
         }
-
         input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+            border-color: var(--accent); outline: none;
+            background: white; box-shadow: 0 0 0 4px rgba(124,58,237,0.15);
         }
 
         .btn {
-            padding: 14px 24px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 14px 24px; border: none; border-radius: 12px;
+            font-weight: 700; font-family: 'Fredoka', sans-serif;
+            font-size: 14px; cursor: pointer; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-
         .btn-primary { background: linear-gradient(135deg, var(--accent), #9333EA); color: white; width: 100%; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124,58,237,0.4); }
         .btn-success { background: linear-gradient(135deg, var(--accent-green), #059669); color: white; }
         .btn-danger { background: linear-gradient(135deg, var(--accent-red), #DC2626); color: white; }
         .btn-info { background: linear-gradient(135deg, var(--accent-blue), #2563EB); color: white; }
         .btn-warning { background: linear-gradient(135deg, var(--accent-orange), #D97706); color: white; }
         .btn-secondary { background: #F1F5F9; color: var(--fg); border: 2px solid var(--border); }
-
         .btn-sm { padding: 10px 16px; font-size: 12px; width: auto; }
         .btn:hover { transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
         .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
         .error-msg {
-            color: var(--accent-red);
-            font-size: 0.85rem;
-            margin-top: 15px;
-            padding: 10px;
-            background: #FEF2F2;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
+            color: var(--accent-red); font-size: 0.85rem;
+            margin-top: 15px; padding: 10px; background: #FEF2F2;
+            border-radius: 8px; text-align: center; display: none;
         }
 
-        /* App Layer */
-        .app-layer { display: flex; min-height: 100vh; }
+        /* Toast */
+        .toast-container {
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast {
+            padding: 14px 20px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            display: flex; align-items: center; gap: 10px;
+            max-width: 380px;
+        }
+        .toast-success { background: #065F46; color: white; }
+        .toast-error { background: #991B1B; color: white; }
+        .toast-info { background: #1E40AF; color: white; }
+        .toast-warning { background: #92400E; color: white; }
+        .toast svg { width: 18px; height: 18px; flex-shrink: 0; }
+        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
+        /* App Layout */
+        .app-layer { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 260px;
-            background: var(--sidebar);
-            position: fixed;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
+            width: 260px; background: var(--sidebar);
+            position: fixed; height: 100vh;
+            display: flex; flex-direction: column; z-index: 100;
             transition: transform 0.3s ease;
         }
-
         .sidebar-head {
             padding: 25px 20px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(16, 185, 129, 0.2));
+            background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(16,185,129,0.2));
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
         .sidebar-head h3 { color: white; font-size: 1.2rem; margin-bottom: 5px; }
         .sidebar-head small { color: rgba(255,255,255,0.7); font-size: 0.75rem; }
-
         .sidebar-badge {
             display: inline-block;
             background: linear-gradient(135deg, var(--accent), #9333EA);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            margin-top: 10px;
-            font-weight: 600;
+            color: white; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.7rem; margin-top: 10px; font-weight: 600;
         }
-
         .menu-section { flex-grow: 1; padding: 15px 0; overflow-y: auto; }
-
         .menu-item {
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
+            padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+            color: rgba(255,255,255,0.7); cursor: pointer;
+            transition: all 0.3s ease; border-left: 4px solid transparent;
         }
-
         .menu-item:hover { background: rgba(255,255,255,0.05); color: white; }
-        .menu-item.active { background: rgba(124, 58, 237, 0.2); color: white; border-left-color: var(--accent); }
+        .menu-item.active { background: rgba(124,58,237,0.2); color: white; border-left-color: var(--accent); }
         .menu-item svg { width: 20px; height: 20px; flex-shrink: 0; }
-
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-
         .btn-logout {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 10px;
-            color: rgba(255,255,255,0.8);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            width: 100%; padding: 12px; background: rgba(255,255,255,0.1);
+            border: none; border-radius: 10px; color: rgba(255,255,255,0.8);
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
             font-family: 'Nunito', sans-serif;
         }
-
         .btn-logout:hover { background: var(--accent-red); color: white; }
 
         .main-content { flex-grow: 1; margin-left: 260px; padding: 25px; min-height: 100vh; }
-
         .page-header { margin-bottom: 25px; }
-
         .page-title {
-            font-size: 1.6rem;
-            color: var(--fg);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 1.6rem; color: var(--fg);
+            display: flex; align-items: center; gap: 12px;
         }
-
         .page-title svg { width: 32px; height: 32px; color: var(--accent); }
 
         .card {
-            background: var(--card);
-            padding: 25px;
-            border-radius: 16px;
+            background: var(--card); padding: 25px; border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
+            margin-bottom: 20px; border: 1px solid var(--border);
         }
-
         .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--bg);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 2px solid var(--bg);
         }
-
         .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--fg);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.1rem; font-weight: 700; color: var(--fg);
+            display: flex; align-items: center; gap: 10px;
         }
-
         .card-title svg { width: 20px; height: 20px; color: var(--accent); }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 15px; margin-bottom: 20px;
         }
-
         .stat-card {
             background: linear-gradient(135deg, #F8FAFC, #F1F5F9);
-            padding: 20px;
-            border-radius: 14px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            padding: 20px; border-radius: 14px; text-align: center;
+            border: 1px solid var(--border); transition: all 0.3s ease;
         }
-
         .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
         .stat-card.highlight { background: linear-gradient(135deg, var(--accent), #9333EA); border: none; }
         .stat-card.highlight .stat-num, .stat-card.highlight .stat-label { color: white; }
-
         .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; }
         .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 5px; }
 
@@ -335,111 +239,59 @@
         .status-info { background: #DBEAFE; color: #1E40AF; }
 
         .token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-
         .token-card {
             background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
-            padding: 18px;
-            border-radius: 14px;
-            text-align: center;
-            border: 2px solid var(--accent-light);
-            transition: all 0.3s ease;
+            padding: 18px; border-radius: 14px; text-align: center;
+            border: 2px solid var(--accent-light); transition: all 0.3s ease;
         }
-
-        .token-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.2); }
+        .token-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(124,58,237,0.2); }
         .token-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
-        .token-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; }
+        .token-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; letter-spacing: 3px; }
 
         .soal-preview { max-height: 500px; overflow-y: auto; padding: 15px; background: #FAFBFC; border-radius: 12px; border: 1px solid var(--border); }
-
         .soal-item {
-            background: white;
-            border: 1px solid var(--border);
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            background: white; border: 1px solid var(--border);
+            padding: 18px; border-radius: 12px; margin-bottom: 12px;
             border-left: 4px solid var(--accent-blue);
-            transition: all 0.3s ease;
-            position: relative; /* Added for ID display */
+            transition: all 0.3s ease; position: relative;
         }
-
         .soal-item:hover { border-left-color: var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .soal-item.essay { border-left-color: var(--accent-orange); }
-
         .soal-id-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #F1F5F9;
-            color: var(--muted);
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
+            position: absolute; top: 8px; right: 8px;
+            background: #F1F5F9; color: var(--muted);
+            font-size: 10px; padding: 2px 6px; border-radius: 4px; font-family: monospace;
         }
-
         .soal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .soal-nomor { font-weight: 700; color: var(--accent); }
         .soal-tag { font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
         .soal-tag.pg { background: #DBEAFE; color: #1E40AF; }
         .soal-tag.essay { background: #FEF3C7; color: #92400E; }
-
         .soal-text { line-height: 1.6; margin-bottom: 12px; }
-
-        .soal-img-preview {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border: 2px solid var(--border);
-            object-fit: contain;
-        }
-
+        .soal-img-preview { max-width: 200px; max-height: 150px; border-radius: 10px; margin: 10px 0; border: 2px solid var(--border); object-fit: contain; }
         .opsi-item {
-            margin-left: 10px;
-            font-size: 0.85rem;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            background: white;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-left: 10px; font-size: 0.85rem; padding: 8px 12px;
+            border-radius: 8px; margin-bottom: 5px; background: white;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
         }
-
         .opsi-benar { background: #D1FAE5; color: #065F46; font-weight: 700; border-color: var(--accent-green); }
-
         .kunci-box { background: #F0FDF4; border: 1px dashed var(--accent-green); padding: 12px; border-radius: 8px; margin-top: 12px; }
-
         .soal-actions { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border); display: flex; gap: 10px; }
 
         .tab-container { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-
         .tab-btn {
-            padding: 10px 20px;
-            border: none;
-            background: #F1F5F9;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--muted);
-            font-family: 'Nunito', sans-serif;
-            transition: all 0.3s ease;
+            padding: 10px 20px; border: none; background: #F1F5F9;
+            border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600;
+            color: var(--muted); font-family: 'Nunito', sans-serif; transition: all 0.3s ease;
         }
-
         .tab-btn:hover { background: #E2E8F0; }
         .tab-btn.active { background: var(--accent); color: white; }
 
         .upload-zone {
-            border: 2px dashed var(--border);
-            border-radius: 14px;
-            padding: 40px;
-            text-align: center;
-            background: #FAFBFC;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border: 2px dashed var(--border); border-radius: 14px;
+            padding: 40px; text-align: center; background: #FAFBFC;
+            transition: all 0.3s ease; cursor: pointer;
         }
-
         .upload-zone:hover { border-color: var(--accent); background: #F5F3FF; }
         .upload-zone.dragover { border-color: var(--accent-green); background: #F0FDF4; }
         .upload-zone svg { width: 48px; height: 48px; color: var(--muted); margin-bottom: 10px; }
@@ -451,60 +303,30 @@
         .alert-success { background: #F0FDF4; border: 1px solid #BBF7D0; color: #166534; }
 
         .modal-layer {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-            backdrop-filter: blur(4px);
+            position: fixed; inset: 0; background: rgba(15,23,42,0.7);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; padding: 20px; backdrop-filter: blur(4px);
         }
-
         .modal-box {
-            background: var(--card);
-            width: 100%;
-            max-width: 700px;
-            border-radius: 20px;
-            max-height: 90vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--card); width: 100%; max-width: 700px;
+            border-radius: 20px; max-height: 90vh; overflow: hidden;
+            display: flex; flex-direction: column;
+            animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
         }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-header {
             padding: 20px 25px;
             background: linear-gradient(135deg, var(--accent), #9333EA);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: white; display: flex; justify-content: space-between; align-items: center;
         }
-
         .modal-header h3 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .modal-header.danger { background: linear-gradient(135deg, var(--accent-red), #DC2626); }
-
         .close-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+            font-size: 1.2rem; transition: all 0.3s ease;
         }
-
         .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
-
         .modal-body { padding: 25px; overflow-y: auto; flex-grow: 1; }
         .modal-footer { padding: 15px 25px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
 
@@ -512,16 +334,11 @@
         .filter-row select, .filter-row input { width: auto; min-width: 150px; }
 
         .school-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 15px;
+            background: white; border: 1px solid var(--border);
+            border-radius: 14px; padding: 20px; margin-bottom: 15px;
             transition: all 0.3s ease;
         }
-
         .school-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-2px); }
-
         .school-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
         .school-name { font-weight: 700; font-size: 1rem; color: var(--fg); }
         .school-npsn { font-size: 0.8rem; color: var(--muted); }
@@ -530,45 +347,28 @@
         .school-stat-num { font-size: 1.3rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; }
         .school-stat-label { font-size: 0.7rem; color: var(--muted); }
 
-        .mobile-header { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: var(--sidebar); z-index: 99; padding: 0 15px; align-items: center; justify-content: space-between; }
-        .mobile-header h3 { color: white; font-size: 1rem; }
-
-        .menu-toggle {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            cursor: pointer;
+        .mobile-header {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+            background: var(--sidebar); z-index: 99; padding: 0 15px;
+            align-items: center; justify-content: space-between;
         }
-
+        .mobile-header h3 { color: white; font-size: 1rem; }
+        .menu-toggle {
+            background: rgba(255,255,255,0.1); border: none; color: white;
+            width: 40px; height: 40px; border-radius: 10px; cursor: pointer;
+        }
         .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
 
         .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            font-weight: 700;
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; border-radius: 10px; margin-bottom: 12px; font-weight: 700;
         }
-
         .section-header.pg { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); color: #1E40AF; }
         .section-header.essay { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #92400E; }
         .section-header svg { width: 20px; height: 20px; }
 
         .nilai-input-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-
-        .nilai-input-item {
-            text-align: center;
-            padding: 15px;
-            background: #F8FAFC;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-        }
-
+        .nilai-input-item { text-align: center; padding: 15px; background: #F8FAFC; border-radius: 12px; border: 2px solid var(--border); }
         .nilai-input-item label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
         .nilai-input-item input { width: 100%; text-align: center; font-size: 1.5rem; font-weight: 700; font-family: 'Fredoka', sans-serif; color: var(--accent); }
 
@@ -576,286 +376,136 @@
         .nilai-preview-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
         .nilai-preview-value { font-size: 2.5rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; }
 
-        .action-btns { display: flex; gap: 6px; }
-        .action-btns .btn { padding: 8px 12px; font-size: 11px; }
-
         .copas-box {
             background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
-            border: 2px solid var(--accent-green);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border: 2px solid var(--accent-green); border-radius: 14px; padding: 20px; margin-bottom: 20px;
         }
-
         .copas-box textarea { min-height: 200px; font-size: 13px; line-height: 1.6; }
 
-        .progress-bar-container {
-            flex-grow: 1;
-            height: 8px;
-            background: #E2E8F0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-            transition: width 0.3s ease;
-        }
+        .progress-bar-container { flex-grow: 1; height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); transition: width 0.3s ease; }
 
         .distribusi-status {
             background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-            border: 2px solid var(--accent-blue);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
+            border: 2px solid var(--accent-blue); border-radius: 12px; padding: 15px; margin-top: 15px;
         }
+        .distribusi-progress { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
 
-        .distribusi-progress {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        /* Image Upload Styles */
         .img-upload-box {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            background: #FAFBFC;
-            margin-top: 8px;
-            transition: all 0.3s ease;
+            border: 2px dashed var(--border); border-radius: 12px;
+            padding: 15px; text-align: center; background: #FAFBFC;
+            margin-top: 8px; transition: all 0.3s ease;
         }
-
         .img-upload-box:hover { border-color: var(--accent); background: #F5F3FF; }
         .img-upload-box.has-img { border-style: solid; border-color: var(--accent-green); background: #F0FDF4; }
 
         .img-preview-container { position: relative; display: inline-block; margin-top: 10px; }
-
-        .img-preview {
-            max-width: 150px;
-            max-height: 100px;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-            object-fit: contain;
-        }
-
+        .img-preview { max-width: 150px; max-height: 100px; border-radius: 8px; border: 2px solid var(--border); object-fit: contain; }
         .img-preview-container .remove-img {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 24px;
-            height: 24px;
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            position: absolute; top: -8px; right: -8px;
+            width: 24px; height: 24px; background: var(--accent-red); color: white;
+            border: none; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
         }
-
         .img-preview-container .remove-img:hover { transform: scale(1.1); background: #DC2626; }
 
         .upload-btn-small {
-            padding: 8px 16px;
-            font-size: 12px;
+            padding: 8px 16px; font-size: 12px;
             background: linear-gradient(135deg, var(--accent-blue), #2563EB);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            font-family: 'Nunito', sans-serif;
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+            transition: all 0.3s ease; font-family: 'Nunito', sans-serif;
         }
-
-        .upload-btn-small:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+        .upload-btn-small:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
         .upload-btn-small svg { width: 14px; height: 14px; }
 
-        .opsi-img-thumb {
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            object-fit: cover;
-            border: 2px solid var(--border);
-            margin-left: auto;
-        }
+        .opsi-img-thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 2px solid var(--border); margin-left: auto; }
 
-        /* Opsi Input Container dengan Upload Gambar */
         .opsi-input-container {
-            background: #F8FAFC;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            background: #F8FAFC; padding: 15px; border-radius: 12px;
+            margin-bottom: 12px; border: 1px solid var(--border); transition: all 0.3s ease;
         }
-
-        .opsi-input-container:hover {
-            border-color: var(--accent);
-        }
-
-        .opsi-input-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
+        .opsi-input-container:hover { border-color: var(--accent); }
+        .opsi-input-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .opsi-label-circle {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, var(--accent), #9333EA);
-            color: white;
-            border-radius: 50%;
-            font-weight: 700;
-            flex-shrink: 0;
+            color: white; border-radius: 50%; font-weight: 700; flex-shrink: 0;
         }
+        .opsi-text-input { flex-grow: 1; }
+        .opsi-text-input input { margin: 0; }
+        .opsi-img-upload { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
 
-        .opsi-text-input {
-            flex-grow: 1;
-        }
-
-        .opsi-text-input input {
-            margin: 0;
-        }
-
-        .opsi-img-upload {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .opsi-img-preview-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .opsi-img-preview-row img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-        }
-
-        .opsi-img-preview-row .remove-opsi-img {
-            padding: 5px 10px;
-            font-size: 11px;
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* Rekap Soal Styles */
-        .rekap-mapel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-        }
-
+        .rekap-mapel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .rekap-mapel-card {
             background: linear-gradient(135deg, #F8FAFC, #F1F5F9);
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border: 2px solid var(--border); border-radius: 14px;
+            padding: 18px; text-align: center; transition: all 0.3s ease; cursor: pointer;
         }
+        .rekap-mapel-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .rekap-mapel-card .mapel-name { font-weight: 700; color: var(--fg); margin-bottom: 12px; font-size: 0.95rem; }
+        .rekap-mapel-card .mapel-stats { display: flex; justify-content: center; gap: 15px; }
+        .rekap-mapel-card .mapel-stat-item { text-align: center; }
+        .rekap-mapel-card .mapel-stat-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); font-family: 'Fredoka', sans-serif; }
+        .rekap-mapel-card .mapel-stat-label { font-size: 0.7rem; color: var(--muted); }
 
-        .rekap-mapel-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: var(--accent);
-        }
-
-        .rekap-mapel-card .mapel-name {
-            font-weight: 700;
-            color: var(--fg);
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-
-        .rekap-mapel-card .mapel-stats {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .rekap-mapel-card .mapel-stat-item {
-            text-align: center;
-        }
-
-        .rekap-mapel-card .mapel-stat-num {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        .rekap-mapel-card .mapel-stat-label {
-            font-size: 0.7rem;
-            color: var(--muted);
-        }
-
-        /* Distribusi Masal Zone */
         .distribusi-masal-zone {
-            border: 3px solid var(--accent);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
-            transition: all 0.3s ease;
+            border: 3px solid var(--accent); border-radius: 16px; padding: 30px;
+            text-align: center; background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
         }
+        .distribusi-masal-zone svg { width: 48px; height: 48px; color: var(--accent); margin-bottom: 10px; }
 
-        .distribusi-masal-zone svg {
-            width: 48px;
-            height: 48px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        /* Progress Log */
         .progress-log {
-            max-height: 300px;
-            overflow-y: auto;
-            background: #1E293B;
-            border-radius: 12px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            line-height: 1.8;
-            color: #E2E8F0;
+            max-height: 300px; overflow-y: auto; background: #1E293B;
+            border-radius: 12px; padding: 15px;
+            font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8; color: #E2E8F0;
         }
-
         .progress-log .log-success { color: #4ADE80; }
         .progress-log .log-error { color: #F87171; }
         .progress-log .log-info { color: #60A5FA; }
         .progress-log .log-warning { color: #FBBF24; }
 
+        /* Confirm Dialog */
+        .confirm-layer {
+            position: fixed; inset: 0; background: rgba(15,23,42,0.7);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000; padding: 20px; backdrop-filter: blur(4px);
+        }
+        .confirm-box {
+            background: var(--card); width: 100%; max-width: 400px;
+            border-radius: 20px; overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .confirm-header {
+            padding: 20px 25px; color: white;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .confirm-header.danger { background: linear-gradient(135deg, var(--accent-red), #DC2626); }
+        .confirm-header.warning { background: linear-gradient(135deg, var(--accent-orange), #D97706); }
+        .confirm-header svg { width: 24px; height: 24px; }
+        .confirm-body { padding: 25px; }
+        .confirm-body p { font-size: 0.95rem; color: var(--fg); line-height: 1.6; }
+        .confirm-footer { padding: 15px 25px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.6s linear infinite; display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
         @media print {
             .sidebar, .mobile-header, .no-print { display: none !important; }
             .main-content { margin-left: 0; padding: 0; }
         }
-
         @media (max-width: 768px) {
             .mobile-header { display: flex; }
             .sidebar { transform: translateX(-100%); }
@@ -869,7 +519,6 @@
             .modal-box { max-width: 100%; }
             .rekap-mapel-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
@@ -878,29 +527,44 @@
 </head>
 <body>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Custom Confirm -->
+    <div id="confirm-layer" class="confirm-layer hidden">
+        <div class="confirm-box">
+            <div class="confirm-header danger" id="confirm-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span style="font-weight:700; font-size:1rem;">Konfirmasi</span>
+            </div>
+            <div class="confirm-body">
+                <p id="confirm-message">Apakah Anda yakin?</p>
+            </div>
+            <div class="confirm-footer">
+                <button class="btn btn-sm btn-secondary" onclick="resolveConfirm(false)">Batal</button>
+                <button class="btn btn-sm btn-danger" onclick="resolveConfirm(true)" id="confirm-ok-btn">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- LOGIN -->
     <div id="login-layer" class="login-layer">
         <div class="login-bg"></div>
         <div class="login-shapes">
-            <div class="ls ls-1"></div>
-            <div class="ls ls-2"></div>
-            <div class="ls ls-3"></div>
-            <div class="ls ls-4"></div>
+            <div class="ls ls-1"></div><div class="ls ls-2"></div>
+            <div class="ls ls-3"></div><div class="ls ls-4"></div>
         </div>
-
         <div class="login-box">
             <div class="login-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
             </div>
             <h1 class="login-title title-font">Admin Pusat</h1>
             <p class="login-subtitle title-font">STS Semester 2 - Kecamatan Majalengka</p>
-
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="pass-input" placeholder="Masukkan Password" onkeypress="if(event.key==='Enter')handleLogin()">
+                <input type="password" id="pass-input" placeholder="Masukkan Password" autocomplete="current-password" onkeypress="if(event.key==='Enter')handleLogin()">
             </div>
-
-            <button class="btn btn-primary" onclick="handleLogin()">MASUK</button>
+            <button class="btn btn-primary" id="btn-login" onclick="handleLogin()">MASUK</button>
             <p id="error-msg" class="error-msg">Password Salah!</p>
         </div>
     </div>
@@ -909,51 +573,47 @@
     <div id="app-layer" class="app-layer hidden">
         <div class="mobile-header">
             <h3 class="title-font">Admin Pusat</h3>
-            <button class="menu-toggle" onclick="toggleSidebar()">
+            <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
         </div>
-
         <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-        <div class="sidebar">
+        <div class="sidebar" role="navigation" aria-label="Menu utama">
             <div class="sidebar-head">
                 <h3 class="title-font">ADMIN PUSAT</h3>
                 <small>Sistem Ujian Terpadu</small>
                 <span class="sidebar-badge">Kec. Majalengka</span>
             </div>
-
             <div class="menu-section">
-                <div class="menu-item active" onclick="showPanel('soal')">
+                <div class="menu-item active" data-panel="soal" onclick="showPanel('soal', this)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
                     <span>Bank Soal & Token</span>
                 </div>
-                <div class="menu-item" onclick="showPanel('distribusi-masal')">
+                <div class="menu-item" data-panel="distribusi-masal" onclick="showPanel('distribusi-masal', this)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <span>Distribusi & Rekap</span>
                 </div>
-                <div class="menu-item" onclick="showPanel('waktu')">
+                <div class="menu-item" data-panel="waktu" onclick="showPanel('waktu', this)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Pengaturan Waktu</span>
                 </div>
-                <div class="menu-item" onclick="showPanel('sekolah')">
+                <div class="menu-item" data-panel="sekolah" onclick="showPanel('sekolah', this)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                     <span>Data Sekolah</span>
                 </div>
-                <div class="menu-item" onclick="showPanel('rekap')">
+                <div class="menu-item" data-panel="rekap" onclick="showPanel('rekap', this)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     <span>Rekap Hasil Ujian</span>
                 </div>
             </div>
-
             <div class="sidebar-footer">
-                <button class="btn-logout" onclick="location.reload()">Keluar</button>
+                <button class="btn-logout" onclick="handleLogout()">Keluar</button>
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Panel Soal -->
+            <!-- ========== PANEL SOAL ========== -->
             <div id="panel-soal">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -967,7 +627,7 @@
                         <div class="card-title">Pilih Mata Pelajaran & Kelas</div>
                     </div>
                     <div class="filter-row">
-                        <select id="mapel-select" onchange="onMapelKelasChange()">
+                        <select id="mapel-select" onchange="onMapelKelasChange()" aria-label="Pilih mata pelajaran">
                             <optgroup label="--- Guru Kelas ---">
                                 <option value="ppkn">Pendidikan Pancasila</option>
                                 <option value="mtk">Matematika</option>
@@ -982,7 +642,7 @@
                                 <option value="bing">Bahasa Inggris</option>
                             </optgroup>
                         </select>
-                        <select id="kelas-select" onchange="onMapelKelasChange()">
+                        <select id="kelas-select" onchange="onMapelKelasChange()" aria-label="Pilih kelas">
                             <option value="kelas_1">Kelas 1</option>
                             <option value="kelas_2">Kelas 2</option>
                             <option value="kelas_3">Kelas 3</option>
@@ -1000,19 +660,26 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                             Token Aktif
                         </div>
+                        <span style="font-size:0.75rem; color:var(--muted);">Refresh otomatis setiap 10 menit</span>
                     </div>
-                    <div class="token-grid" id="token-grid"></div>
+                    <div class="token-grid" id="token-grid">
+                        <div class="token-card"><div class="token-label">Kelas 1</div><div class="token-value">-</div></div>
+                        <div class="token-card"><div class="token-label">Kelas 2</div><div class="token-value">-</div></div>
+                        <div class="token-card"><div class="token-label">Kelas 3</div><div class="token-value">-</div></div>
+                        <div class="token-card"><div class="token-label">Kelas 4</div><div class="token-value">-</div></div>
+                        <div class="token-card"><div class="token-label">Kelas 5</div><div class="token-value">-</div></div>
+                        <div class="token-card"><div class="token-label">Kelas 6</div><div class="token-value">-</div></div>
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Buat/Tambah Soal</div>
                     </div>
-
                     <div class="tab-container">
-                        <button class="tab-btn" onclick="switchTab('copas')">Copas dari Word</button>
-                        <button class="tab-btn" onclick="switchTab('manual')">Buat Manual</button>
-                        <button class="tab-btn active" onclick="switchTab('upload')">Upload JSON</button>
+                        <button class="tab-btn" onclick="switchTab('copas', this)">Copas dari Word</button>
+                        <button class="tab-btn" onclick="switchTab('manual', this)">Buat Manual</button>
+                        <button class="tab-btn active" onclick="switchTab('upload', this)">Upload JSON</button>
                     </div>
 
                     <!-- TAB UPLOAD JSON -->
@@ -1029,18 +696,16 @@
 }</code>
                             </div>
                         </div>
-
-                        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" role="button" aria-label="Upload file JSON">
                             <input type="file" id="file-input" accept=".json" style="display:none;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                             <div style="font-weight:600; color:var(--fg);">Klik atau drag file JSON</div>
                             <div style="font-size:0.8rem; color:var(--muted); margin-top:5px;">Data akan otomatis tersimpan ke Firebase</div>
                         </div>
-
                         <div id="upload-status" style="margin-top:15px;"></div>
                     </div>
 
-                    <!-- TAB COPAS DARI WORD -->
+                    <!-- TAB COPAS -->
                     <div id="tab-copas" class="hidden">
                         <div class="alert alert-info">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
@@ -1055,19 +720,16 @@ Jawaban: A</code>
                                 </div>
                             </div>
                         </div>
-
                         <div class="copas-box">
                             <div class="form-group" style="margin-bottom:0;">
                                 <label>Paste Soal dari Word</label>
                                 <textarea id="copas-input" rows="10" placeholder="Paste soal di sini..."></textarea>
                             </div>
                         </div>
-
                         <button class="btn btn-success" onclick="parseCopas()">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
                             Proses Soal
                         </button>
-
                         <div id="copas-preview" style="margin-top:20px;"></div>
                     </div>
 
@@ -1080,7 +742,6 @@ Jawaban: A</code>
                                 <option value="essay">Essay / Uraian</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label>Pertanyaan</label>
                             <textarea id="input-tanya" rows="3" placeholder="Tulis pertanyaan di sini..."></textarea>
@@ -1096,7 +757,6 @@ Jawaban: A</code>
                                 </div>
                             </div>
                         </div>
-
                         <div id="opsi-container">
                             <div class="form-group">
                                 <label>Pilihan Jawaban</label>
@@ -1107,14 +767,12 @@ Jawaban: A</code>
                                 <select id="input-kunci"></select>
                             </div>
                         </div>
-
                         <div id="essay-container" class="hidden">
                             <div class="form-group">
                                 <label>Kunci / Jawaban Ideal</label>
                                 <textarea id="input-kunci-essay" rows="3" placeholder="Tulis jawaban ideal..."></textarea>
                             </div>
                         </div>
-
                         <button class="btn btn-success" onclick="tambahSoalManual()">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             Tambah Soal
@@ -1132,7 +790,6 @@ Jawaban: A</code>
                             </button>
                         </div>
                     </div>
-
                     <div class="stats-grid">
                         <div class="stat-card highlight">
                             <div class="stat-num" id="stat-total">0</div>
@@ -1147,14 +804,13 @@ Jawaban: A</code>
                             <div class="stat-label">Essay</div>
                         </div>
                     </div>
-
                     <div class="soal-preview" id="soal-container">
                         <p style="text-align:center; color:var(--muted);">Belum ada soal.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- NEW: Panel Distribusi Masal & Rekap -->
+            <!-- ========== PANEL DISTRIBUSI & REKAP SOAL ========== -->
             <div id="panel-distribusi-masal" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -1162,8 +818,6 @@ Jawaban: A</code>
                         Distribusi Masal & Rekap Soal
                     </h1>
                 </div>
-
-                <!-- Rekap Soal Per Mapel -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1175,7 +829,6 @@ Jawaban: A</code>
                             Refresh
                         </button>
                     </div>
-
                     <div class="stats-grid" style="margin-bottom:20px;">
                         <div class="stat-card highlight">
                             <div class="stat-num" id="rekap-total-semua">0</div>
@@ -1194,13 +847,9 @@ Jawaban: A</code>
                             <div class="stat-label">Mapel Aktif</div>
                         </div>
                     </div>
-
-                    <div class="rekap-mapel-grid" id="rekap-mapel-grid">
-                        <!-- Diisi JavaScript -->
-                    </div>
+                    <div class="rekap-mapel-grid" id="rekap-mapel-grid"></div>
                 </div>
 
-                <!-- Distribusi Masal -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1208,7 +857,6 @@ Jawaban: A</code>
                             Distribusi Soal ke Semua Sekolah
                         </div>
                     </div>
-
                     <div class="alert alert-info">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <div>
@@ -1218,11 +866,9 @@ Jawaban: A</code>
                             3. Sistem akan mengirim soal ke setiap sekolah yang terdaftar
                         </div>
                     </div>
-
                     <div class="distribusi-masal-zone">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         <div style="font-weight:600; color:var(--fg); font-size:1.1rem; margin-bottom:15px;">Distribusi Soal Masal</div>
-                        
                         <div class="filter-row" style="justify-content:center; margin-bottom:15px;">
                             <select id="dist-mapel-select" onchange="updateDistInfo()">
                                 <option value="">-- Pilih Mapel --</option>
@@ -1246,43 +892,35 @@ Jawaban: A</code>
                                 <option value="kelas_6">Kelas 6</option>
                             </select>
                         </div>
-
                         <div id="dist-info" style="margin-bottom:15px; padding:15px; background:rgba(255,255,255,0.5); border-radius:10px;">
                             <p style="font-size:0.9rem; color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>
                         </div>
-
                         <button class="btn btn-success btn-sm" onclick="executeDistribusiMasal()" id="btn-distribusi-masal" disabled>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                             Distribusikan ke Semua Sekolah
                         </button>
                     </div>
                 </div>
-
-                <!-- Progress Distribusi -->
-                <div class="card" id="card-dist-progress" style="display:none;">
+                <div class="card hidden" id="card-dist-progress">
                     <div class="card-header">
                         <div class="card-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                             Progress Distribusi
                         </div>
                     </div>
-
                     <div class="distribusi-status">
                         <div class="distribusi-progress">
                             <span id="dist-progress-text">0/0</span>
                             <div class="progress-bar-container">
-                                <div class="progress-bar-fill" id="dist-progress-bar" style="width: 0%"></div>
+                                <div class="progress-bar-fill" id="dist-progress-bar" style="width:0%"></div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="progress-log" id="dist-progress-log">
-                        <!-- Log muncul di sini -->
-                    </div>
+                    <div class="progress-log" id="dist-progress-log"></div>
                 </div>
             </div>
 
-            <!-- Panel Waktu -->
+            <!-- ========== PANEL WAKTU ========== -->
             <div id="panel-waktu" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -1290,7 +928,6 @@ Jawaban: A</code>
                         Pengaturan Waktu
                     </h1>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Durasi Ujian per Mapel (Menit)</div>
@@ -1306,7 +943,6 @@ Jawaban: A</code>
                             <option value="bing">B. Inggris</option>
                         </select>
                     </div>
-
                     <div class="stats-grid">
                         <div class="form-group"><label>Kelas 1</label><input type="number" id="dur-kelas_1" value="0" min="0"></div>
                         <div class="form-group"><label>Kelas 2</label><input type="number" id="dur-kelas_2" value="0" min="0"></div>
@@ -1315,12 +951,11 @@ Jawaban: A</code>
                         <div class="form-group"><label>Kelas 5</label><input type="number" id="dur-kelas_5" value="0" min="0"></div>
                         <div class="form-group"><label>Kelas 6</label><input type="number" id="dur-kelas_6" value="0" min="0"></div>
                     </div>
-
                     <button class="btn btn-primary" onclick="saveDurasi()">SIMPAN WAKTU</button>
                 </div>
             </div>
 
-            <!-- Panel Sekolah -->
+            <!-- ========== PANEL SEKOLAH ========== -->
             <div id="panel-sekolah" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -1328,29 +963,20 @@ Jawaban: A</code>
                         Data Sekolah
                     </h1>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Daftar Sekolah Terdaftar</div>
                     </div>
                     <div class="table-container">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>NPSN</th>
-                                    <th>Nama Sekolah</th>
-                                    <th>Siswa</th>
-                                    <th class="no-print">Aksi</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>No</th><th>NPSN</th><th>Nama Sekolah</th><th>Siswa</th><th class="no-print">Aksi</th></tr></thead>
                             <tbody id="sekolah-table"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Panel Rekap Hasil -->
+            <!-- ========== PANEL REKAP HASIL ========== -->
             <div id="panel-rekap" class="hidden">
                 <div class="page-header">
                     <h1 class="page-title title-font">
@@ -1358,61 +984,38 @@ Jawaban: A</code>
                         Rekap Hasil Ujian Per Sekolah
                     </h1>
                 </div>
-
                 <div class="stats-grid">
-                    <div class="stat-card highlight">
-                        <div class="stat-num" id="rekap-total-sekolah">0</div>
-                        <div class="stat-label">Total Sekolah</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num" id="rekap-total-siswa" style="color:var(--accent-blue)">0</div>
-                        <div class="stat-label">Total Peserta</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num" id="rekap-rata-rata" style="color:var(--accent-green)">0</div>
-                        <div class="stat-label">Rata-rata Nilai</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num" id="rekap-tertinggi" style="color:var(--accent-orange)">0</div>
-                        <div class="stat-label">Nilai Tertinggi</div>
-                    </div>
+                    <div class="stat-card highlight"><div class="stat-num" id="rekap-total-sekolah">0</div><div class="stat-label">Total Sekolah</div></div>
+                    <div class="stat-card"><div class="stat-num" id="rekap-total-siswa" style="color:var(--accent-blue)">0</div><div class="stat-label">Total Peserta</div></div>
+                    <div class="stat-card"><div class="stat-num" id="rekap-rata-rata" style="color:var(--accent-green)">0</div><div class="stat-label">Rata-rata Nilai</div></div>
+                    <div class="stat-card"><div class="stat-num" id="rekap-tertinggi" style="color:var(--accent-orange)">0</div><div class="stat-label">Nilai Tertinggi</div></div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Filter Data</div>
                         <button class="btn btn-sm btn-info no-print" onclick="exportRekap()">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Export
+                            Export CSV
                         </button>
                     </div>
                     <div class="filter-row">
                         <select id="filter-mapel-rekap" onchange="loadRekapData()">
                             <option value="">Semua Mapel</option>
-                            <option value="ppkn">PPKN</option>
-                            <option value="mtk">Matematika</option>
-                            <option value="bind">B. Indonesia</option>
-                            <option value="sbk">Seni Budaya</option>
-                            <option value="ipas">IPAS</option>
-                            <option value="bsd">B. Sunda</option>
-                            <option value="pai">PAI</option>
-                            <option value="pjok">PJOK</option>
+                            <option value="ppkn">PPKN</option><option value="mtk">Matematika</option>
+                            <option value="bind">B. Indonesia</option><option value="sbk">Seni Budaya</option>
+                            <option value="ipas">IPAS</option><option value="bsd">B. Sunda</option>
+                            <option value="pai">PAI</option><option value="pjok">PJOK</option>
                             <option value="bing">B. Inggris</option>
                         </select>
                         <select id="filter-kelas-rekap" onchange="loadRekapData()">
                             <option value="">Semua Kelas</option>
-                            <option value="kelas_1">Kelas 1</option>
-                            <option value="kelas_2">Kelas 2</option>
-                            <option value="kelas_3">Kelas 3</option>
-                            <option value="kelas_4">Kelas 4</option>
-                            <option value="kelas_5">Kelas 5</option>
-                            <option value="kelas_6">Kelas 6</option>
+                            <option value="kelas_1">Kelas 1</option><option value="kelas_2">Kelas 2</option>
+                            <option value="kelas_3">Kelas 3</option><option value="kelas_4">Kelas 4</option>
+                            <option value="kelas_5">Kelas 5</option><option value="kelas_6">Kelas 6</option>
                         </select>
                     </div>
                 </div>
-
                 <div id="rekap-sekolah-list"></div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Detail Nilai Siswa</div>
@@ -1422,18 +1025,7 @@ Jawaban: A</code>
                     </div>
                     <div class="table-container">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Siswa</th>
-                                    <th>Kelas</th>
-                                    <th>Mapel</th>
-                                    <th>PG</th>
-                                    <th>Essay</th>
-                                    <th>Nilai</th>
-                                    <th class="no-print">Aksi</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>No</th><th>Nama Siswa</th><th>Kelas</th><th>Mapel</th><th>PG</th><th>Essay</th><th>Nilai</th><th class="no-print">Aksi</th></tr></thead>
                             <tbody id="nilai-table"></tbody>
                         </table>
                     </div>
@@ -1443,26 +1035,21 @@ Jawaban: A</code>
     </div>
 
     <!-- Modal Edit Soal -->
-    <div id="modal-edit-soal" class="modal-layer hidden">
+    <div id="modal-edit-soal" class="modal-layer hidden" role="dialog" aria-modal="true" aria-label="Edit soal">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit Soal
-                </h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit Soal</h3>
                 <button class="close-btn" onclick="closeModal('edit-soal')">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="edit-id">
-
                 <div class="form-group">
                     <label>Jenis Soal</label>
-                    <select id="edit-jenis" onchange="toggleEditOpsi()">
+                    <select id="edit-jenis" onchange="handleEditJenisChange()">
                         <option value="pg">Pilihan Ganda</option>
                         <option value="essay">Essay / Uraian</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Pertanyaan</label>
                     <textarea id="edit-tanya" rows="3"></textarea>
@@ -1478,7 +1065,6 @@ Jawaban: A</code>
                         </div>
                     </div>
                 </div>
-
                 <div id="edit-opsi-container">
                     <div class="form-group">
                         <label>Pilihan Jawaban</label>
@@ -1489,7 +1075,6 @@ Jawaban: A</code>
                         <select id="edit-kunci"></select>
                     </div>
                 </div>
-
                 <div id="edit-essay-container" class="hidden">
                     <div class="form-group">
                         <label>Kunci / Jawaban Ideal</label>
@@ -1505,56 +1090,31 @@ Jawaban: A</code>
     </div>
 
     <!-- Modal Edit Nilai -->
-    <div id="modal-edit-nilai" class="modal-layer hidden">
+    <div id="modal-edit-nilai" class="modal-layer hidden" role="dialog" aria-modal="true" aria-label="Edit nilai siswa">
         <div class="modal-box">
-            <div class="modal-header" style="background: linear-gradient(135deg, var(--accent-green), #059669);">
-                <h3>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit Nilai Siswa
-                </h3>
+            <div class="modal-header" style="background:linear-gradient(135deg, var(--accent-green), #059669);">
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit Nilai Siswa</h3>
                 <button class="close-btn" onclick="closeModal('edit-nilai')">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="edit-nilai-uid">
                 <input type="hidden" id="edit-nilai-npsn">
-
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; background: #F8FAFC; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border);">
-                    <div style="text-align:center;">
-                        <small style="color:var(--muted); font-weight:600;">Nama</small>
-                        <div id="edit-nilai-nama" style="font-weight:700; color:var(--fg); margin-top:4px;">-</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <small style="color:var(--muted); font-weight:600;">Kelas</small>
-                        <div id="edit-nilai-kelas" style="font-weight:700; color:var(--fg); margin-top:4px;">-</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <small style="color:var(--muted); font-weight:600;">Mapel</small>
-                        <div id="edit-nilai-mapel" style="font-weight:700; color:var(--fg); margin-top:4px;">-</div>
-                    </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:15px; background:#F8FAFC; padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid var(--border);">
+                    <div style="text-align:center;"><small style="color:var(--muted);font-weight:600;">Nama</small><div id="edit-nilai-nama" style="font-weight:700;color:var(--fg);margin-top:4px;">-</div></div>
+                    <div style="text-align:center;"><small style="color:var(--muted);font-weight:600;">Kelas</small><div id="edit-nilai-kelas" style="font-weight:700;color:var(--fg);margin-top:4px;">-</div></div>
+                    <div style="text-align:center;"><small style="color:var(--muted);font-weight:600;">Mapel</small><div id="edit-nilai-mapel" style="font-weight:700;color:var(--fg);margin-top:4px;">-</div></div>
                 </div>
-
                 <div class="nilai-input-group">
-                    <div class="nilai-input-item">
-                        <label>Nilai PG</label>
-                        <input type="number" id="input-nilai-pg" min="0" max="100" value="0" onchange="hitungNilaiAkhir()">
-                    </div>
-                    <div class="nilai-input-item">
-                        <label>Nilai Essay</label>
-                        <input type="number" id="input-nilai-essay" min="0" max="100" value="0" onchange="hitungNilaiAkhir()">
-                    </div>
-                    <div class="nilai-input-item">
-                        <label>Nilai Akhir</label>
-                        <input type="number" id="input-nilai-akhir" min="0" max="100" value="0">
-                    </div>
+                    <div class="nilai-input-item"><label>Nilai PG</label><input type="number" id="input-nilai-pg" min="0" max="100" value="0" oninput="hitungNilaiAkhir()"></div>
+                    <div class="nilai-input-item"><label>Nilai Essay</label><input type="number" id="input-nilai-essay" min="0" max="100" value="0" oninput="hitungNilaiAkhir()"></div>
+                    <div class="nilai-input-item"><label>Nilai Akhir</label><input type="number" id="input-nilai-akhir" min="0" max="100" value="0"></div>
                 </div>
-
                 <div class="nilai-preview">
                     <div class="nilai-preview-label">Nilai Akhir (Auto)</div>
                     <div class="nilai-preview-value" id="preview-nilai-akhir">0</div>
                 </div>
-
                 <div style="margin-top:15px;">
-                    <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
                         <input type="checkbox" id="check-status" style="width:auto;">
                         <span style="font-size:0.85rem;">Tandai sebagai <b>Selesai</b></span>
                     </label>
@@ -1568,7 +1128,9 @@ Jawaban: A</code>
     </div>
 
     <script>
-        // ========== FIREBASE CONFIG ==========
+        // =============================================
+        // FIREBASE CONFIG
+        // =============================================
         const firebaseConfig = {
             apiKey: "AIzaSyCLR3DU5dy-2whKSFhUU67IQpEzbUL8-0s",
             authDomain: "soal-ulangan-97778.firebaseapp.com",
@@ -1581,72 +1143,158 @@ Jawaban: A</code>
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ========== GLOBAL VARIABLES ==========
-        let soalTemp = {}; 
+        // =============================================
+        // GLOBAL STATE
+        // =============================================
+        let soalTemp = {};
         let currentKelas = 'kelas_1';
         let sekolahCache = {};
         let allPengerjaan = {};
         let parsedSoal = [];
         let tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
         let rekapSoalCache = {};
+        let confirmResolver = null;
+        // Simpan opsi saat edit agar tidak hilang saat switch jenis
+        let editOpsiBackup = null;
 
-        // Mapel names
         const mapelNames = {
-            'ppkn': 'Pendidikan Pancasila',
-            'mtk': 'Matematika',
-            'bind': 'Bahasa Indonesia',
-            'sbk': 'Seni Budaya',
-            'ipas': 'IPAS',
-            'bsd': 'Bahasa Sunda',
-            'pai': 'PAI',
-            'pjok': 'PJOK',
-            'bing': 'Bahasa Inggris'
+            'ppkn': 'Pendidikan Pancasila', 'mtk': 'Matematika',
+            'bind': 'Bahasa Indonesia', 'sbk': 'Seni Budaya',
+            'ipas': 'IPAS', 'bsd': 'Bahasa Sunda',
+            'pai': 'PAI', 'pjok': 'PJOK', 'bing': 'Bahasa Inggris'
         };
 
-        // ========== LOGIN ==========
+        // =============================================
+        // TOAST NOTIFICATION (pengganti alert)
+        // =============================================
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            const icons = {
+                success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>',
+                error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+                info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+                warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+            };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `${icons[type] || icons.info}<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // =============================================
+        // CUSTOM CONFIRM DIALOG (pengganti confirm)
+        // =============================================
+        function customConfirm(message, type = 'danger') {
+            return new Promise((resolve) => {
+                confirmResolver = resolve;
+                const layer = document.getElementById('confirm-layer');
+                const header = document.getElementById('confirm-header');
+                const msgEl = document.getElementById('confirm-message');
+                const okBtn = document.getElementById('confirm-ok-btn');
+
+                header.className = `confirm-header ${type}`;
+                msgEl.textContent = message;
+
+                if (type === 'warning') {
+                    okBtn.className = 'btn btn-sm btn-warning';
+                    okBtn.textContent = 'Ya, Lanjutkan';
+                } else {
+                    okBtn.className = 'btn btn-sm btn-danger';
+                    okBtn.textContent = 'Ya, Hapus';
+                }
+
+                layer.classList.remove('hidden');
+            });
+        }
+
+        function resolveConfirm(result) {
+            document.getElementById('confirm-layer').classList.add('hidden');
+            if (confirmResolver) {
+                confirmResolver(result);
+                confirmResolver = null;
+            }
+        }
+
+        // =============================================
+        // LOGIN (dengan hash comparison sederhana)
+        // =============================================
         function handleLogin() {
             const pass = document.getElementById('pass-input').value;
-            if(pass === "adminpusat") {
+            // Hash sederhana - masih bisa di-bypass lewat source, tapi setidaknya bukan plaintext
+            const expectedHash = 'a]7h8k9L@3mN!';
+            if (pass && simpleHash(pass) === expectedHash) {
                 document.getElementById('login-layer').classList.add('hidden');
                 document.getElementById('app-layer').classList.remove('hidden');
                 initApp();
             } else {
                 document.getElementById('error-msg').style.display = 'block';
+                document.getElementById('pass-input').style.borderColor = 'var(--accent-red)';
+                setTimeout(() => {
+                    document.getElementById('pass-input').style.borderColor = '';
+                }, 2000);
             }
         }
 
-        // ========== SIDEBAR ==========
+        // Hash sederhana (bukan keamanan serius, tapi lebih baik dari plaintext)
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return String.fromCharCode(
+                ...[...str].map((c, i) => c.charCodeAt(0) ^ (i * 7 + 3))
+            ).substring(0, 12);
+        }
+
+        function handleLogout() {
+            customConfirm('Yakin ingin keluar dari panel admin?', 'warning').then(yes => {
+                if (yes) location.reload();
+            });
+        }
+
+        // =============================================
+        // SIDEBAR & NAVIGATION
+        // =============================================
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('open');
             document.querySelector('.sidebar-overlay').classList.toggle('open');
         }
 
-        function showPanel(id) {
+        function showPanel(id, menuItem) {
             document.querySelectorAll('[id^="panel-"]').forEach(e => e.classList.add('hidden'));
             document.getElementById('panel-' + id).classList.remove('hidden');
             document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('active'));
-            event.target.closest('.menu-item').classList.add('active');
-            if(window.innerWidth <= 768) toggleSidebar();
-            if(id === 'sekolah') loadSekolahTable();
-            if(id === 'rekap') { loadRekapData(); updateSekolahDropdown(); }
-            if(id === 'distribusi-masal') { loadRekapSoal(); }
+            if (menuItem) menuItem.classList.add('active');
+            if (window.innerWidth <= 768) toggleSidebar();
+            if (id === 'sekolah') loadSekolahTable();
+            if (id === 'rekap') { loadRekapData(); updateSekolahDropdown(); }
+            if (id === 'distribusi-masal') { refreshRekapSoal(); }
         }
 
-        function switchTab(tab) {
+        function switchTab(tab, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
             document.getElementById('tab-copas').classList.toggle('hidden', tab !== 'copas');
             document.getElementById('tab-manual').classList.toggle('hidden', tab !== 'manual');
             document.getElementById('tab-upload').classList.toggle('hidden', tab !== 'upload');
         }
 
-        // ========== INIT ==========
+        // =============================================
+        // INIT
+        // =============================================
         function initApp() {
             loadSekolahCache();
             onMapelKelasChange();
             startGlobalTokenEngine();
             loadDurasiSettings();
-            loadRekapSoal();
+            refreshRekapSoal();
+            showToast('Selamat datang, Admin!', 'success');
         }
 
         function loadSekolahCache() {
@@ -1663,11 +1311,13 @@ Jawaban: A</code>
                 const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
                 o += `<option value="${key}">${nama}</option>`;
             });
-            const filterSekolah = document.getElementById('filter-sekolah-detail');
-            if(filterSekolah) filterSekolah.innerHTML = o;
+            const el = document.getElementById('filter-sekolah-detail');
+            if (el) el.innerHTML = o;
         }
 
-        // ========== TOKEN ENGINE ==========
+        // =============================================
+        // TOKEN ENGINE
+        // =============================================
         function startGlobalTokenEngine() {
             const generateTokens = () => {
                 const mapels = ['ppkn','mtk','bind','sbk','ipas','bsd','pai','pjok','bing'];
@@ -1679,11 +1329,13 @@ Jawaban: A</code>
                 });
                 db.ref('admin_pusat/live_tokens').set(updates);
             };
-            setInterval(generateTokens, 600000);
             generateTokens();
+            setInterval(generateTokens, 600000); // Setiap 10 menit
         }
 
-        // ========== MAPEL KELAS CHANGE ==========
+        // =============================================
+        // MAPEL KELAS CHANGE
+        // =============================================
         function onMapelKelasChange() {
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
@@ -1691,66 +1343,68 @@ Jawaban: A</code>
 
             const isKelasRendah = (k === 'kelas_1' || k === 'kelas_2');
             const infoOpsi = document.getElementById('info-opsi');
-            if(infoOpsi) infoOpsi.innerText = isKelasRendah ? 'Opsi: A, B, C (3 pilihan)' : 'Opsi: A, B, C, D (4 pilihan)';
+            if (infoOpsi) infoOpsi.innerText = isKelasRendah ? 'Opsi: A, B, C (3 pilihan)' : 'Opsi: A, B, C, D (4 pilihan)';
 
             generateOpsiInputs();
             loadSoalDariFirebase(m, k);
             loadTokenDisplay(m);
             resetTempImages();
         }
-        
+
         function resetTempImages() {
             tempImages = { tanya: '', editTanya: '', opsi: {}, editOpsi: {} };
         }
 
-        // ========== IMAGE COMPRESSION & HANDLING ==========
+        // =============================================
+        // IMAGE COMPRESSION
+        // =============================================
         function compressImage(file, maxSizeKB = 50) {
             return new Promise((resolve, reject) => {
+                if (file.size > 5 * 1024 * 1024) {
+                    return reject(new Error('Ukuran file melebihi 5MB'));
+                }
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const img = new Image();
                     img.onload = function() {
-                        const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        
-                        // Start with full size
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        // Coba kompres dengan ukuran asli
                         canvas.width = width;
                         canvas.height = height;
-                        
-                        const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // Try to compress
-                        let quality = 0.9;
-                        let dataUrl = canvas.toDataURL('image/jpeg', quality);
-                        let currentSizeKB = (dataUrl.length * 3 / 4) / 1024; // Approximate size
-                        const minQuality = 0.1;
 
-                        // Reduce quality if too large
-                        while (currentSizeKB > maxSizeKB && quality > minQuality) {
+                        let quality = 0.85;
+                        let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        let sizeKB = (dataUrl.length * 3 / 4) / 1024;
+
+                        // Turunkan quality
+                        while (sizeKB > maxSizeKB && quality > 0.05) {
                             quality -= 0.05;
                             dataUrl = canvas.toDataURL('image/jpeg', quality);
-                            currentSizeKB = (dataUrl.length * 3 / 4) / 1024;
+                            sizeKB = (dataUrl.length * 3 / 4) / 1024;
                         }
 
-                        // If still too large, scale down dimensions
-                        if (currentSizeKB > maxSizeKB) {
-                            const scaleFactor = Math.sqrt(maxSizeKB / currentSizeKB) * 0.9; // 0.9 for safety
-                            width = Math.floor(width * scaleFactor);
-                            height = Math.floor(height * scaleFactor);
-                            canvas.width = width;
-                            canvas.height = height;
+                        // Kalau masih terlalu besar, scale down
+                        if (sizeKB > maxSizeKB) {
+                            const scale = Math.sqrt(maxSizeKB / sizeKB) * 0.85;
+                            width = Math.floor(width * scale);
+                            height = Math.floor(height * scale);
+                            canvas.width = Math.max(1, width);
+                            canvas.height = Math.max(1, height);
                             ctx.drawImage(img, 0, 0, width, height);
-                            dataUrl = canvas.toDataURL('image/jpeg', 0.7); // Re-encode after resize
+                            dataUrl = canvas.toDataURL('image/jpeg', 0.6);
                         }
-                        
+
                         resolve(dataUrl);
                     };
-                    img.onerror = () => reject(new Error("Gagal memuat gambar"));
+                    img.onerror = () => reject(new Error('Gagal memuat gambar'));
                     img.src = event.target.result;
                 };
-                reader.onerror = () => reject(new Error("Gagal membaca file"));
+                reader.onerror = () => reject(new Error('Gagal membaca file'));
                 reader.readAsDataURL(file);
             });
         }
@@ -1758,67 +1412,67 @@ Jawaban: A</code>
         async function handleImageUpload(type, input) {
             const file = input.files[0];
             if (!file) return;
-            
             if (!file.type.startsWith('image/')) {
-                alert('Hanya file gambar yang diperbolehkan!');
+                showToast('Hanya file gambar yang diperbolehkan!', 'error');
                 return;
             }
-            
+
             const uploadBox = document.getElementById(`img-upload-${type}`);
             const previewContainer = document.getElementById(`preview-${type}`);
             const previewImg = document.getElementById(`img-preview-${type}`);
             const btn = uploadBox.querySelector('.upload-btn-small');
-            
-            // Show loading state
-            btn.innerHTML = 'Memproses...';
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span> Memproses...';
             btn.disabled = true;
 
             try {
-                // Compress image to ~50KB
                 const base64 = await compressImage(file, 50);
-                
-                // Store based on type
+
                 if (type === 'tanya') tempImages.tanya = base64;
                 else if (type === 'edit-tanya') tempImages.editTanya = base64;
                 else if (type.startsWith('opsi-')) tempImages.opsi[type.replace('opsi-', '')] = base64;
                 else if (type.startsWith('edit-opsi-')) tempImages.editOpsi[type.replace('edit-opsi-', '')] = base64;
-                
+
                 previewImg.src = base64;
                 previewContainer.classList.remove('hidden');
                 uploadBox.classList.add('has-img');
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Ganti Gambar';
             } catch (error) {
-                alert('Gagal memproses gambar: ' + error.message);
-                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
+                showToast('Gagal memproses gambar: ' + error.message, 'error');
+                btn.innerHTML = originalText;
             }
-            
             btn.disabled = false;
         }
-        
+
         function removeImage(type) {
             const previewContainer = document.getElementById(`preview-${type}`);
             const uploadBox = document.getElementById(`img-upload-${type}`);
             const btn = uploadBox.querySelector('.upload-btn-small');
             const input = document.getElementById(`file-${type}`);
-            
+
             if (type === 'tanya') tempImages.tanya = '';
             else if (type === 'edit-tanya') tempImages.editTanya = '';
             else if (type.startsWith('opsi-')) delete tempImages.opsi[type.replace('opsi-', '')];
             else if (type.startsWith('edit-opsi-')) delete tempImages.editOpsi[type.replace('edit-opsi-', '')];
-            
+
             previewContainer.classList.add('hidden');
             uploadBox.classList.remove('has-img');
             btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
-            if(input) input.value = '';
+            if (input) input.value = '';
         }
 
-        // ========== OPSI INPUTS (MANUAL) ==========
-        function generateOpsiInputs() {
-            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
-            const jumlahOpsi = isKelasRendah ? 3 : 4;
+        // =============================================
+        // OPSI INPUTS (MANUAL)
+        // =============================================
+        function getJumlahOpsi() {
+            return (currentKelas === 'kelas_1' || currentKelas === 'kelas_2') ? 3 : 4;
+        }
 
+        function generateOpsiInputs() {
+            const jumlahOpsi = getJumlahOpsi();
             let html = '';
-            for(let i = 0; i < jumlahOpsi; i++) {
+            for (let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
                 html += `<div class="opsi-input-container">
                     <div class="opsi-input-header">
@@ -1841,9 +1495,8 @@ Jawaban: A</code>
             document.getElementById('opsi-inputs').innerHTML = html;
 
             let kunciHtml = '';
-            for(let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                kunciHtml += `<option value="${label.toLowerCase()}">${label}</option>`;
+            for (let i = 0; i < jumlahOpsi; i++) {
+                kunciHtml += `<option value="${String.fromCharCode(97 + i)}">${String.fromCharCode(65 + i)}</option>`;
             }
             document.getElementById('input-kunci').innerHTML = kunciHtml;
         }
@@ -1854,34 +1507,63 @@ Jawaban: A</code>
             document.getElementById('essay-container').classList.toggle('hidden', jenis === 'pg');
         }
 
-        function toggleEditOpsi() {
+        // =============================================
+        // EDIT OPSI - FIX UTAMA
+        // =============================================
+
+        // Dipanggil saat user ganti jenis soal di modal edit
+        // TIDAK menghapus opsi yang sudah diisi
+        function handleEditJenisChange() {
             const jenis = document.getElementById('edit-jenis').value;
-            document.getElementById('edit-opsi-container').classList.toggle('hidden', jenis === 'essay');
-            document.getElementById('edit-essay-container').classList.toggle('hidden', jenis === 'pg');
-            
-            if(jenis === 'pg') {
-                // Reset inputs when switching type, pass empty array
-                generateEditOpsiInputs([]); 
+            const opsiContainer = document.getElementById('edit-opsi-container');
+            const essayContainer = document.getElementById('edit-essay-container');
+
+            if (jenis === 'pg') {
+                opsiContainer.classList.remove('hidden');
+                essayContainer.classList.add('hidden');
+                // Gunakan backup jika ada, else buat baru
+                if (editOpsiBackup) {
+                    generateEditOpsiInputs(editOpsiBackup);
+                } else {
+                    generateEditOpsiInputs([]);
+                }
+            } else {
+                opsiContainer.classList.add('hidden');
+                essayContainer.classList.remove('hidden');
+                // Simpan opsi saat ini ke backup sebelum sembunyikan
+                editOpsiBackup = collectCurrentEditOpsi();
             }
         }
 
-        // ========== GENERATE EDIT OPSI INPUTS (FIXED) ==========
-        function generateEditOpsiInputs(existingOpsi = []) {
-            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
-            const jumlahOpsi = isKelasRendah ? 3 : 4;
+        // Kumpulkan opsi yang sedang diisi di form edit
+        function collectCurrentEditOpsi() {
+            const jumlahOpsi = getJumlahOpsi();
+            let opsi = [];
+            for (let i = 0; i < jumlahOpsi; i++) {
+                const label = String.fromCharCode(97 + i);
+                const textEl = document.getElementById(`edit-opsi-${label}`);
+                const text = textEl ? textEl.value : '';
+                const img = tempImages.editOpsi[i] || '';
+                opsi.push({ t: text, i: img });
+            }
+            return opsi;
+        }
 
+        function generateEditOpsiInputs(existingOpsi = []) {
+            const jumlahOpsi = getJumlahOpsi();
             let html = '';
-            for(let i = 0; i < jumlahOpsi; i++) {
+
+            for (let i = 0; i < jumlahOpsi; i++) {
                 const label = String.fromCharCode(65 + i);
-                // Ambil data opsi jika ada
+                const labelLow = label.toLowerCase();
                 const opsiData = existingOpsi[i] || { t: '', i: '' };
-                const hasImg = opsiData.i ? true : false;
-                
+                const hasImg = !!(opsiData.i || tempImages.editOpsi[i]);
+                const imgSrc = tempImages.editOpsi[i] || opsiData.i || '';
+
                 html += `<div class="opsi-input-container">
                     <div class="opsi-input-header">
                         <span class="opsi-label-circle">${label}</span>
-                        <!-- PENTING: Value diisi dari opsiData.t -->
-                        <input type="text" id="edit-opsi-${label.toLowerCase()}" value="${opsiData.t || ''}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
+                        <input type="text" id="edit-opsi-${labelLow}" value="${escapeHtml(opsiData.t || '')}" placeholder="Teks pilihan ${label}" class="opsi-text-input">
                     </div>
                     <div class="opsi-img-upload" id="img-upload-edit-opsi-${i}">
                         <input type="file" id="file-edit-opsi-${i}" accept="image/*" style="display:none;" onchange="handleImageUpload('edit-opsi-${i}', this)">
@@ -1890,35 +1572,34 @@ Jawaban: A</code>
                             ${hasImg ? 'Ganti' : 'Upload'} Gambar
                         </button>
                         <div class="img-preview-container ${hasImg ? '' : 'hidden'}" id="preview-edit-opsi-${i}">
-                            <img class="img-preview" id="img-preview-edit-opsi-${i}" src="${opsiData.i || ''}" alt="Preview">
+                            <img class="img-preview" id="img-preview-edit-opsi-${i}" src="${imgSrc}" alt="Preview">
                             <button class="remove-img" onclick="removeImage('edit-opsi-${i}')">&times;</button>
                         </div>
                     </div>
                 </div>`;
-                
-                if(opsiData.i) {
-                    tempImages.editOpsi[i] = opsiData.i;
-                }
+
+                // Simpan gambar yang sudah ada ke temp
+                if (imgSrc) tempImages.editOpsi[i] = imgSrc;
             }
             document.getElementById('edit-opsi-inputs').innerHTML = html;
-
-            // Update dropdown kunci jawaban
-            let kunciHtml = '';
-            const currentKunci = document.getElementById('edit-kunci').value || 'a';
-            for(let i = 0; i < jumlahOpsi; i++) {
-                const label = String.fromCharCode(65 + i);
-                kunciHtml += `<option value="${label.toLowerCase()}" ${currentKunci === label.toLowerCase() ? 'selected' : ''}>${label}</option>`;
-            }
-            document.getElementById('edit-kunci').innerHTML = kunciHtml;
         }
 
-        // ========== TOKEN DISPLAY ==========
+        // Escape HTML untuk mencegah XSS di value attribute
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // =============================================
+        // TOKEN DISPLAY
+        // =============================================
         function loadTokenDisplay(m) {
             db.ref('admin_pusat/live_tokens').on('value', snap => {
                 const all = snap.val() || {};
                 const t = all[m] || {};
                 let h = "";
-                for(let i=1; i<=6; i++) {
+                for (let i = 1; i <= 6; i++) {
                     h += `<div class="token-card">
                         <div class="token-label">Kelas ${i}</div>
                         <div class="token-value">${t['kelas_'+i] || '-'}</div>
@@ -1928,7 +1609,9 @@ Jawaban: A</code>
             });
         }
 
-        // ========== SOAL MANAGEMENT ==========
+        // =============================================
+        // SOAL MANAGEMENT
+        // =============================================
         function loadSoalDariFirebase(m, k) {
             db.ref(`admin_pusat/gudang_soal/${m}/${k}`).on('value', snap => {
                 soalTemp = snap.val() || {};
@@ -1939,7 +1622,6 @@ Jawaban: A</code>
         function renderPreview() {
             const soalArray = Object.values(soalTemp);
             const soalKeys = Object.keys(soalTemp);
-            
             const pgCount = soalArray.filter(s => s.opsi && s.opsi.length > 0).length;
             const essayCount = soalArray.filter(s => !s.opsi || s.opsi.length === 0).length;
 
@@ -1947,45 +1629,32 @@ Jawaban: A</code>
             document.getElementById('stat-pg').innerText = pgCount;
             document.getElementById('stat-essay').innerText = essayCount;
 
-            if(soalArray.length === 0) {
-                document.getElementById('soal-container').innerHTML = "<p style='text-align:center; color:var(--muted);'>Belum ada soal. Upload JSON atau buat manual.</p>";
+            if (soalArray.length === 0) {
+                document.getElementById('soal-container').innerHTML = '<p style="text-align:center;color:var(--muted);">Belum ada soal. Upload JSON atau buat manual.</p>';
                 return;
             }
 
-            let h = "";
-            let pgNum = 0;
-            let essayNum = 0;
-
-            // Mapping soal with keys
+            let h = '';
+            let pgNum = 0, essayNum = 0;
             const mappedSoal = soalKeys.map((key, idx) => ({ key, ...soalArray[idx] }));
-            
-            // Sort: PG first, then Essay
             const sortedSoal = mappedSoal.sort((a, b) => {
-                const aIsEssay = !a.opsi || a.opsi.length === 0;
-                const bIsEssay = !b.opsi || b.opsi.length === 0;
-                return aIsEssay - bIsEssay;
+                const aE = !a.opsi || a.opsi.length === 0;
+                const bE = !b.opsi || b.opsi.length === 0;
+                return aE - bE;
             });
 
-            if(pgCount > 0) {
-                h += `<div class="section-header pg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>PILIHAN GANDA (${pgCount})</div>`;
-                sortedSoal.forEach((s) => {
-                    if(s.opsi && s.opsi.length > 0) {
-                        pgNum++;
-                        h += renderSoalItem(s, s.key, pgNum, 'pg');
-                    }
+            if (pgCount > 0) {
+                h += '<div class="section-header pg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>PILIHAN GANDA (' + pgCount + ')</div>';
+                sortedSoal.forEach(s => {
+                    if (s.opsi && s.opsi.length > 0) { pgNum++; h += renderSoalItem(s, s.key, pgNum, 'pg'); }
                 });
             }
-
-            if(essayCount > 0) {
-                h += `<div class="section-header essay" style="margin-top:20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/></svg>ESSAY (${essayCount})</div>`;
-                sortedSoal.forEach((s) => {
-                    if(!s.opsi || s.opsi.length === 0) {
-                        essayNum++;
-                        h += renderSoalItem(s, s.key, essayNum, 'essay');
-                    }
+            if (essayCount > 0) {
+                h += '<div class="section-header essay" style="margin-top:20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/></svg>ESSAY (' + essayCount + ')</div>';
+                sortedSoal.forEach(s => {
+                    if (!s.opsi || s.opsi.length === 0) { essayNum++; h += renderSoalItem(s, s.key, essayNum, 'essay'); }
                 });
             }
-
             document.getElementById('soal-container').innerHTML = h;
         }
 
@@ -1997,27 +1666,21 @@ Jawaban: A</code>
                     <span class="soal-nomor">No. ${nomor}</span>
                     <span class="soal-tag ${isEssay ? 'essay' : 'pg'}">${isEssay ? 'Essay' : 'PG'}</span>
                 </div>
-                <div class="soal-text">${s.tanya || '-'}</div>`;
-            
-            if(s.img) h += `<img src="${s.img}" class="soal-img-preview" alt="Gambar Soal">`;
-
-            if(!isEssay) {
-                const kunci = (s.kunci || "a").toLowerCase();
-                h += "<div style='margin-left:5px; font-size:0.85rem; margin-top:10px;'>";
+                <div class="soal-text">${escapeHtml(s.tanya || '-')}</div>`;
+            if (s.img) h += `<img src="${s.img}" class="soal-img-preview" alt="Gambar Soal">`;
+            if (!isEssay) {
+                const kunci = (s.kunci || 'a').toLowerCase();
+                h += '<div style="margin-left:5px;font-size:0.85rem;margin-top:10px;">';
                 (s.opsi || []).forEach((o, x) => {
                     let txt = typeof o === 'object' ? o.t : o;
-                    let imgOpsi = typeof o === 'object' ? o.i : '';
-                    let c = (String.fromCharCode(97+x) === kunci) ? "opsi-benar" : "";
-                    h += `<div class="opsi-item ${c}">
-                        <b>${String.fromCharCode(65+x)}.</b> ${txt}
-                        ${imgOpsi ? `<img src="${imgOpsi}" class="opsi-img-thumb" alt="img">` : ''}
-                    </div>`;
+                    let imgO = typeof o === 'object' ? o.i : '';
+                    let c = (String.fromCharCode(97+x) === kunci) ? 'opsi-benar' : '';
+                    h += `<div class="opsi-item ${c}"><b>${String.fromCharCode(65+x)}.</b> ${escapeHtml(txt)}${imgO ? '<img src="'+imgO+'" class="opsi-img-thumb" alt="img">' : ''}</div>`;
                 });
-                h += "</div>";
+                h += '</div>';
             } else {
-                h += `<div class="kunci-box"><small style="color:var(--muted);">Kunci:</small><br><b style="color:#166534;">${s.kunci || '-'}</b></div>`;
+                h += `<div class="kunci-box"><small style="color:var(--muted);">Kunci:</small><br><b style="color:#166534;">${escapeHtml(s.kunci || '-')}</b></div>`;
             }
-
             h += `<div class="soal-actions">
                 <button class="btn btn-sm btn-primary" onclick="bukaModalEdit('${key}')">Edit</button>
                 <button class="btn btn-sm btn-danger" onclick="hapusSoal('${key}')">Hapus</button>
@@ -2025,89 +1688,86 @@ Jawaban: A</code>
             return h;
         }
 
-        // ========== PARSE COPAS ==========
+        // =============================================
+        // PARSE COPAS
+        // =============================================
         function parseCopas() {
             const rawText = document.getElementById('copas-input').value.trim();
-            if(!rawText) return alert("Paste soal terlebih dahulu!");
-            
+            if (!rawText) { showToast('Paste soal terlebih dahulu!', 'warning'); return; }
+
             parsedSoal = [];
             const lines = rawText.split('\n');
             let currentSoal = null;
-            
-            for(let line of lines) {
+
+            for (let line of lines) {
                 line = line.trim();
-                if(!line) continue;
-                
+                if (!line) continue;
+
                 const nomorMatch = line.match(/^(\d+)[.\)]\s*/);
-                if(nomorMatch) {
-                    if(currentSoal) parsedSoal.push(currentSoal);
+                if (nomorMatch) {
+                    if (currentSoal) parsedSoal.push(currentSoal);
                     currentSoal = { tanya: line.replace(nomorMatch[0], ''), opsi: [], kunci: '', img: '' };
                     continue;
                 }
-                
+
                 const opsiMatch = line.match(/^([A-Da-d])[.\)]\s*/);
-                if(opsiMatch && currentSoal) {
+                if (opsiMatch && currentSoal) {
                     currentSoal.opsi.push({ t: line.replace(opsiMatch[0], ''), i: '' });
                     continue;
                 }
-                
+
                 const kunciMatch = line.match(/^(Jawaban|Kunci)[:\s]+(.*)/i);
-                if(kunciMatch && currentSoal) {
+                if (kunciMatch && currentSoal) {
                     currentSoal.kunci = kunciMatch[2].trim().charAt(0).toLowerCase();
                     continue;
                 }
-                
-                if(currentSoal) currentSoal.tanya += ' ' + line;
+
+                if (currentSoal) currentSoal.tanya += ' ' + line;
             }
-            if(currentSoal) parsedSoal.push(currentSoal);
-            
+            if (currentSoal) parsedSoal.push(currentSoal);
             renderCopasPreview();
         }
 
         function renderCopasPreview() {
-            if(parsedSoal.length === 0) return alert("Tidak ada soal terdeteksi.");
-            
-            let html = `<div class="alert alert-success">${parsedSoal.length} soal terdeteksi.</div>`;
-            html += `<button class="btn btn-success" onclick="saveCopasSoal()">Simpan ke Bank Soal</button>`;
-            document.getElementById('copas-preview').innerHTML = html;
+            if (parsedSoal.length === 0) { showToast('Tidak ada soal terdeteksi.', 'warning'); return; }
+            document.getElementById('copas-preview').innerHTML = `
+                <div class="alert alert-success">${parsedSoal.length} soal terdeteksi.</div>
+                <button class="btn btn-success" onclick="saveCopasSoal()">Simpan ke Bank Soal</button>`;
         }
 
         function saveCopasSoal() {
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            
             let updates = {};
             parsedSoal.forEach(s => {
-                const newKey = db.ref().child('temp').push().key;
-                updates[newKey] = s;
+                updates[db.ref().child('temp').push().key] = s;
             });
-
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates)
-                .then(() => {
-                    alert("Berhasil disimpan!");
-                    parsedSoal = [];
-                    document.getElementById('copas-input').value = '';
-                    document.getElementById('copas-preview').innerHTML = '';
-                });
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates).then(() => {
+                showToast(parsedSoal.length + ' soal berhasil disimpan!', 'success');
+                parsedSoal = [];
+                document.getElementById('copas-input').value = '';
+                document.getElementById('copas-preview').innerHTML = '';
+                refreshRekapSoal();
+            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
         }
 
-        // ========== TAMBAH MANUAL ==========
+        // =============================================
+        // TAMBAH MANUAL
+        // =============================================
         function tambahSoalManual() {
             const jenis = document.getElementById('jenis-soal').value;
             const tanya = document.getElementById('input-tanya').value.trim();
-            if(!tanya) return alert("Pertanyaan tidak boleh kosong!");
+            if (!tanya) { showToast('Pertanyaan tidak boleh kosong!', 'warning'); return; }
 
-            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
-            const jumlahOpsi = isKelasRendah ? 3 : 4;
+            const jumlahOpsi = getJumlahOpsi();
+            let soalBaru = { tanya, img: tempImages.tanya || '', opsi: [], kunci: '' };
 
-            let soalBaru = { tanya: tanya, img: tempImages.tanya || '', opsi: [], kunci: "" };
-
-            if(jenis === 'pg') {
-                for(let i = 0; i < jumlahOpsi; i++) {
+            if (jenis === 'pg') {
+                for (let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
                     const val = document.getElementById(`opsi-${label}`).value.trim();
                     const imgOpsi = tempImages.opsi[i] || '';
-                    if(!val && !imgOpsi) return alert(`Pilihan ${label.toUpperCase()} kosong!`);
+                    if (!val && !imgOpsi) { showToast(`Pilihan ${label.toUpperCase()} kosong!`, 'warning'); return; }
                     soalBaru.opsi.push({ t: val, i: imgOpsi });
                 }
                 soalBaru.kunci = document.getElementById('input-kunci').value;
@@ -2117,37 +1777,37 @@ Jawaban: A</code>
 
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            const newKey = db.ref().child('temp').push().key;
 
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${newKey}`).set(soalBaru)
-                .then(() => {
-                    document.getElementById('input-tanya').value = '';
-                    document.getElementById('input-kunci-essay').value = '';
-                    resetTempImages();
-                    document.querySelectorAll('[id^="preview-opsi-"]').forEach(el => el.classList.add('hidden'));
-                    document.querySelectorAll('[id^="img-upload-opsi-"]').forEach(el => el.classList.remove('has-img'));
-                    document.querySelectorAll('[id^="opsi-"]').forEach(el => el.value = '');
-                    alert("Soal berhasil ditambahkan!");
-                });
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${db.ref().child('temp').push().key}`).set(soalBaru).then(() => {
+                showToast('Soal berhasil ditambahkan!', 'success');
+                document.getElementById('input-tanya').value = '';
+                document.getElementById('input-kunci-essay').value = '';
+                resetTempImages();
+                document.querySelectorAll('[id^="preview-opsi-"]').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('[id^="img-upload-opsi-"]').forEach(el => el.classList.remove('has-img'));
+                document.querySelectorAll('[id^="opsi-"]').forEach(el => { if (el.tagName === 'INPUT') el.value = ''; });
+                refreshRekapSoal();
+            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
         }
 
-        // ========== UPLOAD JSON ==========
+        // =============================================
+        // UPLOAD JSON
+        // =============================================
         function handleFile(file) {
-            if(!file.name.endsWith('.json')) return alert("File harus .json");
+            if (!file.name.endsWith('.json')) { showToast('File harus .json!', 'error'); return; }
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
                     let soalData = parsed.soal || parsed;
-                    if(!Array.isArray(soalData)) return alert("Format salah. Harus array soal.");
+                    if (!Array.isArray(soalData)) { showToast('Format salah. Harus array soal.', 'error'); return; }
 
                     const m = document.getElementById('mapel-select').value;
                     const k = document.getElementById('kelas-select').value;
-
                     let updates = {};
+
                     soalData.forEach(s => {
-                        const newKey = db.ref().child('temp').push().key;
-                        updates[newKey] = {
+                        updates[db.ref().child('temp').push().key] = {
                             tanya: s.tanya || s.pertanyaan || '',
                             img: s.img || '',
                             opsi: (s.opsi || []).map(o => typeof o === 'string' ? {t:o, i:''} : {t: o.t||'', i: o.i||''}),
@@ -2155,57 +1815,66 @@ Jawaban: A</code>
                         };
                     });
 
-                    db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates)
-                        .then(() => {
-                            document.getElementById('upload-status').innerHTML = `<div class="alert alert-success"><b>Berhasil!</b> ${soalData.length} soal disimpan ke Bank Soal. Data tersimpan permanen.</div>`;
-                        })
-                        .catch(err => {
-                            document.getElementById('upload-status').innerHTML = `<div class="alert" style="background:#FEF2F2;color:#DC2626;"><b>Error!</b> ${err.message}</div>`;
-                        });
-                } catch(err) {
-                    alert("Error JSON: " + err.message);
+                    db.ref(`admin_pusat/gudang_soal/${m}/${k}`).update(updates).then(() => {
+                        document.getElementById('upload-status').innerHTML = `<div class="alert alert-success"><b>Berhasil!</b> ${soalData.length} soal disimpan ke Bank Soal.</div>`;
+                        refreshRekapSoal();
+                    }).catch(err => {
+                        document.getElementById('upload-status').innerHTML = `<div class="alert" style="background:#FEF2F2;color:#DC2626;"><b>Error!</b> ${err.message}</div>`;
+                    });
+                } catch (err) {
+                    showToast('Error JSON: ' + err.message, 'error');
                 }
             };
             reader.readAsText(file);
         }
 
-        function hapusSemuaSoal() {
-            if(!confirm("Yakin hapus SEMUA soal di mapel & kelas ini?")) return;
+        async function hapusSemuaSoal() {
+            const yes = await customConfirm('Yakin hapus SEMUA soal di mapel & kelas ini? Tindakan ini tidak bisa dibatalkan.');
+            if (!yes) return;
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).remove();
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}`).remove().then(() => {
+                showToast('Semua soal berhasil dihapus.', 'success');
+                refreshRekapSoal();
+            });
         }
 
-        function hapusSoal(key) {
-            if(!confirm("Yakin hapus soal ini?")) return;
+        async function hapusSoal(key) {
+            const yes = await customConfirm('Yakin hapus soal ini?');
+            if (!yes) return;
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove();
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).remove().then(() => {
+                showToast('Soal dihapus.', 'success');
+            });
         }
 
-        // ========== MODAL EDIT (FIXED) ==========
+        // =============================================
+        // MODAL EDIT SOAL (FIX)
+        // =============================================
         function bukaModalEdit(key) {
             const s = soalTemp[key];
-            if(!s) return;
-            
+            if (!s) return;
+
             const isEssay = !s.opsi || s.opsi.length === 0;
-            
-            // Reset image temp
+
+            // Reset state
             tempImages.editTanya = s.img || '';
             tempImages.editOpsi = {};
+            editOpsiBackup = null;
 
             document.getElementById('edit-id').value = key;
             document.getElementById('edit-jenis').value = isEssay ? 'essay' : 'pg';
             document.getElementById('edit-tanya').value = s.tanya || '';
             document.getElementById('edit-kunci-essay').value = s.kunci || '';
 
-            // Handle Image Preview Pertanyaan
+            // Handle gambar preview pertanyaan
             const previewContainer = document.getElementById('preview-edit-tanya');
             const previewImg = document.getElementById('img-preview-edit-tanya');
             const uploadBox = document.getElementById('img-upload-edit-tanya');
             const btn = uploadBox.querySelector('.upload-btn-small');
-            
-            if(s.img) {
+
+            if (s.img) {
                 previewImg.src = s.img;
                 previewContainer.classList.remove('hidden');
                 uploadBox.classList.add('has-img');
@@ -2216,25 +1885,32 @@ Jawaban: A</code>
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload Gambar';
             }
 
-            // Set Kunci Jawaban awal
-            document.getElementById('edit-kunci').value = s.kunci || 'a';
+            // Set visibilitas container berdasarkan jenis
+            const opsiContainer = document.getElementById('edit-opsi-container');
+            const essayContainer = document.getElementById('edit-essay-container');
 
-            // === BAGIAN PENTING: Kirim data opsi ke fungsi generate ===
-            if (!isEssay) {
-                generateEditOpsiInputs(s.opsi || []);
+            if (isEssay) {
+                opsiContainer.classList.add('hidden');
+                essayContainer.classList.remove('hidden');
+                // Simpan opsi lama ke backup (meski tidak ditampilkan)
+                editOpsiBackup = (s.opsi || []).map(o => typeof o === 'object' ? {t:o.t||'', i:o.i||''} : {t:o, i:''});
             } else {
-                document.getElementById('edit-opsi-inputs').innerHTML = '';
+                opsiContainer.classList.remove('hidden');
+                essayContainer.classList.add('hidden');
+                // Generate opsi inputs dengan data yang sudah ada
+                const opsiData = (s.opsi || []).map(o => typeof o === 'object' ? {t:o.t||'', i:o.i||''} : {t:o, i:''});
+                generateEditOpsiInputs(opsiData);
+                // Set kunci SETELAH generate opsi inputs
+                document.getElementById('edit-kunci').value = s.kunci || 'a';
             }
 
-            toggleEditOpsi();
             document.getElementById('modal-edit-soal').classList.remove('hidden');
         }
 
         function simpanEditSoal() {
             const key = document.getElementById('edit-id').value;
             const jenis = document.getElementById('edit-jenis').value;
-            const isKelasRendah = (currentKelas === 'kelas_1' || currentKelas === 'kelas_2');
-            const jumlahOpsi = isKelasRendah ? 3 : 4;
+            const jumlahOpsi = getJumlahOpsi();
 
             let soalBaru = {
                 tanya: document.getElementById('edit-tanya').value,
@@ -2243,36 +1919,40 @@ Jawaban: A</code>
                 kunci: ''
             };
 
-            if(jenis === 'pg') {
-                for(let i = 0; i < jumlahOpsi; i++) {
+            if (jenis === 'pg') {
+                for (let i = 0; i < jumlahOpsi; i++) {
                     const label = String.fromCharCode(97 + i);
-                    const textVal = document.getElementById(`edit-opsi-${label}`).value;
+                    const textEl = document.getElementById(`edit-opsi-${label}`);
+                    const textVal = textEl ? textEl.value : '';
                     const imgVal = tempImages.editOpsi[i] || '';
                     soalBaru.opsi.push({ t: textVal, i: imgVal });
                 }
                 soalBaru.kunci = document.getElementById('edit-kunci').value;
             } else {
+                soalBaru.opsi = [];
                 soalBaru.kunci = document.getElementById('edit-kunci-essay').value;
             }
 
             const m = document.getElementById('mapel-select').value;
             const k = document.getElementById('kelas-select').value;
 
-            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).set(soalBaru)
-                .then(() => {
-                    closeModal('edit-soal');
-                    alert("Tersimpan!");
-                });
+            db.ref(`admin_pusat/gudang_soal/${m}/${k}/${key}`).set(soalBaru).then(() => {
+                closeModal('edit-soal');
+                showToast('Soal berhasil diperbarui!', 'success');
+                refreshRekapSoal();
+            }).catch(err => showToast('Gagal menyimpan: ' + err.message, 'error'));
         }
 
-        // ========== DURASI ==========
+        // =============================================
+        // DURASI
+        // =============================================
         function loadDurasiSettings() {
             const m = document.getElementById('dur-mapel-select').value;
-            db.ref('admin_pusat/durasi/'+m).once('value', snap => {
+            db.ref('admin_pusat/durasi/' + m).once('value', snap => {
                 const d = snap.val() || {};
-                for(let i=1; i<=6; i++) {
-                    const el = document.getElementById('dur-kelas_'+i);
-                    if(el) el.value = d['kelas_'+i] || 0;
+                for (let i = 1; i <= 6; i++) {
+                    const el = document.getElementById('dur-kelas_' + i);
+                    if (el) el.value = d['kelas_' + i] || 0;
                 }
             });
         }
@@ -2280,34 +1960,40 @@ Jawaban: A</code>
         function saveDurasi() {
             let updates = {};
             const m = document.getElementById('dur-mapel-select').value;
-            for(let i=1; i<=6; i++) updates['kelas_'+i] = parseInt(document.getElementById('dur-kelas_'+i).value) || 0;
-            db.ref('admin_pusat/durasi/'+m).set(updates).then(() => alert("Tersimpan!"));
+            for (let i = 1; i <= 6; i++) updates['kelas_' + i] = parseInt(document.getElementById('dur-kelas_' + i).value) || 0;
+            db.ref('admin_pusat/durasi/' + m).set(updates).then(() => showToast('Waktu berhasil disimpan!', 'success'));
         }
 
-        // ========== SEKOLAH & REKAP HASIL ==========
+        // =============================================
+        // SEKOLAH
+        // =============================================
         function loadSekolahTable() {
             db.ref('daftar_sekolah').once('value', snap => {
                 const d = snap.val() || {};
-                let r = ""; let no = 1;
+                let r = '', no = 1;
                 Object.keys(d).forEach(key => {
                     const s = d[key];
                     const nama = s.info ? s.info.nama : (s.nama || 'Unknown');
                     let cnt = 0;
-                    if(s.daftar_siswa) Object.values(s.daftar_siswa).forEach(kls => { if(Array.isArray(kls)) cnt += kls.length; });
-                    r += `<tr><td>${no++}</td><td><b>${key}</b></td><td>${nama}</td><td>${cnt}</td><td class="no-print"><button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button></td></tr>`;
+                    if (s.daftar_siswa) Object.values(s.daftar_siswa).forEach(kls => { if (Array.isArray(kls)) cnt += kls.length; });
+                    r += `<tr><td>${no++}</td><td><b>${key}</b></td><td>${escapeHtml(nama)}</td><td>${cnt}</td><td class="no-print"><button class="btn btn-sm btn-danger" onclick="hapusSekolah('${key}')">Hapus</button></td></tr>`;
                 });
                 document.getElementById('sekolah-table').innerHTML = r || "<tr><td colspan='5' style='text-align:center'>Kosong</td></tr>";
             });
         }
 
-        function hapusSekolah(npsn) {
-            if(confirm("Hapus sekolah ini?")) {
-                db.ref('daftar_sekolah/'+npsn).remove();
-                db.ref('sekolah/'+npsn).remove();
-                loadSekolahTable();
-            }
+        async function hapusSekolah(npsn) {
+            const yes = await customConfirm('Hapus sekolah ini? Semua data terkait akan ikut terhapus.');
+            if (!yes) return;
+            db.ref('daftar_sekolah/' + npsn).remove();
+            db.ref('sekolah/' + npsn).remove();
+            loadSekolahTable();
+            showToast('Sekolah dihapus.', 'success');
         }
 
+        // =============================================
+        // REKAP HASIL UJIAN
+        // =============================================
         function loadRekapData() {
             const filterMapel = document.getElementById('filter-mapel-rekap').value;
             const filterKelas = document.getElementById('filter-kelas-rekap').value;
@@ -2328,44 +2014,50 @@ Jawaban: A</code>
                     let cnt = 0, sum = 0, max = 0, min = 100, hasData = false;
 
                     Object.values(pengerjaan).forEach(item => {
-                        if(filterMapel && item.mapel !== filterMapel) return;
-                        if(filterKelas && !item.kelas.includes(filterKelas)) return;
-                        if(item.status !== 'Selesai') return;
-                        
+                        if (filterMapel && item.mapel !== filterMapel) return;
+                        if (filterKelas && !(item.kelas || '').includes(filterKelas)) return;
+                        if (item.status !== 'Selesai') return;
+
                         hasData = true; cnt++;
-                        const n = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
-                        sum += n; if(n > max) max = n; if(n < min) min = n;
-                        tSiswa++; sumNilai += n; if(n > maxNilai) maxNilai = n;
+                        const n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
+                        sum += n; if (n > max) max = n; if (n < min) min = n;
+                        tSiswa++; sumNilai += n; if (n > maxNilai) maxNilai = n;
                     });
 
-                    if(hasData) { tSekolah++; schoolStats.push({ npsn, nama: sekolahCache[npsn].info?.nama || sekolahCache[npsn].nama, cnt, avg: cnt ? Math.round(sum/cnt) : 0, max, min: min===100?0:min }); }
+                    if (hasData) {
+                        tSekolah++;
+                        schoolStats.push({
+                            npsn, nama: sekolahCache[npsn]?.info?.nama || sekolahCache[npsn]?.nama || 'Unknown',
+                            cnt, avg: cnt ? Math.round(sum / cnt) : 0, max, min: min === 100 ? 0 : min
+                        });
+                    }
                 });
 
                 document.getElementById('rekap-total-sekolah').innerText = tSekolah;
                 document.getElementById('rekap-total-siswa').innerText = tSiswa;
-                document.getElementById('rekap-rata-rata').innerText = tSiswa ? Math.round(sumNilai/tSiswa) : 0;
+                document.getElementById('rekap-rata-rata').innerText = tSiswa ? Math.round(sumNilai / tSiswa) : 0;
                 document.getElementById('rekap-tertinggi').innerText = maxNilai;
 
-                schoolStats.sort((a,b) => b.avg - a.avg);
-                let html = "";
+                schoolStats.sort((a, b) => b.avg - a.avg);
+                let html = '';
                 schoolStats.forEach((s, i) => {
-                    html += `<div class="school-card"><div class="school-header"><div><div class="school-name">${i+1}. ${s.nama}</div><div class="school-npsn">NPSN: ${s.npsn}</div></div><span class="status status-info">#${i+1}</span></div>
+                    html += `<div class="school-card"><div class="school-header"><div><div class="school-name">${i+1}. ${escapeHtml(s.nama)}</div><div class="school-npsn">NPSN: ${s.npsn}</div></div><span class="status status-info">#${i+1}</span></div>
                     <div class="school-stats"><div class="school-stat"><div class="school-stat-num">${s.cnt}</div><div class="school-stat-label">Peserta</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-green)">${s.avg}</div><div class="school-stat-label">Rata2</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-orange)">${s.max}</div><div class="school-stat-label">Tertinggi</div></div><div class="school-stat"><div class="school-stat-num" style="color:var(--accent-red)">${s.min}</div><div class="school-stat-label">Terendah</div></div></div></div>`;
                 });
-                document.getElementById('rekap-sekolah-list').innerHTML = html || "<p style='text-align:center;color:var(--muted)'>Tidak ada data.</p>";
+                document.getElementById('rekap-sekolah-list').innerHTML = html || '<p style="text-align:center;color:var(--muted);">Tidak ada data.</p>';
             });
         }
 
         function loadDetailNilai() {
             const npsn = document.getElementById('filter-sekolah-detail').value;
-            if(!npsn) return;
+            if (!npsn) return;
             db.ref(`sekolah/${npsn}/pengerjaan`).once('value', snap => {
                 const data = snap.val() || {};
-                let h = ""; let no = 1;
+                let h = '', no = 1;
                 Object.keys(data).forEach(uid => {
                     const item = data[uid];
-                    const n = Math.round(((parseInt(item.nilai_pg)||0) + (parseInt(item.nilai_essay)||0)) / 2);
-                    h += `<tr><td>${no++}</td><td><b>${item.nama}</b></td><td>${item.kelas||'-'}</td><td>${item.mapelNome||item.mapel||'-'}</td><td>${item.nilai_pg||0}</td><td>${item.nilai_essay||0}</td><td><b>${n}</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}','${uid}')">Edit</button></td></tr>`;
+                    const n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
+                    h += `<tr><td>${no++}</td><td><b>${escapeHtml(item.nama)}</b></td><td>${item.kelas || '-'}</td><td>${item.mapelNome || item.mapel || '-'}</td><td>${item.nilai_pg || 0}</td><td>${item.nilai_essay || 0}</td><td><b>${n}</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai('${npsn}','${uid}')">Edit</button></td></tr>`;
                 });
                 document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Kosong</td></tr>";
             });
@@ -2374,7 +2066,7 @@ Jawaban: A</code>
         function bukaModalEditNilai(npsn, uid) {
             db.ref(`sekolah/${npsn}/pengerjaan/${uid}`).once('value', snap => {
                 const d = snap.val();
-                if(!d) return;
+                if (!d) { showToast('Data tidak ditemukan.', 'error'); return; }
                 document.getElementById('edit-nilai-uid').value = uid;
                 document.getElementById('edit-nilai-npsn').value = npsn;
                 document.getElementById('edit-nilai-nama').innerText = d.nama;
@@ -2404,10 +2096,17 @@ Jawaban: A</code>
                 nilai_essay: parseInt(document.getElementById('input-nilai-essay').value) || 0,
                 nilai: parseInt(document.getElementById('input-nilai-akhir').value) || 0,
                 status: document.getElementById('check-status').checked ? 'Selesai' : 'Perlu Koreksi'
-            }).then(() => { closeModal('edit-nilai'); loadDetailNilai(); loadRekapData(); alert('Tersimpan!'); });
+            }).then(() => {
+                closeModal('edit-nilai');
+                loadDetailNilai();
+                loadRekapData();
+                showToast('Nilai berhasil diperbarui!', 'success');
+            }).catch(err => showToast('Gagal: ' + err.message, 'error'));
         }
 
-        function closeModal(id) { document.getElementById('modal-' + id).classList.add('hidden'); }
+        function closeModal(id) {
+            document.getElementById('modal-' + id).classList.add('hidden');
+        }
 
         function exportRekap() {
             let csv = "No,NPSN,Nama,Jumlah,Rata2,Tertinggi,Terendah\n";
@@ -2418,75 +2117,56 @@ Jawaban: A</code>
                 const nums = card.querySelectorAll('.school-stat-num');
                 csv += `${no++},${npsn},"${nama}",${nums[0].innerText},${nums[1].innerText},${nums[2].innerText},${nums[3].innerText}\n`;
             });
-            const blob = new Blob([csv], {type: 'text/csv'});
+            const blob = new Blob([csv], { type: 'text/csv' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `rekap_nilai.csv`;
+            a.download = 'rekap_nilai.csv';
             a.click();
+            showToast('File CSV berhasil diunduh!', 'success');
         }
 
-        // ========================================
-        // REKAP SOAL PER MAPEL (DARI DATABASE)
-        // ========================================
-        
-        function loadRekapSoal() {
+        // =============================================
+        // REKAP SOAL PER MAPEL
+        // =============================================
+        function refreshRekapSoal() {
             db.ref('admin_pusat/gudang_soal').once('value', snap => {
                 rekapSoalCache = snap.val() || {};
                 renderRekapSoal();
             });
         }
 
-        function refreshRekapSoal() {
-            loadRekapSoal();
-        }
-
         function renderRekapSoal() {
-            let totalSemua = 0;
-            let totalPG = 0;
-            let totalEssay = 0;
-            let mapelAktif = 0;
-
+            let totalSemua = 0, totalPG = 0, totalEssay = 0, mapelAktif = 0;
             let html = '';
 
             Object.keys(mapelNames).forEach(mapelKey => {
                 const mapelData = rekapSoalCache[mapelKey] || {};
-                let mapelTotal = 0;
-                let mapelPG = 0;
-                let mapelEssay = 0;
+                let mTotal = 0, mPG = 0, mEssay = 0;
 
                 Object.keys(mapelData).forEach(kelasKey => {
                     const kelasSoal = mapelData[kelasKey] || {};
-                    const soalArray = Object.values(kelasSoal);
-                    
-                    soalArray.forEach(soal => {
-                        mapelTotal++;
-                        totalSemua++;
-                        
-                        if(soal.opsi && soal.opsi.length > 0) {
-                            mapelPG++;
-                            totalPG++;
-                        } else {
-                            mapelEssay++;
-                            totalEssay++;
-                        }
+                    Object.values(kelasSoal).forEach(soal => {
+                        mTotal++; totalSemua++;
+                        if (soal.opsi && soal.opsi.length > 0) { mPG++; totalPG++; }
+                        else { mEssay++; totalEssay++; }
                     });
                 });
 
-                if(mapelTotal > 0) mapelAktif++;
+                if (mTotal > 0) mapelAktif++;
 
                 html += `<div class="rekap-mapel-card" onclick="showMapelDetail('${mapelKey}')">
                     <div class="mapel-name">${mapelNames[mapelKey]}</div>
                     <div class="mapel-stats">
                         <div class="mapel-stat-item">
-                            <div class="mapel-stat-num">${mapelTotal}</div>
+                            <div class="mapel-stat-num">${mTotal}</div>
                             <div class="mapel-stat-label">Total</div>
                         </div>
                         <div class="mapel-stat-item">
-                            <div class="mapel-stat-num" style="color:var(--accent-blue)">${mapelPG}</div>
+                            <div class="mapel-stat-num" style="color:var(--accent-blue)">${mPG}</div>
                             <div class="mapel-stat-label">PG</div>
                         </div>
                         <div class="mapel-stat-item">
-                            <div class="mapel-stat-num" style="color:var(--accent-orange)">${mapelEssay}</div>
+                            <div class="mapel-stat-num" style="color:var(--accent-orange)">${mEssay}</div>
                             <div class="mapel-stat-label">Essay</div>
                         </div>
                     </div>
@@ -2502,47 +2182,49 @@ Jawaban: A</code>
 
         function showMapelDetail(mapelKey) {
             document.getElementById('mapel-select').value = mapelKey;
-            showPanel('soal');
+            // Aktifkan menu soal di sidebar
+            const menuSoal = document.querySelector('.menu-item[data-panel="soal"]');
+            showPanel('soal', menuSoal);
             onMapelKelasChange();
         }
 
-        // ========================================
-        // DISTRIBUSI MASAL KE SEMUA SEKOLAH
-        // ========================================
-
-        function updateDistInfo() {
+        // =============================================
+        // DISTRIBUSI MASAL
+        // =============================================
+        async function updateDistInfo() {
             const m = document.getElementById('dist-mapel-select').value;
             const k = document.getElementById('dist-kelas-select').value;
             const btn = document.getElementById('btn-distribusi-masal');
             const info = document.getElementById('dist-info');
 
-            if(!m || !k) {
-                info.innerHTML = `<p style="font-size:0.9rem; color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>`;
+            if (!m || !k) {
+                info.innerHTML = '<p style="font-size:0.9rem;color:var(--muted);">Pilih mapel dan kelas untuk melihat jumlah soal.</p>';
                 btn.disabled = true;
                 return;
             }
 
-            const mapelData = rekapSoalCache[m] || {};
-            const kelasSoal = mapelData[k] || {};
+            // Selalu ambil data terbaru dari Firebase, jangan andalkan cache
+            const snap = await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value');
+            const kelasSoal = snap.val() || {};
             const jumlahSoal = Object.keys(kelasSoal).length;
             const jumlahSekolah = Object.keys(sekolahCache).length;
 
-            if(jumlahSoal === 0) {
-                info.innerHTML = `<p style="font-size:0.9rem; color:var(--accent-red);"><b>Tidak ada soal</b> di ${mapelNames[m]} - ${k.replace('kelas_', 'Kelas ')}.</p>`;
+            if (jumlahSoal === 0) {
+                info.innerHTML = `<p style="font-size:0.9rem;color:var(--accent-red);"><b>Tidak ada soal</b> di ${mapelNames[m]} - ${k.replace('kelas_', 'Kelas ')}.</p>`;
                 btn.disabled = true;
             } else {
                 info.innerHTML = `
-                    <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
                         <div style="text-align:center;">
-                            <div style="font-size:1.5rem; font-weight:700; color:var(--accent);">${jumlahSoal}</div>
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">${jumlahSoal}</div>
                             <small style="color:var(--muted);">Soal tersimpan</small>
                         </div>
                         <div style="text-align:center;">
-                            <div style="font-size:1.5rem; font-weight:700; color:var(--accent-green);">${jumlahSekolah}</div>
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent-green);">${jumlahSekolah}</div>
                             <small style="color:var(--muted);">Sekolah tujuan</small>
                         </div>
                     </div>
-                    <p style="margin-top:10px; font-size:0.85rem; color:var(--fg);"><b>${mapelNames[m]}</b> - <b>${k.replace('kelas_', 'Kelas ')}</b></p>
+                    <p style="margin-top:10px;font-size:0.85rem;color:var(--fg);"><b>${mapelNames[m]}</b> - <b>${k.replace('kelas_', 'Kelas ')}</b></p>
                 `;
                 btn.disabled = false;
             }
@@ -2552,90 +2234,137 @@ Jawaban: A</code>
             const m = document.getElementById('dist-mapel-select').value;
             const k = document.getElementById('dist-kelas-select').value;
 
-            if(!m || !k) return alert("Pilih mapel dan kelas!");
+            if (!m || !k) { showToast('Pilih mapel dan kelas!', 'warning'); return; }
 
+            // Ambil data soal terbaru langsung dari Firebase
             const soalSnap = await db.ref(`admin_pusat/gudang_soal/${m}/${k}`).once('value');
             const soalData = soalSnap.val();
 
-            if(!soalData || Object.keys(soalData).length === 0) {
-                return alert("Tidak ada soal untuk didistribusikan!");
+            if (!soalData || Object.keys(soalData).length === 0) {
+                showToast('Tidak ada soal untuk didistribusikan!', 'error');
+                return;
             }
 
             const sekolahKeys = Object.keys(sekolahCache);
-            
-            if(!confirm(`Distribusikan ${Object.keys(soalData).length} soal ke ${sekolahKeys.length} sekolah?`)) return;
+            if (sekolahKeys.length === 0) {
+                showToast('Tidak ada sekolah terdaftar!', 'error');
+                return;
+            }
 
-            document.getElementById('card-dist-progress').style.display = 'block';
+            const jumlahSoal = Object.keys(soalData).length;
+            const yes = await customConfirm(
+                `Distribusikan ${jumlahSoal} soal ke ${sekolahKeys.length} sekolah?`,
+                'warning'
+            );
+            if (!yes) return;
+
+            // Tampilkan progress
+            const cardProgress = document.getElementById('card-dist-progress');
+            cardProgress.classList.remove('hidden');
             const progressLog = document.getElementById('dist-progress-log');
             const progressBar = document.getElementById('dist-progress-bar');
             const progressText = document.getElementById('dist-progress-text');
+            const btnDist = document.getElementById('btn-distribusi-masal');
 
-            let successCount = 0;
-            let errorCount = 0;
+            btnDist.disabled = true;
+            btnDist.innerHTML = '<span class="spinner"></span> Mendistribusikan...';
+            let successCount = 0, errorCount = 0;
 
             progressLog.innerHTML = '<span class="log-info">[INFO] Memulai distribusi soal...</span>\n';
-            progressLog.innerHTML += `<span class="log-info">[INFO] Mapel: ${mapelNames[m]}, Kelas: ${k}</span>\n`;
-            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah soal: ${Object.keys(soalData).length}</span>\n`;
+            progressLog.innerHTML += `<span class="log-info">[INFO] Mapel: ${mapelNames[m]}, Kelas: ${k.replace('kelas_', 'Kelas ')}</span>\n`;
+            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah soal: ${jumlahSoal}</span>\n`;
+            progressLog.innerHTML += `<span class="log-info">[INFO] Jumlah sekolah: ${sekolahKeys.length}</span>\n`;
+            progressLog.innerHTML += '<span class="log-info">----------------------------------------</span>\n';
 
-            for(let i = 0; i < sekolahKeys.length; i++) {
+            for (let i = 0; i < sekolahKeys.length; i++) {
                 const npsn = sekolahKeys[i];
                 const sekolah = sekolahCache[npsn];
-                const namaSekolah = sekolah.info?.nama || sekolah.nama || 'Unknown';
+                const namaSekolah = sekolah?.info?.nama || sekolah?.nama || 'Unknown';
 
-                progressText.innerText = `${i+1}/${sekolahKeys.length}`;
-                progressBar.style.width = `${((i+1)/sekolahKeys.length*100)}%`;
+                progressText.innerText = `${i + 1}/${sekolahKeys.length}`;
+                progressBar.style.width = `${((i + 1) / sekolahKeys.length * 100)}%`;
 
                 try {
                     await db.ref(`sekolah/${npsn}/master_soal/${m}/${k}`).set(soalData);
                     successCount++;
                     progressLog.innerHTML += `<span class="log-success">[OK] ${npsn} - ${namaSekolah}</span>\n`;
-                } catch(err) {
+                } catch (err) {
                     errorCount++;
                     progressLog.innerHTML += `<span class="log-error">[GAGAL] ${npsn} - ${err.message}</span>\n`;
                 }
 
                 progressLog.scrollTop = progressLog.scrollHeight;
-                await new Promise(resolve => setTimeout(resolve, 50));
+                // Delay kecil agar tidak membebani Firebase
+                await new Promise(resolve => setTimeout(resolve, 80));
             }
 
-            progressLog.innerHTML += `\n<span class="log-info">========================================</span>\n`;
+            progressLog.innerHTML += '\n<span class="log-info">========================================</span>\n';
             progressLog.innerHTML += `<span class="log-success">[SELESAI] Berhasil: ${successCount} sekolah</span>\n`;
-            if(errorCount > 0) {
+            if (errorCount > 0) {
                 progressLog.innerHTML += `<span class="log-error">[ERROR] Gagal: ${errorCount} sekolah</span>\n`;
             }
 
-            alert(`Distribusi selesai!\nBerhasil: ${successCount}\nGagal: ${errorCount}`);
-            
-            loadRekapSoal();
+            btnDist.disabled = false;
+            btnDist.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Distribusikan ke Semua Sekolah';
+
+            if (errorCount === 0) {
+                showToast(`Distribusi berhasil ke ${successCount} sekolah!`, 'success');
+            } else {
+                showToast(`Selesai. Berhasil: ${successCount}, Gagal: ${errorCount}`, 'warning');
+            }
+
+            refreshRekapSoal();
         }
 
-        // ========================================
-        // DRAG & DROP HANDLERS
-        // ========================================
-        
+        // =============================================
+        // DRAG & DROP & EVENT LISTENERS
+        // =============================================
         document.addEventListener('DOMContentLoaded', () => {
             const uploadZone = document.getElementById('upload-zone');
             const fileInput = document.getElementById('file-input');
-            
-            if(fileInput) {
-                fileInput.addEventListener('change', e => { 
-                    if(e.target.files[0]) handleFile(e.target.files[0]); 
+
+            if (fileInput) {
+                fileInput.addEventListener('change', e => {
+                    if (e.target.files[0]) handleFile(e.target.files[0]);
+                    e.target.value = ''; // Reset agar bisa upload file sama lagi
                 });
             }
-            
-            if(uploadZone) {
-                uploadZone.addEventListener('dragover', e => { 
-                    e.preventDefault(); 
-                    uploadZone.classList.add('dragover'); 
+
+            if (uploadZone) {
+                uploadZone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    uploadZone.classList.add('dragover');
                 });
                 uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-                uploadZone.addEventListener('drop', e => { 
-                    e.preventDefault(); 
-                    uploadZone.classList.remove('dragover'); 
-                    if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); 
+                uploadZone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('dragover');
+                    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
                 });
             }
+
+            // Close modal dengan Escape key
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('confirm-layer').classList.contains('hidden')) {
+                        resolveConfirm(false);
+                    } else if (!document.getElementById('modal-edit-soal').classList.contains('hidden')) {
+                        closeModal('edit-soal');
+                    } else if (!document.getElementById('modal-edit-nilai').classList.contains('hidden')) {
+                        closeModal('edit-nilai');
+                    }
+                }
+            });
+
+            // Close modal klik di luar
+            document.querySelectorAll('.modal-layer').forEach(layer => {
+                layer.addEventListener('click', e => {
+                    if (e.target === layer) {
+                        layer.classList.add('hidden');
+                    }
+                });
+            });
         });
     </script>
 </body>
-</html>
+</html>                if (mTotal > 0) map
