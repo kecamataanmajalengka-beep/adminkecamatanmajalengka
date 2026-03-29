@@ -1127,7 +1127,7 @@ Jawaban: A</code>
             authDomain: "soal-ulangan-97778.firebaseapp.com",
             databaseURL: "https://soal-ulangan-97778-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "soal-ulangan-97778",
-            storageBucket: "soal-ulangan-97778.firebasestorage.app",
+            storageBucket: "soal-ulangan-97778."soal-ulangan-97778.appspot.com",
             messagingSenderId: "186887090103",
             appId: "1:186887090103:web:467a4be2ab2e32942c4232"
         };
@@ -2075,7 +2075,7 @@ Jawaban: A</code>
                     var uid = keys[i];
                     var item = data[uid];
                     var n = Math.round(((parseInt(item.nilai_pg) || 0) + (parseInt(item.nilai_essay) || 0)) / 2);
-                    h += '<tr><td>' + (no++) + '</td><td><b>' + escapeHtml(item.nama) + '</b></td><td>' + (item.kelas || '-') + '</td><td>' + (item.mapelNome || item.mapel || '-') + '</td><td>' + (item.nilai_pg || 0) + '</td><td>' + (item.nilai_essay || 0) + '</td><td><b>' + n + '</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai(\'' + npsn + '\',\'' + uid + '\')">Edit</button></td></tr>';
+                    h += '<tr><td>' + (no++) + '</td><td><b>' + escapeHtml(item.nama) + '</b></td><td>' + (item.kelas || '-') + '</td><td>' + (item.mapelNama || item.mapel || '-') + '</td><td>' + (item.nilai_pg || 0) + '</td><td>' + (item.nilai_essay || 0) + '</td><td><b>' + n + '</b></td><td class="no-print"><button class="btn btn-sm btn-warning" onclick="bukaModalEditNilai(\'' + npsn + '\',\'' + uid + '\')">Edit</button></td></tr>';
                 }
                 document.getElementById('nilai-table').innerHTML = h || "<tr><td colspan='8' style='text-align:center'>Kosong</td></tr>";
             });
@@ -2089,7 +2089,7 @@ Jawaban: A</code>
                 document.getElementById('edit-nilai-npsn').value = npsn;
                 document.getElementById('edit-nilai-nama').innerText = d.nama;
                 document.getElementById('edit-nilai-kelas').innerText = d.kelas;
-                document.getElementById('edit-nilai-mapel').innerText = d.mapelNome || d.mapel;
+                document.getElementById('edit-nilai-mapel').innerText = d.mapelNama || d.mapel;
                 document.getElementById('input-nilai-pg').value = d.nilai_pg || 0;
                 document.getElementById('input-nilai-essay').value = d.nilai_essay || 0;
                 document.getElementById('check-status').checked = d.status === 'Selesai';
